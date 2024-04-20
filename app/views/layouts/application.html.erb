@@ -10,6 +10,31 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <%= link_to root_path do %>
+        <h1>Buffet Livre</h1>
+      <% end %>
+    </header>
+    <main>
+      <div>
+        <%= alert %>
+        <%= notice %>
+      </div>
+
+      <nav>
+        
+        <% if user_signed_in? %>
+          <%= current_user.description %>
+          <%= button_to 'Sair', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Entrar/Registrar', new_user_session_path %>
+        <% end %>
+        
+      </nav>
+
+      <%= yield %>
+
+
+    </main>
   </body>
 </html>
