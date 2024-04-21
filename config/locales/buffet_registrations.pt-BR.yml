@@ -1,0 +1,31 @@
+pt-BR:
+  activerecord:
+    models:
+      buffet_registration: "Registro do Buffet"
+    attributes:
+      buffet_registration:
+        trading_name: "Nome Fantasia"
+        company_name: "Razão Social"
+        cnpj: "CNPJ"
+        phone: "Telefone"
+        email: "E-mail"
+        public_place: "Logradouro"
+        neighborhood: "Bairro"
+        state: "Estado"
+        city: "Cidade"
+        zip: "CEP"
+        description: "Descrição do Buffet"
+        address_number: "N°"
+        complement: "Complemento"
+        payment_method_id: "Formas de pagamento aceitas"
+        user_id: "Proprietário"
+        pix: "PIX"
+        boleto: "Boleto"
+        credit_card: "Cartão de Crédito"
+        debit_card: "Cartão de Débito"
+        money: "Dinheiro"
+        bank_transfer: "Transferência Bancária"
+        
+        
+
+        

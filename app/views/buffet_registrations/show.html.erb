@@ -1,0 +1,36 @@
+<h3>Dados do <%= @buffet_registration.trading_name %>: </h3>
+<dl>
+  <dt>Nome Fantasia:</dt>
+    <dd><%= @buffet_registration.trading_name %></dd>
+  <dt>Razão Social:</dt>
+    <dd><%= @buffet_registration.company_name %></dd>
+  <dt>CNPJ:</dt>
+    <dd><%= @buffet_registration.cnpj %></dd>
+  <dt>Telefone:</dt>
+    <dd><%= @buffet_registration.phone %></dd>
+  <dt>E-mail:</dt>
+    <dd><%= @buffet_registration.email %></dd>
+  <dt>Logradouro:</dt>
+    <dd><%= @buffet_registration.public_place %></dd>
+  <dt>N°:</dt>
+    <dd><%= @buffet_registration.address_number %></dd>
+  <dt>Bairro:</dt>
+    <dd><%= @buffet_registration.neighborhood %></dd>
+  <dt>Estado:</dt>
+    <dd><%= @buffet_registration.state %></dd>
+  <dt>Cidade:</dt>
+    <dd><%= @buffet_registration.city %></dd>
+  <dt>Complemento:</dt>
+    <dd><%= @buffet_registration.complement %></dd>
+  <dt>CEP:</dt>
+    <dd><%= @buffet_registration.zip %></dd>
+  <dt>Descrição:</dt>
+    <dd><%= @buffet_registration.description %></dd>
+  <dt>Formas de pagamento aceitas:</dt>
+    <% @payment_method.available_methods_to_select_translated.each do |method| %>
+      <dd><%= method %></dd>
+    <% end %>  
+</dl>
+
+<%= button_to "Voltar", root_path, method: :get %>
+<%= button_to "Editar", edit_buffet_registration_path(@buffet_registration), method: :get %>

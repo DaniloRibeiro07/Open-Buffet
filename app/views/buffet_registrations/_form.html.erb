@@ -1,0 +1,66 @@
+<%= form_with model: @buffet_registration do |form| %>
+  <div>
+    <%= form.label :trading_name %>
+    <%= form.text_field :trading_name %>
+  </div>
+  <div>
+    <%= form.label :company_name %>
+    <%= form.text_field :company_name %>
+  </div>
+  <div>
+    <%= form.label :cnpj %>
+    <%= form.text_field :cnpj %>
+  </div>
+  <div>
+    <%= form.label :phone %>
+    <%= form.text_field :phone %>
+  </div>
+  <div>
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+  <div>
+    <%= form.label :public_place %>
+    <%= form.text_field :public_place %>
+  </div>
+  <div>
+    <%= form.label :address_number %>
+    <%= form.text_field :address_number %>
+  </div>
+  <div>
+    <%= form.label :neighborhood %>
+    <%= form.text_field :neighborhood %>
+  </div>
+  <div>
+    <%= form.label :state %>
+    <%= form.text_field :state %>
+  </div>
+  <div>
+    <%= form.label :city %>
+    <%= form.text_field :city %>
+  </div>
+  <div>
+    <%= form.label :complement %>
+    <%= form.text_field :complement %>
+  </div>
+  <div>
+    <%= form.label :zip %>
+    <%= form.text_field :zip %>
+  </div>
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+  <div>
+    Escolha as Formas de Pagamento Aceitas:
+    <div>
+      <% @payment_method.all_available_methods_and_values_to_select.each do |method_available| %>
+
+        <%= form.check_box method_available[:name], checked:  method_available[:value] %>
+        <%= form.label method_available[:name]%>
+
+      <% end %>    
+    </div>
+  </div>
+  <%= form.submit  "Salvar" %>
+<% end %>
