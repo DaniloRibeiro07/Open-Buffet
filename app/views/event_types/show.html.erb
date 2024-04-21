@@ -1,0 +1,30 @@
+<h3>Dados do Evento: <%= @event_type.name %> </h3>
+<h5>Evento associado ao Buffet: <%= @buffet_registration.trading_name %> </h5>
+
+<dl>
+  <dt>Nome do Evento:</dt>
+    <dd><%= @event_type.name %></dd>
+  <dt>Descrição do Evento:</dt>
+    <dd><%= @event_type.description%></dd>
+  <dt>Quantidade Mínima de participantes:</dt>
+    <dd><%= @event_type.minimum_quantity %></dd>
+  <dt>Quantidade Máxima de participantes:</dt>
+    <dd><%= @event_type.maximum_quantity %></dd>
+  <dt>Duração do evento em minutos:</dt>
+    <dd><%= @event_type.duration %></dd>
+  <dt>Cardápio:</dt>
+    <dd><%= @event_type.menu %></dd>
+  <dt>O evento pode ser dentro do buffet:</dt>
+    <dd><%= EventType.human_attribute_name(@event_type.insider)  %></dd>
+  <dt>O evento pode ser à domicilio:</dt>
+    <dd><%= EventType.human_attribute_name(@event_type.outsider)  %></dd>
+  <dt>O Evento pode conter bebidas alcoólicas:</dt>
+    <dd><%= EventType.human_attribute_name(@event_type.alcoholic_beverages)  %></dd>
+  <dt>O Evento pode conter Decorações:</dt>
+    <dd><%= EventType.human_attribute_name(@event_type.decoration)  %></dd>
+  <dt>O Evento pode conter serviço de estacionamento/valet:</dt>
+    <dd><%= EventType.human_attribute_name(@event_type.valet) %></dd>
+</dl>
+
+<%= button_to "Editar Informações do Evento", edit_event_type_path(@event_type), method: :get %>
+<%= button_to "Voltar", root_path, method: :get %>

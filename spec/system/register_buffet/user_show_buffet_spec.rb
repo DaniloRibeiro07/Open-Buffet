@@ -34,6 +34,7 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Bitcoin"     
     expect(page).to have_button "Editar"
     expect(page).to have_button "Voltar"
+    expect(page).to have_link "Adicionar"
   end
 
   it "E clica em voltar" do 

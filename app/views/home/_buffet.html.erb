@@ -3,5 +3,6 @@
   <li> <strong>CNPJ:</strong> <%= @buffet_registration.cnpj %> </li>
   <li> <strong>Telefone:</strong> <%= @buffet_registration.phone %> </li>
   <li> <strong>Endereço:</strong> <%= @buffet_registration.full_address %> </li>
+  <li> <%= render '/event_types/card' %> </li>
 </ul>
 <%= button_to "Vê", @buffet_registration, method: :get %>

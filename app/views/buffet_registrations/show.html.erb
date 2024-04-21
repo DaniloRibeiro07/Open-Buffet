@@ -32,5 +32,8 @@
     <% end %>  
 </dl>
 
+<%= button_to "Editar Informações do Buffet", edit_buffet_registration_path(@buffet_registration), method: :get %>
+
+<%= render '/event_types/card' %>
+
 <%= button_to "Voltar", root_path, method: :get %>
-<%= button_to "Editar", edit_buffet_registration_path(@buffet_registration), method: :get %>
