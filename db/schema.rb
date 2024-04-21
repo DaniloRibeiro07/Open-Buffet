@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_21_122721) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_21_140422) do
   create_table "buffet_registrations", force: :cascade do |t|
     t.string "trading_name"
     t.string "company_name"
@@ -48,6 +48,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_122721) do
     t.boolean "outsider"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "buffet_registration_id", null: false
+    t.index ["buffet_registration_id"], name: "index_event_types_on_buffet_registration_id"
     t.index ["user_id"], name: "index_event_types_on_user_id"
   end
 
@@ -80,5 +82,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_122721) do
 
   add_foreign_key "buffet_registrations", "payment_methods"
   add_foreign_key "buffet_registrations", "users"
+  add_foreign_key "event_types", "buffet_registrations"
   add_foreign_key "event_types", "users"
 end

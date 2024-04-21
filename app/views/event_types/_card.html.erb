@@ -1,0 +1,11 @@
+<dl>
+    <dt>Eventos Oferecidos:</dt>
+    <% if @event_types.any?%>
+      <% @event_types.each do |event|%>
+        <%= link_to event.name, event %>
+      <% end %>
+    <% else %>
+      <dd>Nenhum evento cadastrado</dd>
+    <% end %>
+    <dd><%= link_to 'Adicionar', new_event_type_path %></dd>
+</dl>

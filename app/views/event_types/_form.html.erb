@@ -1,0 +1,58 @@
+<%= form_with model:@event_type do |form| %>
+  <div>
+    <%= form.label :name%>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description%>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :minimum_quantity%>
+    <%= form.number_field :minimum_quantity %>
+  </div>
+
+  <div>
+    <%= form.label :maximum_quantity%>
+    <%= form.number_field :maximum_quantity %>
+  </div>
+
+  <div>
+    <%= form.label :duration%>
+    <%= form.number_field :duration %>
+  </div>
+
+  <div>
+    <%= form.label :menu%>
+    <%= form.text_area :menu %>
+  </div>
+
+  <div>
+    <%= form.label :insider%>
+    <%= form.check_box  :insider %>
+  </div>
+
+  <div>
+    <%= form.label :outsider%>
+    <%= form.check_box  :outsider %>
+  </div>
+
+  <div>
+    <%= form.label :alcoholic_beverages%>
+    <%= form.check_box  :alcoholic_beverages %>
+  </div>
+
+  <div>
+    <%= form.label :decoration%>
+    <%= form.check_box  :decoration %>
+  </div>
+
+  <div>
+    <%= form.label :valet%>
+    <%= form.check_box  :valet %>
+  </div>
+
+  <%= form.submit "Salvar" %>
+<% end %>

@@ -58,6 +58,7 @@ class BuffetRegistrationsController < ApplicationController
   def set_buffet_registration_and_payment_method 
     @buffet_registration = BuffetRegistration.find_by(user_id: current_user.id)
     @payment_method = @buffet_registration.payment_method
+    @event_types =  EventType.where("user_id = #{current_user.id}")
   end
 
   def params_buffet_registration_and_payment_method 

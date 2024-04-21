@@ -1,0 +1,19 @@
+pt-BR:
+  activerecord:
+    models:
+      event_type: "Tipos de Eventos"
+    attributes:
+      event_type:
+        name: "Nome do Evento"
+        description: "Descrição do Evento"
+        minimum_quantity: "Quantidade Mínima de Pessoas"
+        maximum_quantity: "Quantidade Máxima de Pessoas"
+        duration: "Duração em minutos"
+        menu: "Cardápio"
+        alcoholic_beverages: "Bebida Alcoólica"
+        decoration: "Decoração"
+        valet: "Serviço de Estacionamento/Valet"
+        insider: "Evento dentro do Buffet"
+        outsider: "Evento à domicílio"
+        true: "Sim"
+        false: "Não"
