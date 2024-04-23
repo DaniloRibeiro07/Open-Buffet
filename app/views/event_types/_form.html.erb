@@ -53,6 +53,36 @@
     <%= form.label :valet%>
     <%= form.check_box  :valet %>
   </div>
+  <div>
+    Valores nos dias uteis e finais de semana
+    
+    <%= form.fields_for :working_day_price, @event_type.working_day_price || EventValue.new do |price_form|   %>
+      <div>
+        <%= price_form.label :base_price%>
+        <%= price_form.number_field :base_price %>
+      </div>
+      <div>
+        <%= price_form.label :price_per_person%>
+        <%= price_form.number_field :price_per_person %>
+      </div>
+    <% end %>
 
+    <div>
+      <%= form.label :different_weekend%>
+      <%= form.check_box  :different_weekend, onclick:"displayDifferentValues(this)" %>
+    </div>
+
+      
+  </div>
   <%= form.submit "Salvar" %>
 <% end %>
+
+<script>
+  function displayDifferentValues(element) {
+    if (element.checked){
+      console.log("Elemento checado")
+    }else{
+      console.log("Elemento  checado")
+    }
+  }
+</script>

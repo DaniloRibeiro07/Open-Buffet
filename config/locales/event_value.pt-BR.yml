@@ -1,0 +1,6 @@
+pt-BR:
+  activerecord:
+    attributes:
+      event_value:
+        base_price: "Preço Base"
+        price_per_person: "Preço por Acréscimo de Pessoa"

@@ -13,4 +13,7 @@ class EventType < ApplicationRecord
             :duration, :menu, presence: true
   validates :maximum_quantity, comparison: { greater_than_or_equal_to: :minimum_quantity }
   validates_with MandatoryLocalToWorkMethod
+
+  belongs_to :working_day_price, class_name: "EventValue"
+  belongs_to :weekend_price, class_name: "EventValue"
 end

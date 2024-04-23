@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_21_140422) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_23_212534) do
   create_table "buffet_registrations", force: :cascade do |t|
     t.string "trading_name"
     t.string "company_name"
@@ -49,8 +49,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_140422) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "buffet_registration_id", null: false
+    t.integer "working_day_price_id"
+    t.integer "weekend_price_id"
+    t.boolean "different_weekend"
     t.index ["buffet_registration_id"], name: "index_event_types_on_buffet_registration_id"
     t.index ["user_id"], name: "index_event_types_on_user_id"
+    t.index ["weekend_price_id"], name: "index_event_types_on_weekend_price_id"
+    t.index ["working_day_price_id"], name: "index_event_types_on_working_day_price_id"
+  end
+
+  create_table "event_values", force: :cascade do |t|
+    t.float "base_price"
+    t.float "price_per_person"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -83,5 +95,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_140422) do
   add_foreign_key "buffet_registrations", "payment_methods"
   add_foreign_key "buffet_registrations", "users"
   add_foreign_key "event_types", "buffet_registrations"
+  add_foreign_key "event_types", "event_values", column: "weekend_price_id"
+  add_foreign_key "event_types", "event_values", column: "working_day_price_id"
   add_foreign_key "event_types", "users"
 end
