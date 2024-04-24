@@ -26,6 +26,10 @@ describe "Usuário clica em adicionar evento" do
     expect(page).to have_field "Serviço de Estacionamento/Valet"
     expect(page).to have_field "Evento dentro do Buffet"
     expect(page).to have_field "Evento à domicílio"
+    expect(page).to have_field "Preço Base"
+    expect(page).to have_field "Preço por Acréscimo de Pessoa"
+    expect(page).to have_field "Valor da hora extra"
+    expect(page).to have_field "Valor Diferente aos Finais de Semana"
     expect(page).to have_button "Salvar" 
     expect(page).to have_button "Voltar" 
   end
@@ -51,6 +55,9 @@ describe "Usuário clica em adicionar evento" do
     fill_in "Cardápio",	with: "Bolo, coxinha, torta, cachorro quente" 
     check "Evento à domicílio"
     check "Bebida Alcoólica"
+    fill_in "Preço Base", with: "10000.50"
+    fill_in "Preço por Acréscimo de Pessoa", with: "500.35"
+    fill_in "Valor da hora extra", with: "405.93"
 
     click_on "Salvar"
 
