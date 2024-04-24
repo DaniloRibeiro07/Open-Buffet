@@ -24,6 +24,23 @@
     <dd><%= EventType.human_attribute_name(@event_type.decoration)  %></dd>
   <dt>O Evento pode conter serviço de estacionamento/valet:</dt>
     <dd><%= EventType.human_attribute_name(@event_type.valet) %></dd>
+  
+  <% if @event_type.different_weekend %>
+    <dt>Preço base em dia útil:</dt>
+      <dd><%= @event_type.working_day_price.base_price%></dd>
+    <dt>Valor por acréscimo de pessoa em dia útil:</dt>
+      <dd><%= @event_type.working_day_price.price_per_person %></dd>
+    <dt>Preço base no final de semana:</dt>
+      <dd><%= @event_type.weekend_price.base_price%></dd>
+    <dt>Valor por acréscimo no final de semana:</dt>
+      <dd><%= @event_type.weekend_price.price_per_person %></dd>
+  <% else %>
+    <dt>Preço base em dia útil e final de semana:</dt>
+      <dd><%= @event_type.working_day_price.base_price%></dd>
+    <dt>Valor por acréscimo de pessoa em dia útil e final de semana:</dt>
+      <dd><%= @event_type.working_day_price.price_per_person %></dd>
+  <% end %>
+  
 </dl>
 
 <%= button_to "Editar Informações do Evento", edit_event_type_path(@event_type), method: :get %>

@@ -60,11 +60,11 @@
     <%= form.fields_for :working_day_price, @event_type.working_day_price || EventValue.new do |price_form|   %>
       <div>
         <%= price_form.label :base_price%>
-        <%= price_form.number_field :base_price %>
+        <%= price_form.number_field :base_price, min: 0, step: 0.01  %>
       </div>
       <div>
         <%= price_form.label :price_per_person%>
-        <%= price_form.number_field :price_per_person %>
+        <%= price_form.number_field :price_per_person, min: 0, step: 0.01 %>
       </div>
     <% end %>
 
@@ -82,14 +82,14 @@
     <% end %>
 
     Valor no Final de Semana
-      <%= form.fields_for :weekend_price, @event_type.working_day_price || EventValue.new do |price_form|   %>
+      <%= form.fields_for :weekend_price, @event_type.weekend_price || EventValue.new do |price_form|   %>
         <div>
           <%= price_form.label :base_price%>
-          <%= price_form.number_field :base_price %>
+          <%= price_form.number_field :base_price, min: 0, step: 0.01 %>
         </div>
         <div>
           <%= price_form.label :price_per_person%>
-          <%= price_form.number_field :price_per_person %>
+          <%= price_form.number_field :price_per_person, min: 0, step: 0.01 %>
         </div>
       <% end %>
     </div>

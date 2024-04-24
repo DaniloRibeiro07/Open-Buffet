@@ -16,4 +16,6 @@ class EventType < ApplicationRecord
 
   belongs_to :working_day_price, class_name: "EventValue"
   belongs_to :weekend_price, class_name: "EventValue"
+
+  accepts_nested_attributes_for :working_day_price, :weekend_price
 end
