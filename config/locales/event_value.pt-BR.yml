@@ -4,3 +4,4 @@ pt-BR:
       event_value:
         base_price: "Preço Base"
         price_per_person: "Preço por Acréscimo de Pessoa"
+        overtime_rate: "Valor da hora extra"

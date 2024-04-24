@@ -30,15 +30,21 @@
       <dd><%= @event_type.working_day_price.base_price%></dd>
     <dt>Valor por acréscimo de pessoa em dia útil:</dt>
       <dd><%= @event_type.working_day_price.price_per_person %></dd>
+    <dt>Valor da hora extra em dia útil:</dt>
+      <dd><%= @event_type.working_day_price.overtime_rate %></dd>
     <dt>Preço base no final de semana:</dt>
       <dd><%= @event_type.weekend_price.base_price%></dd>
-    <dt>Valor por acréscimo no final de semana:</dt>
+    <dt>Valor por acréscimo de pessoa no final de semana:</dt>
       <dd><%= @event_type.weekend_price.price_per_person %></dd>
+    <dt>Valor da hora extra no final de semana:</dt>
+      <dd><%= @event_type.weekend_price.overtime_rate %></dd>
   <% else %>
     <dt>Preço base em dia útil e final de semana:</dt>
       <dd><%= @event_type.working_day_price.base_price%></dd>
     <dt>Valor por acréscimo de pessoa em dia útil e final de semana:</dt>
       <dd><%= @event_type.working_day_price.price_per_person %></dd>
+    <dt>Valor da hora extra em dia útil e final de semana:</dt>
+      <dd><%= @event_type.working_day_price.overtime_rate %></dd>
   <% end %>
   
 </dl>

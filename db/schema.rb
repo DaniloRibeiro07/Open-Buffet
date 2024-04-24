@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_23_212534) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_24_040612) do
   create_table "buffet_registrations", force: :cascade do |t|
     t.string "trading_name"
     t.string "company_name"
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_212534) do
     t.float "price_per_person"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "overtime_rate"
   end
 
   create_table "payment_methods", force: :cascade do |t|
