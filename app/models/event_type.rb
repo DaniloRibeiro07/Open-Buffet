@@ -14,8 +14,8 @@ class EventType < ApplicationRecord
   validates :maximum_quantity, comparison: { greater_than_or_equal_to: :minimum_quantity }
   validates_with MandatoryLocalToWorkMethod
 
-  belongs_to :working_day_price, class_name: "EventValue"
-  belongs_to :weekend_price, class_name: "EventValue"
+  belongs_to :working_day_price, class_name: "EventValue", dependent: :destroy
+  belongs_to :weekend_price, class_name: "EventValue", dependent: :destroy
 
   accepts_nested_attributes_for :working_day_price, :weekend_price
 end
