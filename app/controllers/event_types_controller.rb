@@ -1,5 +1,6 @@
 class EventTypesController < ApplicationController
   before_action :set_event_type_and_buffet_registration, only: [:show, :edit, :update, :destroy]
+  before_action :acess_by_owner, only: [:edit, :update, :destroy]
 
   def new
     @event_type = EventType.new
@@ -59,4 +60,12 @@ class EventTypesController < ApplicationController
     working_day_price_attributes: [:base_price, :price_per_person, :overtime_rate], 
     weekend_price_attributes: [:base_price, :price_per_person, :overtime_rate])
   end
+
+  def acess_by_owner
+    @event_type = EventType.find(params[:id])
+    if current_user != @event_type.user 
+      redirect_to root_path, notice: "Está página não existe"
+    end
+  end
+
 end

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe 'Usuário acessa a página inicial' do 
 
-  it 'Vê a tela inicial' do 
+  it 'Vê a tela inicial e não há buffet cadastrado' do 
     visit root_path
 
+    expect(page).to have_content("Não há Buffets Cadastrados")  
     expect(page).to have_link("Entrar/Registrar")
   end
 

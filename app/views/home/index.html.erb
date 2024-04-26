@@ -1,12 +1,19 @@
 <% if user_signed_in? && current_user.company %>
   <%= render 'buffet' %>
   <% else %>
-    <h4>Buffets Cadastrados:</h4>
-    <dl>
-      <% @buffet_records.each do |buffet| %>
-        <dt> <strong>Buffet:</strong> <%= link_to buffet.trading_name, buffet %> </dt>
-        <dd> <strong>Cidade:</strong> <%= buffet.city %> </dd>
-        <dd> <strong>Estado:</strong> <%= buffet.state %> </dd>
+    
+    <% if @buffet_records.empty? %>
+      <h4>Não há Buffets Cadastrados</h4>
+    <% else %>
+      <h4>Buffets Cadastrados:</h4>
+      <dl>
+        <% @buffet_records.each do |buffet| %>
+          <dt> <strong>Buffet:</strong> <%= link_to buffet.trading_name, buffet %> </dt>
+          <dd> <strong>Cidade:</strong> <%= buffet.city %> </dd>
+          <dd> <strong>Estado:</strong> <%= buffet.state %> </dd>
+      <% end %>
+      </dl>
     <% end %>
-    </dl>
+    
+    
 <% end %>
