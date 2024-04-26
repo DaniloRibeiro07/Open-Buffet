@@ -48,6 +48,8 @@
   <% end %>
   
 </dl>
-
-<%= button_to "Editar Informações do Evento", edit_event_type_path(@event_type), method: :get %>
+<% if  @buffet_registration.user == current_user%>
+  <%= button_to "Editar Informações do Evento", edit_event_type_path(@event_type), method: :get %>
+<% end %>
+  
 <%= button_to "Voltar", root_path, method: :get %>

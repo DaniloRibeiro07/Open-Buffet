@@ -7,5 +7,9 @@
     <% else %>
       <dd>Nenhum evento cadastrado</dd>
     <% end %>
-    <dd><%= link_to 'Adicionar', new_event_type_path %></dd>
+    
+    <% if @buffet_registration.user == current_user %>
+      <dd><%= link_to 'Adicionar', new_event_type_path %></dd>
+    <% end %>
+    
 </dl>

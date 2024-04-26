@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "Usuárioa acessa a página de detalhes do evento" do
-  it 'Vê a página' do 
+  it 'Vê a página sendo o Dono do Buffet' do 
     user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
     payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
     buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 

@@ -2,8 +2,10 @@
 <dl>
   <dt>Nome Fantasia:</dt>
     <dd><%= @buffet_registration.trading_name %></dd>
-  <dt>Razão Social:</dt>
+  <% if @buffet_registration.user == current_user %>
+    <dt>Razão Social:</dt>
     <dd><%= @buffet_registration.company_name %></dd>
+  <% end %>
   <dt>CNPJ:</dt>
     <dd><%= @buffet_registration.cnpj %></dd>
   <dt>Telefone:</dt>
@@ -32,7 +34,11 @@
     <% end %>  
 </dl>
 
-<%= button_to "Editar Informações do Buffet", edit_buffet_registration_path(@buffet_registration), method: :get %>
+
+<% if  @buffet_registration.user == current_user%>
+  <%= button_to "Editar Informações do Buffet", edit_buffet_registration_path(@buffet_registration), method: :get %>
+<% end %>
+
 
 <%= render '/event_types/card' %>
 

@@ -1,5 +1,6 @@
 class BuffetRegistrationsController < ApplicationController
   before_action :set_buffet_registration_and_payment_method, only: [:edit, :update, :show]
+
   def new
     if BuffetRegistration.find_by(user_id: current_user.id)
       redirect_to root_path
@@ -56,9 +57,9 @@ class BuffetRegistrationsController < ApplicationController
   private
 
   def set_buffet_registration_and_payment_method 
-    @buffet_registration = BuffetRegistration.find_by(user_id: current_user.id)
+    @buffet_registration = BuffetRegistration.find(params[:id])
     @payment_method = @buffet_registration.payment_method
-    @event_types =  EventType.where("user_id = #{current_user.id}")
+    @event_types =  @buffet_registration.event_type
   end
 
   def params_buffet_registration_and_payment_method 
