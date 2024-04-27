@@ -48,6 +48,12 @@ class BuffetRegistrationsController < ApplicationController
     end
   end
 
+  def search
+    search  = "%#{params[:search]}%"
+    @buffet_records = BuffetRegistration.left_outer_joins(:event_type)
+      .where("name LIKE ? or trading_name LIKE ? or city LIKE ?", search, search, search).distinct.order(trading_name: :asc)
+  end
+
   private
 
   def redirect_user_client_and_user_with_buffet

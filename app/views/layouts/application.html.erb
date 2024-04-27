@@ -47,6 +47,11 @@
           <%= link_to 'Entrar/Registrar', new_user_session_path %>
         <% end %>
         
+        <%= form_with url: search_buffet_registrations_path, method: :get do |form| %>
+          <%= form.text_field :search, placeholder: "Nome, Cidade, Festas" %>
+          <%= form.submit 'Pesquisar' %>
+        <% end %>
+        
       </nav>
 
       <%= yield %>

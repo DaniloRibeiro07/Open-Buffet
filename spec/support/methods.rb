@@ -8,3 +8,29 @@ def create_user_payment_buffet_event_value
   
   [user, payment_method, buffet_registration, event_value]
 end
+
+def create_users_buffets_events 
+  user1, payment_method, buffet_registration1,  event_value, = create_user_payment_buffet_event_value
+
+  event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
+  buffet_registration: buffet_registration1, name: "Casamento", description: "Super casamento para jovens casais ",
+  minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+  alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user1)
+
+  user2 = User.create!(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: true)
+
+  buffet_registration2 = BuffetRegistration.create!(trading_name: 'Buffet da Avon', company_name: 'Carla Buffet', 
+      cnpj: "5757869", phone: "456789312", email: 'carla@teste.com', public_place: "Rua dos perfumes", address_number: "33", neighborhood: "São Jorge", 
+      state: "BA", city: "Salvador", zip: "578964-621", complement: "Longe", description: "O melhor buffet das perfumarias", 
+      payment_method: payment_method, user: user2)
+
+  other_event = EventType.create!(different_weekend: true ,weekend_price: event_value, working_day_price: event_value,
+      buffet_registration: buffet_registration2, name: "Aniversário", description: "Super aniversário para a sua familia e amigos",
+      minimum_quantity: 10, maximum_quantity: 50, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
+      alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user2)
+
+  event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
+    buffet_registration: buffet_registration2, name: "Formatura", description: "Formatura insana para universitários",
+    minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
+    alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+end

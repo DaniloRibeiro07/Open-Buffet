@@ -82,6 +82,7 @@ describe 'Usuário clica em editar buffet' do
 
     click_on "Salvar"
     
+
     expect(current_path).to eq buffet_registration_path(buffet_registration.id)
     expect(page).to have_content "Nome Fantasia: Buffet da familia"
     expect(page).to have_content 'Razão Social: Eduarda Buffet'
