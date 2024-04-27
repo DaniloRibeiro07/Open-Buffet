@@ -8,6 +8,8 @@ class BuffetRegistration < ApplicationRecord
             :address_number, :neighborhood, :state, :city, :zip, :description, presence: true
   validates :cnpj,  uniqueness: true
 
+  
+  
   def full_address 
     "#{public_place}, #{address_number}, #{zip}, #{city}-#{state}"
   end

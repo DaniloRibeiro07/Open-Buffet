@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_24_040612) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_27_222848) do
   create_table "buffet_registrations", force: :cascade do |t|
     t.string "trading_name"
     t.string "company_name"
@@ -31,6 +31,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_24_040612) do
     t.text "complement"
     t.index ["payment_method_id"], name: "index_buffet_registrations_on_payment_method_id"
     t.index ["user_id"], name: "index_buffet_registrations_on_user_id"
+  end
+
+  create_table "client_data", force: :cascade do |t|
+    t.integer "cpf"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_client_data_on_user_id"
   end
 
   create_table "event_types", force: :cascade do |t|
@@ -95,6 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_24_040612) do
 
   add_foreign_key "buffet_registrations", "payment_methods"
   add_foreign_key "buffet_registrations", "users"
+  add_foreign_key "client_data", "users"
   add_foreign_key "event_types", "buffet_registrations"
   add_foreign_key "event_types", "event_values", column: "weekend_price_id"
   add_foreign_key "event_types", "event_values", column: "working_day_price_id"
