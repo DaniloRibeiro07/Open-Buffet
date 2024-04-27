@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Usuário clica em adicionar evento" do 
+describe "Usuário dono de um buffet clica em adicionar evento" do 
   it 'Vê a tela de registro' do 
     user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
     payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
@@ -12,6 +12,7 @@ describe "Usuário clica em adicionar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Adicionar"
 
     expect(current_path).to eq new_event_type_path
@@ -45,6 +46,7 @@ describe "Usuário clica em adicionar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Adicionar"
 
     fill_in "Nome do Evento",	with: "Festa de Aniversário" 
@@ -75,6 +77,7 @@ describe "Usuário clica em adicionar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Adicionar"
 
     click_on "Salvar"

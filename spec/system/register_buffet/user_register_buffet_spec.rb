@@ -62,7 +62,9 @@ describe 'Usuario Empresa acessa cadastro Buffet' do
 
   it 'E Esquece de preencher os campos' do 
     user = User.create!(name: "Eduarda", last_name: "Farias", email: 'Eduarda@teste.com', password: 'teste123', company: true)
+    
     login_as user
+
     visit root_path
 
     click_on "Salvar"

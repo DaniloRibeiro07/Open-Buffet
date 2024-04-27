@@ -5,7 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   validates :name, :last_name, presence: true
   validates :company, inclusion: [true, false]
-
+  has_one :buffet_registration
+  has_many :event_types
+  
   def description 
     account_type = (company ? "Empresa" : "Cliente")
     "#{name} |Conta #{account_type}|"

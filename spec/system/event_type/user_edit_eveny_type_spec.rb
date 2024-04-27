@@ -20,6 +20,7 @@ describe "Usuário acessa a página de editar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Aniversário"
     click_on "Editar Informações do Evento"
 
@@ -65,6 +66,7 @@ describe "Usuário acessa a página de editar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Aniversário"
     click_on "Editar Informações do Evento"
 
@@ -113,6 +115,7 @@ describe "Usuário acessa a página de editar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Aniversário"
     click_on "Editar Informações do Evento"
 
@@ -155,6 +158,7 @@ describe "Usuário acessa a página de editar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Aniversário"
     click_on "Editar Informações do Evento"
     click_on "Voltar"
@@ -180,11 +184,12 @@ describe "Usuário acessa a página de editar evento" do
     login_as user
 
     visit root_path
+    click_on "Meu Buffet"
     click_on "Aniversário"
     click_on "Editar Informações do Evento"
     click_on "Deletar Evento"
 
-    expect(current_path).to eq root_path
+    expect(current_path).to eq buffet_registration_path(buffet_registration)
     expect(page).to have_content "Evento Deletado com Sucesso"
     expect(page).to have_content "Nenhum evento cadastrado" 
   end

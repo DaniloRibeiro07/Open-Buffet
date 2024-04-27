@@ -45,7 +45,7 @@ class EventTypesController < ApplicationController
 
   def destroy 
     @event_type.destroy
-    redirect_to root_path, notice: "Evento Deletado com Sucesso"
+    redirect_to @event_type.buffet_registration, notice: "Evento Deletado com Sucesso"
   end
 
   private 
