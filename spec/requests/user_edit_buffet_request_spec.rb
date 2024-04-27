@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe "Usuario faz uma requisicao de edição a um tipo de evento" do
+describe "Usuario faz uma requisicao de edição de um buffet" do
   
-  it 'Faz um get não sendo dono de outro evento' do 
+  it 'Faz um get não sendo dono do buffet' do 
     user = User.create!(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: true)
 
     payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
@@ -26,7 +26,7 @@ describe "Usuario faz uma requisicao de edição a um tipo de evento" do
         payment_method: payment_method, user: user)
 
     login_as(user)
-    get  edit_event_type_path(event)
+    get  edit_buffet_registration_path(event)
 
     expect(response).to redirect_to(root_path)
   end
@@ -50,7 +50,7 @@ describe "Usuario faz uma requisicao de edição a um tipo de evento" do
 
     user = User.create!(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
 
-    patch  event_type_path(event), params: {"event_type" => {"duration" => "30"}}
+    patch  buffet_registration_path(event), params: {"buffet_registration" => {"maximum_quantity" => "30"}}
 
     expect(response).to redirect_to(root_path)
   end
@@ -72,7 +72,7 @@ describe "Usuario faz uma requisicao de edição a um tipo de evento" do
         minimum_quantity: 10, maximum_quantity: 50, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
         alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
-    put  event_type_path(event), params: {"event_type" => {"duration" => "30"}}
+    put  buffet_registration_path(event), params: {"buffet_registration" => {"maximum_quantity" => "30"}}
 
     expect(response).to redirect_to(root_path)
   end

@@ -1,5 +1,6 @@
 class BuffetRegistrationsController < ApplicationController
   before_action :set_buffet_registration_and_payment_method, only: [:edit, :update, :show]
+  before_action :acess_by_owner, only: [:edit, :update]
 
   def new
     if BuffetRegistration.find_by(user_id: current_user.id)
@@ -11,6 +12,8 @@ class BuffetRegistrationsController < ApplicationController
   end
 
   def create
+    redirect_to root_path if BuffetRegistration.find_by(user_id: current_user.id)
+
     payment_method_params, buffet_registration_params = params_buffet_registration_and_payment_method
     @payment_method = PaymentMethod.new(payment_method_params)
     @buffet_registration = BuffetRegistration.new(buffet_registration_params)
@@ -30,14 +33,9 @@ class BuffetRegistrationsController < ApplicationController
     end
   end
 
-  def show
-  
-  end
+  def show;end
 
-  def edit 
-    @buffet_registration = BuffetRegistration.find_by(user_id: current_user.id)
-    @payment_method = @buffet_registration.payment_method
-  end
+  def edit;end
 
   def update 
     payment_method_params, buffet_registration_params = params_buffet_registration_and_payment_method
@@ -55,6 +53,13 @@ class BuffetRegistrationsController < ApplicationController
   end
 
   private
+
+  def acess_by_owner
+    @buffet_registration = BuffetRegistration.find(params[:id])
+    if current_user != @buffet_registration.user 
+      redirect_to root_path, notice: "Está página não existe"
+    end
+  end
 
   def set_buffet_registration_and_payment_method 
     @buffet_registration = BuffetRegistration.find(params[:id])
