@@ -50,6 +50,8 @@ describe "Usuario faz uma requisicao de edição de um buffet" do
 
     user = User.create!(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
 
+    login_as(user)
+
     patch  buffet_registration_path(event), params: {"buffet_registration" => {"maximum_quantity" => "30"}}
 
     expect(response).to redirect_to(root_path)
@@ -74,7 +76,7 @@ describe "Usuario faz uma requisicao de edição de um buffet" do
 
     put  buffet_registration_path(event), params: {"buffet_registration" => {"maximum_quantity" => "30"}}
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(new_user_session_path)
   end
 
 end

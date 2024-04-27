@@ -50,6 +50,8 @@ describe "Usuario faz uma requisicao de edição a um tipo de evento" do
 
     user = User.create!(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
 
+    login_as(user)
+
     patch  event_type_path(event), params: {"event_type" => {"duration" => "30"}}
 
     expect(response).to redirect_to(root_path)
@@ -74,7 +76,7 @@ describe "Usuario faz uma requisicao de edição a um tipo de evento" do
 
     put  event_type_path(event), params: {"event_type" => {"duration" => "30"}}
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(new_user_session_path)
   end
 
 end

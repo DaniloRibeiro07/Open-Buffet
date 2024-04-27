@@ -1,4 +1,5 @@
 class EventTypesController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
   before_action :set_event_type_and_buffet_registration, only: [:show, :edit, :update, :destroy]
   before_action :acess_by_owner, only: [:edit, :update, :destroy]
 
