@@ -5,7 +5,8 @@ describe 'Usuário acessa a página de criar conta' do
     visit root_path 
     click_on "Entrar/Registrar"
     click_on "Crie a sua conta"
-
+    
+    expect(page).not_to have_button "Pesquisar"
     expect(current_path).to eq new_user_registration_path
     expect(page).to have_field "Nome" 
     expect(page).to have_field "Sobrenome" 

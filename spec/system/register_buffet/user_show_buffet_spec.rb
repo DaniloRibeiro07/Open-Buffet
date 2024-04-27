@@ -40,7 +40,8 @@ describe 'Usuário clica em vê buffet' do
 
     visit root_path
     click_on "Meu Buffet"
-
+    
+    expect(page).to have_button "Pesquisar"
     expect(page).not_to have_content "Buffet da Avon"
     expect(page).to have_content "Nome Fantasia: Buffet da familia"
     expect(page).to have_content 'Razão Social: Eduarda Buffet'

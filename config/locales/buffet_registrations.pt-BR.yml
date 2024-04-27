@@ -1,4 +1,7 @@
 pt-BR:
+  registered:
+    one: "Cadastrado"
+    other: "Cadastrados"
   activerecord:
     models:
       buffet_registration: "Registro do Buffet"

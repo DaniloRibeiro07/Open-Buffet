@@ -14,7 +14,8 @@ describe "Usuário dono de um buffet clica em adicionar evento" do
     visit root_path
     click_on "Meu Buffet"
     click_on "Adicionar"
-
+    
+    expect(page).not_to have_button "Pesquisar"
     expect(current_path).to eq new_event_type_path
     expect(page).to have_field "Nome do Evento"
     expect(page).to have_field "Descrição do Evento"

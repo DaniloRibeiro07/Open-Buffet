@@ -20,6 +20,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     click_on "Meu Buffet"
     click_on "Aniversário"
 
+    expect(page).to have_button "Pesquisar"
     expect(page).to have_content "Evento associado ao Buffet: Buffet da familia" 
     expect(page).to have_content "Nome do Evento: Aniversário" 
     expect(page).to have_content "Descrição do Evento: Super aniversário para a sua familia e amigos" 

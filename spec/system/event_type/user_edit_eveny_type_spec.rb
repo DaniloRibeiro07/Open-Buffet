@@ -24,6 +24,7 @@ describe "Usuário acessa a página de editar evento" do
     click_on "Aniversário"
     click_on "Editar Informações do Evento"
 
+    expect(page).not_to have_button "Pesquisar"
     expect(page).to have_content "Editando Evento em Buffet da familia" 
     expect(page).to have_field "Nome do Evento", with:  "Aniversário" 
     expect(page).to have_field "Descrição do Evento", with: "Super aniversário para a sua familia e amigos"

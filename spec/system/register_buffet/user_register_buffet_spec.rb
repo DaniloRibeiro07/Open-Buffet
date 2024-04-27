@@ -6,6 +6,7 @@ describe 'Usuario Empresa acessa cadastro Buffet' do
     login_as user
     visit root_path
 
+    expect(page).not_to have_button "Pesquisar"
     expect(current_path).to eq new_buffet_registration_path
     expect(page).to have_field "Nome Fantasia"
     expect(page).to have_field "Razão Social"

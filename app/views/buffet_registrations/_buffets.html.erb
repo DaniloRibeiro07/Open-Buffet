@@ -1,7 +1,8 @@
 <% if @buffet_records.empty? %>
   <h4>Não há Buffets Cadastrados</h4>
 <% else %>
-  <h4>Buffets Cadastrados:</h4>
+  <h4> <%= @buffet_records.count %> Buffet <%= t("registered", count: @buffet_records.count) %></h4>
+  
   <dl>
     <% @buffet_records.each do |buffet| %>
       <dt> <strong>Buffet:</strong> <%= link_to buffet.trading_name, buffet %> </dt>

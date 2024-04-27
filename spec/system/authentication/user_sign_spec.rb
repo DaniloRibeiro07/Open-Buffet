@@ -7,7 +7,8 @@ describe 'Usuário acessa a página de registro' do
     within('nav') do
       click_on 'Entrar/Registrar'
     end
-
+    
+    expect(page).not_to have_button "Pesquisar"
     expect(current_path).to eq new_user_session_path
     expect(page).to have_field("E-mail") 
     expect(page).to have_field("Senha") 

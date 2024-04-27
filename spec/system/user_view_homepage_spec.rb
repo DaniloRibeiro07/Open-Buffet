@@ -4,7 +4,8 @@ describe 'Usuário acessa a página inicial' do
 
   it 'Vê a tela inicial e não há buffet cadastrado' do 
     visit root_path
-
+    
+    expect(page).to have_button "Pesquisar"
     expect(page).to have_content("Não há Buffets Cadastrados")  
     expect(page).to have_link("Entrar/Registrar")
   end
@@ -39,7 +40,7 @@ describe 'Usuário acessa a página inicial' do
 
     expect(current_path).to eq root_path 
     expect(page).to have_link "Meu Buffet", href: buffet_registration_path(buffet_registration) 
-    expect(page).to have_content "Buffets Cadastrados:" 
+    expect(page).to have_content "2 Buffet Cadastrados" 
     expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
     expect(page).to have_content "Cidade: São Paulo"
     expect(page).to have_content "Estado: SP"
