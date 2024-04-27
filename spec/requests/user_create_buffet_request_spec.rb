@@ -56,7 +56,6 @@ describe "Usuario faz uma requisicao de criação de um buffet" do
     expect(response).to redirect_to(root_path)
   end
 
-
   it "Post sendo um cliente" do 
     user = User.create!(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: false)
     login_as(user)
