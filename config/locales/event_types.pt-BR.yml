@@ -18,6 +18,7 @@ pt-BR:
         true: "Sim"
         false: "Não"
         different_weekend: "Valor Diferente aos Finais de Semana"
+        location: "O local"
       working_day_price: 
         base_price: "Preço base em dias útil"
         price_per_person: "Preço por acréscimo de pessoa em dias úteis"

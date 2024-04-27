@@ -82,6 +82,6 @@ describe 'Usuario Empresa acessa cadastro Buffet' do
     expect(page).to have_content "Cidade não pode ficar em branco"
     expect(page).to have_content "CEP não pode ficar em branco"
     expect(page).to have_content "Descrição do Buffet não pode ficar em branco" 
-    expect(page).to have_content "Um método de pagamento deve ser escolhido" 
+    expect(page).to have_content "Algum método de pagamento deve ser escolhido" 
   end
 end

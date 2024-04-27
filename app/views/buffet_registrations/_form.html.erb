@@ -54,11 +54,11 @@
   <div>
     Escolha as Formas de Pagamento Aceitas:
     <div>
-      <% @payment_method.all_available_methods_and_values_to_select.each do |method_available| %>
-
-        <%= form.check_box method_available[:name], checked:  method_available[:value] %>
-        <%= form.label method_available[:name]%>
-
+      <%= form.fields_for :payment_method, @buffet_registration.payment_method || PaymentMethod.new do |form_method| %>
+        <% @payment_method_availables.each do |payment| %>
+          <%= form_method.check_box payment.to_sym %>
+          <%= form_method.label payment.to_sym %>
+        <% end %>
       <% end %>    
     </div>
   </div>

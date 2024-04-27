@@ -17,21 +17,6 @@
       <% end %>
     </header>
     <main>
-      <div>
-        <%= alert %>   
-        
-        <% if notice.class == Array %>
-          <ul>
-            <h4>Há <%= notice.length %> erros encontrados: </h4>
-          <% notice.each do |each_notice| %>
-            <li> <%= each_notice %> </li>
-          <% end %>
-          </ul>
-        <% else %>
-          <%= notice %>
-        <% end %>
-        
-      </div>
 
       <nav>
         
@@ -48,16 +33,31 @@
         <% end %>
         
         
-        <% unless request.path.include?("new") || request.path.include?("edit") || request.path.include?("sign")  %>
+        <% unless request.path.include?("new") || request.path.include?("edit") || request.path.include?("sign") || request.method != "GET" %>
           <%= form_with url: search_buffet_registrations_path, method: :get do |form| %>
             <%= form.text_field :search, placeholder: "Nome, Cidade, Festas" %>
             <%= form.submit 'Pesquisar' %>
           <% end %>
         <% end %>
         
-        
-        
+      
       </nav>
+
+        <div>
+          <%= alert %>   
+          
+          <% if notice.class == Array %>
+            <ul>
+              <h4>Há <%= notice.length %> erros encontrados: </h4>
+            <% notice.each do |each_notice| %>
+              <li> <%= each_notice %> </li>
+            <% end %>
+            </ul>
+          <% else %>
+            <%= notice %>
+          <% end %>
+          
+        </div>
 
       <%= yield %>
 

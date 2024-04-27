@@ -6,25 +6,18 @@ class BuffetRegistrationsController < ApplicationController
 
   def new
     @buffet_registration = BuffetRegistration.new
-    @payment_method = PaymentMethod.new
+    @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
   end
 
   def create
-    payment_method_params, buffet_registration_params = params_buffet_registration_and_payment_method
-    @payment_method = PaymentMethod.new(payment_method_params)
-    @buffet_registration = BuffetRegistration.new(buffet_registration_params)
-    @buffet_registration.payment_method = @payment_method
-
+    @buffet_registration = BuffetRegistration.new(params_buffet_registration_and_payment_method)
     @buffet_registration.user = current_user
-    if @buffet_registration.valid? &&  @payment_method.valid? 
-      @payment_method.save
+    if @buffet_registration.valid?  
       @buffet_registration.save
       redirect_to root_path, notice: "Buffet Cadastrado com Sucesso"
     else
-      @payment_method.valid?
-      messages = @buffet_registration.errors.full_messages
-      messages.push(@payment_method.errors.messages[:PaymentMethod][0]) if @payment_method.errors.any?
-      flash.now.notice = messages
+      flash.now.notice = @buffet_registration.errors.full_messages
+      @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
       render 'new'
     end
   end
@@ -34,16 +27,10 @@ class BuffetRegistrationsController < ApplicationController
   def edit;end
 
   def update 
-    payment_method_params, buffet_registration_params = params_buffet_registration_and_payment_method
-
-    if @buffet_registration.update(buffet_registration_params) && @payment_method.update(payment_method_params)
-      @buffet_registration.update(payment_method: @payment_method)
+    if @buffet_registration.update(params_buffet_registration_and_payment_method)
       redirect_to @buffet_registration, notice: "Buffet Atualizado com Sucesso"
     else
-      @payment_method.update(payment_method_params)
-      messages = @buffet_registration.errors.full_messages
-      messages.push(@payment_method.errors.messages[:PaymentMethod][0]) if @payment_method.errors.any?
-      flash.now.notice = messages
+      flash.now.notice = @buffet_registration.errors.full_messages
       render 'edit'
     end
   end
@@ -72,15 +59,13 @@ class BuffetRegistrationsController < ApplicationController
     @buffet_registration = BuffetRegistration.find(params[:id])
     @payment_method = @buffet_registration.payment_method
     @event_types =  @buffet_registration.event_type
+    @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
   end
 
   def params_buffet_registration_and_payment_method 
-    buffet_registration_params = params.require(:buffet_registration).permit(:trading_name, :company_name, :cnpj, :phone,
-    :email, :public_place, :neighborhood, :state, :city, :zip, :complement, :address_number, :description)
-
-    payment_method_params = params.require(:buffet_registration).permit(PaymentMethod.new.all_available_methods_to_select.map(&:to_sym))
-
-    [payment_method_params, buffet_registration_params]
+    payment_method_availables = PaymentMethod.column_names.reject{ |attribute| ['id', 'created_at', 'updated_at'].include?(attribute)}.map(&:to_sym)
+    params.require(:buffet_registration).permit(:trading_name, :company_name, :cnpj, :phone, :email, :public_place, 
+      :neighborhood, :state, :city, :zip, :complement, :address_number, :description,  payment_method_attributes: [payment_method_availables])
   end
 
 end

@@ -29,8 +29,10 @@
   <dt>Descrição:</dt>
     <dd><%= @buffet_registration.description %></dd>
   <dt>Formas de pagamento aceitas:</dt>
-    <% @payment_method.available_methods_to_select_translated.each do |method| %>
-      <dd><%= method %></dd>
+    <% @payment_method_availables.each do |method| %>
+      <% if @payment_method[method.to_sym]  %>
+          <dd><%=  PaymentMethod.human_attribute_name(method) %></dd>
+      <% end %>
     <% end %>  
 </dl>
 
