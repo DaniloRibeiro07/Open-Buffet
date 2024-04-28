@@ -48,7 +48,9 @@ describe "Usuario faz uma requisicao de criação de um buffet" do
   end
 
   it "get sendo um cliente" do 
-    user = User.create!(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: false)
+    user = User.new(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: false)
+    user.build_client_datum(cpf: "02241335002")
+    user.save!
     login_as(user)
 
     get  new_buffet_registration_path
@@ -57,7 +59,9 @@ describe "Usuario faz uma requisicao de criação de um buffet" do
   end
 
   it "Post sendo um cliente" do 
-    user = User.create!(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: false)
+    user = User.new(name: "Carla", last_name: "Farias", email: 'carla@teste.com', password: 'teste123', company: false)
+    user.build_client_datum(cpf: "02241335002")
+    user.save!
     login_as(user)
 
     post buffet_registrations_path, params: {"buffet_registration" => {"maximum_quantity" => "30"}}

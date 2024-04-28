@@ -45,8 +45,9 @@ RSpec.describe ClientDatum, type: :model do
     end
 
     it 'Probido CPF repetido' do 
-      visitante = User.create!(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
-      visitante.create_client_datum!(cpf: "02241335002")
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
 
       client = ClientDatum.new(cpf: "02241335002")
       client.valid?

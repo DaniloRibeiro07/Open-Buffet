@@ -81,7 +81,7 @@ describe 'Usuário acessa a página de criar conta' do
     click_on "Criar Conta"
 
     expect(current_path).to eq user_registration_path 
-    expect(page).to have_content "Não foi possível salvar usuário: 6 erros"
+    expect(page).to have_content "Não foi possível salvar usuário: 7 erros"
     expect(page).to have_content "E-mail não pode ficar em branco" 
     expect(page).to have_content "Senha não pode ficar em branco"
     expect(page).to have_content "Senha não pode ficar em branco"
@@ -89,6 +89,8 @@ describe 'Usuário acessa a página de criar conta' do
     expect(page).to have_content "Sobrenome não pode ficar em branco"
     expect(page).to have_content "CPF não pode ficar em branco"
     expect(page).to have_content "CPF não possui o tamanho esperado (11 caracteres)"
+    expect(page).to have_content "CPF inválido"
+
   end
 
   it 'Tenta criar uma conta empresa esquecendo dos campos' do 

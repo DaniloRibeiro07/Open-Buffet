@@ -54,7 +54,9 @@ describe 'Usuário acessa a página de registro' do
   end
 
   it 'E faz login como usuário cliente' do 
-    User.create!(name: "Eduarda", last_name: "Farias", email: 'Eduarda@teste.com', password: 'teste123', company: false)
+    user = User.new(name: "Eduarda", last_name: "Farias", email: 'Eduarda@teste.com', password: 'teste123', company: false)
+    user.build_client_datum(cpf: "02241335002")
+    user.save!
 
     visit root_path
     click_on 'Entrar/Registrar'

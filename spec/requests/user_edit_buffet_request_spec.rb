@@ -77,7 +77,9 @@ describe "Usuario faz uma requisicao de edição de um buffet" do
         minimum_quantity: 10, maximum_quantity: 50, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
         alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
-    user = User.create!(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
+    user = User.new(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
+    user.build_client_datum(cpf: "02241335002")
+    user.save!
 
     login_as(user)
 
@@ -103,7 +105,9 @@ describe "Usuario faz uma requisicao de edição de um buffet" do
         minimum_quantity: 10, maximum_quantity: 50, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
         alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
-    user = User.create!(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
+    user = User.new(name: "Thais", last_name: "Silva", email: 'Silva@teste.com', password: 'teste123', company: false)
+    user.build_client_datum(cpf: "02241335002")
+    user.save!
 
     login_as(user)
 

@@ -143,7 +143,9 @@ describe "Usuárioa acessa a página de detalhes do evento" do
       minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
       alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
-    visitant = User.create!(name: "Marta", last_name: "Almeida", email: 'Marta@teste.com', password: 'teste123', company: false)
+    visitant = User.new(name: "Marta", last_name: "Almeida", email: 'Marta@teste.com', password: 'teste123', company: false)
+    visitant.build_client_datum(cpf: "02241335002")
+    visitant.save!
 
     login_as visitant
     visit root_path

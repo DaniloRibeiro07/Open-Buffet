@@ -20,6 +20,13 @@ RSpec.describe User, type: :model do
       expect(user.valid?).to eq false 
     end
 
+    it 'CPF do cliente obrigatório' do 
+      user = User.new(company: false)
+      user.valid?
+      result = user.errors.full_messages.include? "CPF não pode ficar em branco"
+      expect(result).to eq true
+    end
+
   end
 
   describe '#description' do 

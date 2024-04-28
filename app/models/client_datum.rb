@@ -24,6 +24,8 @@ class ClientDatum < ApplicationRecord
     def check_cpf
       cpf = self.cpf
 
+      return false if !cpf || cpf.length != 11
+
       digit_1 = cpf[-2].to_i
       digit_2 = cpf[-1].to_i
       

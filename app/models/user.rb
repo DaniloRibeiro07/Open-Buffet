@@ -11,8 +11,19 @@ class User < ApplicationRecord
   has_one :client_datum  
   accepts_nested_attributes_for :client_datum
 
+  before_validation :create_cpf_client
+ 
+  
+  def create_cpf_client 
+    if !self.company && !self.client_datum
+      self.build_client_datum
+    end
+  end
+
   def description 
     account_type = (company ? "Empresa" : "Cliente")
     "#{name} |Conta #{account_type}|"
   end
+
+
 end

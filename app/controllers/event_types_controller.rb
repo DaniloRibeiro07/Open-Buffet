@@ -10,12 +10,6 @@ class EventTypesController < ApplicationController
 
   def create 
     @event_type = EventType.new(params_event_type)
-    unless @event_type.different_weekend 
-      base_price = @event_type.weekend_price.base_price.nil? ? 0 : @event_type.weekend_price.base_price
-      price_per_person = @event_type.weekend_price.price_per_person.nil? ? 0 : @event_type.weekend_price.price_per_person
-      overtime_rate = @event_type.weekend_price.overtime_rate.nil? ? 0 : @event_type.weekend_price.overtime_rate
-      @event_type.create_weekend_price(base_price: base_price, price_per_person: price_per_person, overtime_rate: overtime_rate)
-    end
     @event_type.user = current_user 
     @buffet_registration = BuffetRegistration.find_by(user_id: current_user.id) 
     @event_type.buffet_registration = @buffet_registration

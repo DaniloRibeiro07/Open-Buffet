@@ -274,7 +274,9 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
 
-    client = User.create!(name: "Marta", last_name: "Almeida", email: 'Almeida@teste.com', password: 'teste123', company: false)
+    client = User.new(name: "Marta", last_name: "Almeida", email: 'Almeida@teste.com', password: 'teste123', company: false)
+    client.build_client_datum(cpf: "02241335002")
+    client.save!
 
     login_as client
 

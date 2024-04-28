@@ -144,9 +144,10 @@ RSpec.describe EventType, type: :model do
     it "Valores no final de semana é obrigatório" do 
       user, payment_method, buffet_registration, event_value = create_user_payment_buffet_event_value
       
-      event = EventType.new(working_day_price: event_value, buffet_registration: buffet_registration, name: "Aniversário", description: "Super aniversário para a sua familia e amigos",
-              minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
-              alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
+      event = EventType.new(working_day_price: event_value, different_weekend: true , buffet_registration: buffet_registration, name: "Aniversário", 
+              description: "Super aniversário para a sua familia e amigos", minimum_quantity: 10, maximum_quantity: 15, 
+              duration: 60, menu: "Bolo de aniversário, coxinha e salgados",  alcoholic_beverages: false, 
+              decoration: true, valet: true, insider: false, outsider: true, user: user)
       
       expect(event.valid?).to eq false  
     end
