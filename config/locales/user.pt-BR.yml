@@ -6,4 +6,5 @@ pt-BR:
       user:
         name: "Nome"
         last_name: "Sobrenome"
+        cpf: CPF
         

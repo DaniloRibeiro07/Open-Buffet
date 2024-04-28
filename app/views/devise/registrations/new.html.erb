@@ -18,6 +18,7 @@
     <%= f.email_field :email, autocomplete: "email" %>
   </div>
 
+  
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
@@ -32,15 +33,40 @@
   </div>
 
   <div class="field">
-    <%= f.radio_button :company, false , checked: true%>
+    <%= f.radio_button :company, false , checked: true, onchange:'hideCpf(this)' %>
     <%= f.label :company_false, "Conta Cliente" %>
-    <%= f.radio_button :company, true %>
-    <%= f.label :company_true, "Conta Empresa" %>
+    <%= f.radio_button :company, true, onchange:'hideCpf(this)'  %>
+    <%= f.label :company_true, "Conta Empresa"%>
+  </div>
+
+  <% unless resource.company %>
+    <div class="field" id="divCpf">
+  <% else %>
+    <div class="field" id="divCpf" style="display: none">
+  <% end %>
+
+    <%= f.fields_for :client_datum, resource.client_datum || ClientDatum.new do |form| %>
+      <%= form.label :cpf %> <br/>
+      <%= form.number_field :cpf %>
+    <% end %>
+
   </div>
 
   <div class="actions">
     <%= f.submit "Criar Conta" %>
   </div>
+
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<script>
+  function hideCpf(element){
+    if (element.value == "true"){
+      document.getElementById("divCpf").style.display="none"
+    }else{
+      document.getElementById("divCpf").style.display=""
+    }
+    console.log(element)
+  }
+</script>

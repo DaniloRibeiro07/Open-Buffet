@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
   end
   
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :last_name, :company])
+    if params[:user] && params[:user][:company] == 'true'
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :last_name, :company])    
+    else
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :last_name, :company, client_datum_attributes:[:cpf]])    
+    end
   end
 end

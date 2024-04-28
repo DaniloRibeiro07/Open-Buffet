@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_27_222848) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_28_040645) do
   create_table "buffet_registrations", force: :cascade do |t|
     t.string "trading_name"
     t.string "company_name"
@@ -34,7 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_27_222848) do
   end
 
   create_table "client_data", force: :cascade do |t|
-    t.integer "cpf"
+    t.string "cpf"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

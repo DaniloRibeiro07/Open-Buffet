@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    models:
+      client_datum: "Dados do cliente"
+    attributes:
+      client_datum: 
+        cpf: CPF
