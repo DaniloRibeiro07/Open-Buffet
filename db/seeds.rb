@@ -12,7 +12,7 @@
 visitante = User.create!(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
 visitante.create_client_datum!(cpf: "02241335002")
 
-visitante = User.create!(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: true)
+visitante = User.create!(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: false)
 visitante.create_client_datum!(cpf: "97498970058")
 
 
