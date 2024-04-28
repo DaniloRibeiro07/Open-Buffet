@@ -12,6 +12,7 @@ class EventType < ApplicationRecord
   accepts_nested_attributes_for :working_day_price, :weekend_price
 
   before_validation :weekend_price_necessary?
+  
 
   private
 
