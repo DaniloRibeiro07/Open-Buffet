@@ -3,9 +3,20 @@
     <% if @event_types.any?%>
       <% @event_types.each do |event|%>
         <%= link_to event.name, event %>
+        <strong>Imagens:</strong>
+        <div>
+          <% if event.images.attached? %>
+            <% event.images.each do |image| %>  
+              <%= image_tag image.variant(:thumb) %>
+            <% end %>
+          <% else %>
+            Não há nenhuma imagem cadastrada
+          <% end %>
+          </div>
+
       <% end %>
     <% else %>
-      <dd>Nenhum evento cadastrado</dd>
+      Nenhum evento cadastrado
     <% end %>
     
     <% if @buffet_registration.user == current_user %>

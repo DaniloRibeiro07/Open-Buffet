@@ -105,10 +105,41 @@
       
   </div>
 
+  
+
+  <div>
+    <div>
+      <% if @event_type.images.attached? %>
+        Imagens inseridas:
+      
+        <% @event_type.images.each do |image| %>  
+
+          <div id= <%="div-#{image.id}"%> >
+            <dd><%= image_tag image.variant(:medium) %></dd> 
+            <input type="button" value="Remover Imagem", onclick = <%= "deleteImage(#{image.id})"%>>
+          </div>
+
+        <% end %>
+      <% end %>
+    </div>
+    <div>
+      <%= form.label :images, "Inserir Imagem:" %>
+      <%= form.file_field :images, multiple: true, accept: "image/png, image/jpeg" %>
+    </div>
+  </div>
+
   <%= form.submit "Salvar" %>
 <% end %>
 
 <script>
+  function deleteImage(imgIndex){
+    fetch(`./image/${imgIndex}`, {method: "get"})
+    .then((response)=>{
+        console.log(response)
+        document.getElementById(`div-${imgIndex}`).remove()
+    })
+  }
+
   function displayDifferentValues(element) {
     if (element.checked){
       document.getElementById("weekend_price").style.display=""

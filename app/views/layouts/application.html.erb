@@ -35,7 +35,7 @@
         
         <% unless request.path.include?("new") || request.path.include?("edit") || request.path.include?("sign") || request.method != "GET" %>
           <%= form_with url: search_buffet_registrations_path, method: :get do |form| %>
-            <%= form.text_field :search, placeholder: "Nome, Cidade, Festas" %>
+            <%= form.search_field :search, placeholder: "Nome, Cidade, Festas"%>
             <%= form.submit 'Pesquisar' %>
           <% end %>
         <% end %>

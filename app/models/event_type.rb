@@ -13,7 +13,11 @@ class EventType < ApplicationRecord
 
   before_validation :weekend_price_necessary?
   
-
+  has_many_attached :images do |attachable|
+    attachable.variant :thumb, resize_to_limit: [200, nil]
+    attachable.variant :medium, resize_to_limit: [500, nil]
+  end
+  
   private
 
   def location_is_mandatory
