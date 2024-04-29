@@ -8,7 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-
 visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
 visitante.build_client_datum(cpf: "02241335002")
 visitante.save!
@@ -33,6 +32,9 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
   minimum_quantity: 10, maximum_quantity: 55, duration: 63, menu: "Bolo, salgados e docinhos", 
   alcoholic_beverages: false, decoration: true, valet: false, insider: true, outsider: false, user: user)
 
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento1.jpeg')), filename: 'buffet_casamento1.jpeg')
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
+
 
 
 
@@ -53,15 +55,23 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
   minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
   alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento1.jpeg')), filename: 'buffet_casamento1.jpeg')
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
+
 event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
   buffet_registration: buffet_registration, name: "Aniversário", description: "Aniversários Feliz",
   minimum_quantity: 30, maximum_quantity: 995, duration: 180, menu: "Bolo de morango, docinhos e salgadinhos", 
   alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_aniversario1.jpeg')), filename: 'buffet_aniversario1.jpeg')
+
 event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value2,
   buffet_registration: buffet_registration, name: "Formatura", description: "Formatura muito massa",
   minimum_quantity: 10, maximum_quantity: 445, duration: 180, menu: "Bolo, salgado e muito doce", 
   alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura.jpeg')), filename: 'buffet_formatura.jpeg')
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura2.jpeg')), filename: 'buffet_formatura2.jpeg')
 
 
 
@@ -83,6 +93,10 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
   minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
   alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento3.jpeg')), filename: 'buffet_formatura3.jpeg')
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento4.jpg')), filename: 'buffet_casamento4.jpg')
+
+
 event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
   buffet_registration: buffet_registration, name: "Aleatório", description: "Serviço para qualquer festejo aleatório",
   minimum_quantity: 30, maximum_quantity: 777, duration: 360, menu: "Tudo o que você imaginar", 
@@ -92,3 +106,5 @@ event = EventType.create!(different_weekend: false , weekend_price: event_value,
   buffet_registration: buffet_registration, name: "Formatura", description: "Formatura legal demais",
   minimum_quantity: 44, maximum_quantity: 224, duration: 33, menu: "Salgados e muito bolo", 
   alcoholic_beverages: false, decoration: false, valet: false, insider: true, outsider: false, user: user)
+
+#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura3.jpeg')), filename: 'buffet_formatura3.jpeg')
