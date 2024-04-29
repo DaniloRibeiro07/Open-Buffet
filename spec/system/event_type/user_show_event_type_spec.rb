@@ -15,6 +15,9 @@ describe "Usuárioa acessa a página de detalhes do evento" do
       minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
       alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+  
     login_as user
     visit root_path
     click_on "Meu Buffet"
@@ -33,7 +36,12 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_content "O Evento pode conter serviço de estacionamento/valet: Sim" 
     expect(page).to have_content "O evento pode ser dentro do buffet: Não" 
     expect(page).to have_content "O evento pode ser à domicilio: Sim" 
+    expect(page).to have_content "Imagens:"
+    expect(page).not_to have_content "Não há nenhuma imagem cadastrada"  
+    expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).to have_content "Editar Informações do Evento"
+
     expect(page).to have_button "Voltar" 
   end
 
@@ -58,6 +66,9 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     state: "BA", city: "Salvador", zip: "578964-621", complement: "Longe", description: "O melhor buffet das perfumarias", 
     payment_method: payment_method, user: other_user)
 
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+
     login_as other_user
     visit root_path
     click_on "Buffet da familia"
@@ -75,6 +86,9 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_content "O Evento pode conter serviço de estacionamento/valet: Sim" 
     expect(page).to have_content "O evento pode ser dentro do buffet: Não" 
     expect(page).to have_content "O evento pode ser à domicilio: Sim" 
+    expect(page).not_to have_content "Não há nenhuma imagem cadastrada"  
+    expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Editar Informações do Evento"
     expect(page).to have_button "Voltar" 
   end
@@ -100,7 +114,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
       buffet_registration: buffet_registration, name: "Aniversário", description: "Super aniversário para a sua familia e amigos",
       minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
       alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
-
+  
     visit root_path
     click_on "Buffet da familia"
     click_on "Formatura"
@@ -117,6 +131,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_content "O Evento pode conter serviço de estacionamento/valet: Sim" 
     expect(page).to have_content "O evento pode ser dentro do buffet: Não" 
     expect(page).to have_content "O evento pode ser à domicilio: Sim" 
+    expect(page).to have_content "Não há nenhuma imagem cadastrada"  
     expect(page).not_to have_content "Editar Informações do Evento"
     expect(page).to have_button "Voltar" 
   end
@@ -143,6 +158,8 @@ describe "Usuárioa acessa a página de detalhes do evento" do
       minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
       alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
 
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+
     visitant = User.new(name: "Marta", last_name: "Almeida", email: 'Marta@teste.com', password: 'teste123', company: false)
     visitant.build_client_datum(cpf: "02241335002")
     visitant.save!
@@ -164,6 +181,8 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_content "O Evento pode conter serviço de estacionamento/valet: Sim" 
     expect(page).to have_content "O evento pode ser dentro do buffet: Não" 
     expect(page).to have_content "O evento pode ser à domicilio: Sim" 
+    expect(page).not_to have_content "Não há nenhuma imagem cadastrada"  
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Editar Informações do Evento"
     expect(page).to have_button "Voltar" 
   end

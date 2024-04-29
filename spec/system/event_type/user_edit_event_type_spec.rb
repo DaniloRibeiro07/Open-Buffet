@@ -49,8 +49,9 @@ describe "Usuário acessa a página de editar evento",  driver: :selenium_chrome
     expect(find('#event_type_weekend_price_attributes_overtime_rate').value).to eq '30.99'
     expect(page).to have_content "Imagens inseridas:"
     expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
-    expect(page).to have_button("Remover Imagem")
+    expect(page).to have_button("Remover Imagem-1")
     expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
+    expect(page).to have_button("Remover Imagem-2")
     expect(page).to have_button "Salvar"
     expect(page).to have_button "Deletar Evento"
     expect(page).to have_button "Voltar" 
@@ -85,9 +86,10 @@ describe "Usuário acessa a página de editar evento",  driver: :selenium_chrome
     fill_in "Quantidade Máxima de Pessoas",	with: "50" 
     check "Evento dentro do Buffet"
 
-    within "#div-1" do 
+    within "#div-0" do 
       click_on "Remover Imagem"
     end
+
 
     click_on "Salvar"
 
@@ -124,7 +126,7 @@ describe "Usuário acessa a página de editar evento",  driver: :selenium_chrome
     event_value_working = EventValue.create!(base_price: 10, price_per_person: 67, overtime_rate: 44)
     event_value_weekend = EventValue.create!(base_price: 50.39, price_per_person: 30.25, overtime_rate: 30.99)
   
-      event = EventType.create!(different_weekend: true ,weekend_price: event_value_weekend, working_day_price: event_value_working, buffet_registration: buffet_registration, 
+    event = EventType.create!(different_weekend: true ,weekend_price: event_value_weekend, working_day_price: event_value_working, buffet_registration: buffet_registration, 
         name: "Aniversário", description: "Super aniversário para a sua familia e amigos", minimum_quantity: 10, maximum_quantity: 15, 
         duration: 60, menu: "Bolo de aniversário, coxinha e salgados", alcoholic_beverages: false, decoration: true, valet: true, 
         insider: false, outsider: true, user: user)

@@ -112,11 +112,11 @@
       <% if @event_type.images.attached? %>
         Imagens inseridas:
       
-        <% @event_type.images.each do |image| %>  
+        <% @event_type.images.each_with_index do |image, index| %>  
 
-          <div id= <%="div-#{image.id}"%> >
+          <div id= <%="div-#{index}"%> >
             <dd><%= image_tag image.variant(:medium) %></dd> 
-            <input type="button" value="Remover Imagem", onclick = <%= "deleteImage(#{image.id})"%>>
+            <%= form.submit "Remover Imagem-#{index+1}" %>
           </div>
 
         <% end %>

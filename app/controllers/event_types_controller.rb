@@ -30,12 +30,28 @@ class EventTypesController < ApplicationController
   def edit;end
 
   def update 
-    if @event_type.update(params_event_type) 
+    if @event_type.update(params_event_type)
       @event_type.images.attach(params[:event_type][:images])
-      redirect_to @event_type, notice: "Evento Atualizado com Sucesso"
+      action = params[:commit]
+      if action != "Salvar"
+        delete_image_index = action.split('-')[1].to_i - 1
+        @event_type.images[delete_image_index].purge
+        redirect_to  edit_event_type_path(@event_type)
+      else
+        redirect_to @event_type, notice: "Evento Atualizado com Sucesso"
+      end
     else
-      flash.now.notice = @event_type.errors.full_messages
-      render "edit"
+      action = params[:commit]
+      if action != "Salvar"
+        delete_image_index = action.split('-')[1].to_i - 1
+        @event_type.images[delete_image_index].purge
+        set_event_type_and_buffet_registration
+        @event_type.update(params_event_type)
+        render 'edit'
+      else
+        flash.now.notice = @event_type.errors.full_messages
+        render "edit"
+      end
     end
   end
 
