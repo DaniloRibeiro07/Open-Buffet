@@ -46,8 +46,19 @@
     <dt>Valor da hora extra em dia útil e final de semana:</dt>
       <dd><%= @event_type.working_day_price.overtime_rate %></dd>
   <% end %>
-  
+
+  <dt>Imagens:</dt>
+    
+    <% if @event_type.images.attached? %>
+      <% @event_type.images.each do |image| %>  
+       <dd><%= image_tag image.variant(:medium) %></dd> 
+      <% end %>
+    <% else %>
+      <dd>Não há nenhuma imagem cadastrada</dd>
+    <% end %>
+    
 </dl>
+
 <% if  @buffet_registration.user == current_user%>
   <%= button_to "Editar Informações do Evento", edit_event_type_path(@event_type), method: :get %>
 <% end %>

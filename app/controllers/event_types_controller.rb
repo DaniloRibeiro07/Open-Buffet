@@ -1,5 +1,5 @@
 class EventTypesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy, :delete_image]
   before_action :set_event_type_and_buffet_registration, only: [:show, :edit, :update, :destroy]
   before_action :acess_by_owner, only: [:edit, :update, :destroy]
 
@@ -15,6 +15,7 @@ class EventTypesController < ApplicationController
     @event_type.buffet_registration = @buffet_registration
     
     if @event_type.valid? 
+      @event_type.images.attach(params[:event_type][:images])
       @event_type.save
       redirect_to @event_type, notice: "Evento Cadastrado com Sucesso"
     else
@@ -29,17 +30,43 @@ class EventTypesController < ApplicationController
   def edit;end
 
   def update 
-    if @event_type.update(params_event_type) 
-      redirect_to @event_type, notice: "Evento Atualizado com Sucesso"
+    if @event_type.update(params_event_type)
+      @event_type.images.attach(params[:event_type][:images])
+      action = params[:commit]
+      if action != "Salvar"
+        delete_image_index = action.split('-')[1].to_i - 1
+        @event_type.images[delete_image_index].purge
+        redirect_to  edit_event_type_path(@event_type)
+      else
+        redirect_to @event_type, notice: "Evento Atualizado com Sucesso"
+      end
     else
-      flash.now.notice = @event_type.errors.full_messages
-      render "edit"
+      action = params[:commit]
+      if action != "Salvar"
+        delete_image_index = action.split('-')[1].to_i - 1
+        @event_type.images[delete_image_index].purge
+        set_event_type_and_buffet_registration
+        @event_type.update(params_event_type)
+        render 'edit'
+      else
+        flash.now.notice = @event_type.errors.full_messages
+        render "edit"
+      end
     end
   end
 
   def destroy 
     @event_type.destroy
     redirect_to @event_type.buffet_registration, notice: "Evento Deletado com Sucesso"
+  end
+
+  def delete_image
+    if(current_user != EventType.find(params[:id]))
+      ActiveStorage::Attachment.find(params[:image_id]).purge
+      render plain: "sucesso", status: 200
+    else
+      render plain: "falha", status: 503
+    end
   end
 
   private 

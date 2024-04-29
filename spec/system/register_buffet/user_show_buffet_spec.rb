@@ -36,6 +36,10 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
 
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+  
+
     login_as user
 
     visit root_path
@@ -61,8 +65,11 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Transferência Bancária"
     expect(page).to have_content "Dinheiro"     
     expect(page).to have_content "Bitcoin" 
-    expect(page).to have_link "Casamento" 
-    expect(page).to have_link "Formatura" 
+    expect(page).to have_link "Casamento"
+    expect(page).to have_content "Não há nenhuma imagem cadastrada" 
+    expect(page).to have_link "Formatura"
+    expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Aniversário"
     expect(page).not_to have_content "Nenhum evento cadastrado"    
     expect(page).to have_button "Editar"
@@ -86,7 +93,10 @@ describe 'Usuário clica em vê buffet' do
         buffet_registration: other_buffet_registration, name: "Aniversário", description: "Super aniversário para a sua familia e amigos",
         minimum_quantity: 10, maximum_quantity: 50, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
         alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: other_user)
-
+    
+    other_event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    other_event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+    
     user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
     payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
     buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
@@ -94,12 +104,16 @@ describe 'Usuário clica em vê buffet' do
       state: "SP", city: "São Paulo", zip: "48750-621", complement: "", description: "O melhor buffet da familia brasileira", 
       payment_method: payment_method, user: user)
 
+    
     login_as user
 
     visit root_path
     click_on "Meu Buffet"
 
-    expect(page).to have_content "Nenhum evento cadastrado"    
+    expect(page).to have_content "Nenhum evento cadastrado"  
+    expect(page).not_to have_content "Não há nenhuma imagem cadastrada"
+    expect(page).not_to have_css('img[src*="festa_de_aniversario.jpeg"]')
+    expect(page).not_to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).to have_button "Editar"
     expect(page).to have_button "Voltar"
     expect(page).to have_link "Adicionar"
@@ -159,7 +173,10 @@ describe 'Usuário clica em vê buffet' do
         minimum_quantity: 10, maximum_quantity: 50, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
         alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: other_user)
     
-  
+    other_event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    other_event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+      
+    
     user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
 
     buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
@@ -201,6 +218,9 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Bitcoin" 
     expect(page).to have_link "Casamento" 
     expect(page).to have_link "Formatura" 
+    expect(page).to have_content "Não há nenhuma imagem cadastrada"
+    expect(page).not_to have_css('img[src*="festa_de_aniversario.jpeg"]')
+    expect(page).not_to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Aniversário"
     expect(page).not_to have_content "Nenhum evento cadastrado"    
     expect(page).not_to have_button "Editar"
@@ -269,10 +289,15 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+
     event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
       buffet_registration: buffet_registration, name: "Formatura", description: "Formatura insana para universitários",
       minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+
+    event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+      
 
     client = User.new(name: "Marta", last_name: "Almeida", email: 'Almeida@teste.com', password: 'teste123', company: false)
     client.build_client_datum(cpf: "02241335002")
@@ -304,6 +329,9 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Bitcoin" 
     expect(page).to have_link "Casamento" 
     expect(page).to have_link "Formatura" 
+    expect(page).not_to have_content "Não há nenhuma imagem cadastrada"
+    expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Aniversário"
     expect(page).not_to have_content "Nenhum evento cadastrado"    
     expect(page).not_to have_button "Editar"
