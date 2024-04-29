@@ -33,10 +33,9 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
   alcoholic_beverages: false, decoration: true, valet: false, insider: true, outsider: false, user: user)
 
 event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento1.jpeg')), filename: 'buffet_casamento1.jpeg')
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
-
-
-
+sleep(0.1)
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
+sleep(0.1)
 
 
 user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
@@ -55,8 +54,10 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
   minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
   alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento1.jpeg')), filename: 'buffet_casamento1.jpeg')
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento1.jpeg')), filename: 'buffet_casamento1.jpeg')
+sleep(0.1)
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
+sleep(0.1)
 
 event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
   buffet_registration: buffet_registration, name: "Aniversário", description: "Aniversários Feliz",
@@ -70,8 +71,11 @@ event = EventType.create!(different_weekend: false , weekend_price: event_value,
   minimum_quantity: 10, maximum_quantity: 445, duration: 180, menu: "Bolo, salgado e muito doce", 
   alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
 
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura.jpeg')), filename: 'buffet_formatura.jpeg')
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura2.jpeg')), filename: 'buffet_formatura2.jpeg')
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura.jpeg')), filename: 'buffet_formatura.jpeg')
+sleep(0.1)
+
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura2.jpeg')), filename: 'buffet_formatura2.jpeg')
+sleep(0.1)
 
 
 
@@ -93,8 +97,10 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
   minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
   alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento3.jpeg')), filename: 'buffet_formatura3.jpeg')
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento4.jpg')), filename: 'buffet_casamento4.jpg')
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento3.jpeg')), filename: 'buffet_formatura3.jpeg')
+sleep(1)
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento4.jpg')), filename: 'buffet_casamento4.jpg')
+sleep(1)
 
 
 event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
@@ -107,4 +113,5 @@ event = EventType.create!(different_weekend: false , weekend_price: event_value,
   minimum_quantity: 44, maximum_quantity: 224, duration: 33, menu: "Salgados e muito bolo", 
   alcoholic_beverages: false, decoration: false, valet: false, insider: true, outsider: false, user: user)
 
-#event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura3.jpeg')), filename: 'buffet_formatura3.jpeg')
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura3.jpeg')), filename: 'buffet_formatura3.jpeg')
+sleep(1)
