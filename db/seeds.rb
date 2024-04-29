@@ -9,12 +9,13 @@
 #   end
 
 
-visitante = User.create!(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
-visitante.create_client_datum!(cpf: "02241335002")
+visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+visitante.build_client_datum(cpf: "02241335002")
+visitante.save!
 
-visitante = User.create!(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: false)
-visitante.create_client_datum!(cpf: "97498970058")
-
+visitante = User.new(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: false)
+visitante.build_client_datum(cpf: "97498970058")
+visitante.save!
 
 user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
 
