@@ -27,14 +27,14 @@ buffet_registration = BuffetRegistration.create!(user: user, payment_method: pay
 
 event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
 
-event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
+event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
   buffet_registration: buffet_registration, name: "Chá de revelação", description: "Chá de revelação para novos pais ",
   minimum_quantity: 10, maximum_quantity: 55, duration: 63, menu: "Bolo, salgados e docinhos", 
   alcoholic_beverages: false, decoration: true, valet: false, insider: true, outsider: false, user: user)
 
-event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento1.jpeg')), filename: 'buffet_casamento1.jpeg')
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_cha1.jpg')), filename: 'buffet_cha1.jpg')
 sleep(0.1)
-event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento2.jpeg')), filename: 'buffet_casamento2.jpeg')
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_cha2.jpg')), filename: 'buffet_cha2.jpg')
 sleep(0.1)
 
 

@@ -41,7 +41,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).to have_content "Editar Informações do Evento"
-
+    expect(page).not_to have_content "Fazer um pedido" 
     expect(page).to have_button "Voltar" 
   end
 
@@ -90,6 +90,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Editar Informações do Evento"
+    expect(page).not_to have_content "Fazer um pedido" 
     expect(page).to have_button "Voltar" 
   end
 
@@ -133,6 +134,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).to have_content "O evento pode ser à domicilio: Sim" 
     expect(page).to have_content "Não há nenhuma imagem cadastrada"  
     expect(page).not_to have_content "Editar Informações do Evento"
+    expect(page).to have_button "Fazer um pedido"
     expect(page).to have_button "Voltar" 
   end
 
@@ -184,6 +186,7 @@ describe "Usuárioa acessa a página de detalhes do evento" do
     expect(page).not_to have_content "Não há nenhuma imagem cadastrada"  
     expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Editar Informações do Evento"
+    expect(page).to have_button "Fazer um pedido"
     expect(page).to have_button "Voltar" 
   end
 end

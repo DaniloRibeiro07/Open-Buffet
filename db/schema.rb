@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_28_225314) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_02_011540) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -69,6 +69,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_225314) do
     t.index ["user_id"], name: "index_client_data_on_user_id"
   end
 
+  create_table "customer_addresses", force: :cascade do |t|
+    t.string "public_place"
+    t.string "neighborhood"
+    t.string "state"
+    t.string "city"
+    t.string "zip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "address_number"
+    t.text "complement"
+  end
+
   create_table "event_types", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name"
@@ -100,6 +112,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_225314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "overtime_rate"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "buffet_registration_id", null: false
+    t.integer "event_type_id", null: false
+    t.date "date"
+    t.integer "amount_of_people"
+    t.boolean "inside_the_buffet"
+    t.integer "customer_address_id"
+    t.text "observation"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "duration"
+    t.index ["buffet_registration_id"], name: "index_orders_on_buffet_registration_id"
+    t.index ["customer_address_id"], name: "index_orders_on_customer_address_id"
+    t.index ["event_type_id"], name: "index_orders_on_event_type_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -138,4 +167,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_225314) do
   add_foreign_key "event_types", "event_values", column: "weekend_price_id"
   add_foreign_key "event_types", "event_values", column: "working_day_price_id"
   add_foreign_key "event_types", "users"
+  add_foreign_key "orders", "buffet_registrations"
+  add_foreign_key "orders", "customer_addresses"
+  add_foreign_key "orders", "event_types"
 end

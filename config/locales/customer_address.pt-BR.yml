@@ -1,0 +1,13 @@
+pt-BR:
+  activerecord:
+    models:
+      customer_address: "Endereço do cliente"
+    attributes:
+      customer_address: 
+        public_place: "Logradouro"
+        neighborhood: "Bairro"
+        state: "Estado"
+        city: "Cidade"
+        zip: "CEP"
+        address_number: "N°"
+        complement: "Complemento"
