@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    models:
+      extra_service: "Serviços extras"
+    attributes:
+      extra_service:
+        decoration: "Decorações"
+        alcoholic_beverages: "Bebidas Alcoólicas"
+        valet: "Serviço de Valete/Estacionamento"

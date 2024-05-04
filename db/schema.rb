@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_02_011540) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_04_193325) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_02_011540) do
     t.string "zip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "address_number"
+    t.string "address_number"
     t.text "complement"
   end
 
@@ -114,6 +114,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_02_011540) do
     t.float "overtime_rate"
   end
 
+  create_table "extra_services", force: :cascade do |t|
+    t.boolean "alcoholic_beverages"
+    t.boolean "decoration"
+    t.boolean "valet"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "buffet_registration_id", null: false
     t.integer "event_type_id", null: false
@@ -126,9 +134,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_02_011540) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "duration"
+    t.integer "extra_service_id"
+    t.integer "user_id", null: false
     t.index ["buffet_registration_id"], name: "index_orders_on_buffet_registration_id"
     t.index ["customer_address_id"], name: "index_orders_on_customer_address_id"
     t.index ["event_type_id"], name: "index_orders_on_event_type_id"
+    t.index ["extra_service_id"], name: "index_orders_on_extra_service_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "payment_methods", force: :cascade do |t|
@@ -170,4 +182,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_02_011540) do
   add_foreign_key "orders", "buffet_registrations"
   add_foreign_key "orders", "customer_addresses"
   add_foreign_key "orders", "event_types"
+  add_foreign_key "orders", "extra_services"
+  add_foreign_key "orders", "users"
 end

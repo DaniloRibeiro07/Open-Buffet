@@ -33,22 +33,22 @@
   <% end %>
 
     <h3>Qual o Endereço onde será realizado o serviço?</h3>
-    <%= locals[:form].fields_for :customer_address_id, @order.customer_address || CustomerAddress.new do |f_address|%>
+    <%= locals[:form].fields_for :customer_address, @order.customer_address || CustomerAddress.new do |f_address|%>
       <div>
         <strong> <%= f_address.label :public_place %> </strong>
         <%= f_address.text_field :public_place %>
         <strong> <%= f_address.label :address_number %> </strong>
-        <%= f_address.text_field :address_number %>
+        <%= f_address.text_field :address_number%>
         <strong> <%= f_address.label :neighborhood %> </strong>
-        <%= f_address.text_field :neighborhood %>
+        <%= f_address.text_field :neighborhood%>
       </div>
       <div>
         <strong> <%= f_address.label :state %> </strong>
-        <%= f_address.text_field :state %> 
+        <%= f_address.text_field :state%> 
         <strong> <%= f_address.label :city %> </strong>
         <%= f_address.text_field :city %> 
         <strong> <%= f_address.label :zip %> </strong>
-        <%= f_address.text_field :zip %> 
+        <%= f_address.text_field :zip%> 
         <strong> <%= f_address.label :complement %> </strong>
         <%= f_address.text_field :complement %> 
       </div>

@@ -3,6 +3,7 @@ class EventTypesController < ApplicationController
   before_action :set_event_type_and_buffet_registration, only: [:show, :edit, :update, :destroy]
   before_action :acess_by_owner, only: [:edit, :update, :destroy]
 
+
   def new
     @event_type = EventType.new
     @buffet_registration = BuffetRegistration.find_by(user_id: current_user.id) 

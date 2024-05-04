@@ -2,6 +2,7 @@
 <p><strong>Nome do Buffet:</strong> <%= @event_type.buffet_registration.trading_name %> </p>
 <p><strong>Telefone:</strong> <%= @buffet_registration.phone %> </p>
 <p><strong>E-mail:</strong> <%= @buffet_registration.email %> </p>
+<h5>Serviço a ser contratado: <%= @event_type.name %></h5>
 <h4>Valores:</h4>
 
 <p>
@@ -45,10 +46,10 @@
   
   <% if @event_type.insider && @event_type.outsider %>
     <div>
-      <strong>Onde será realizado o serviço? </strong>
-      <%= form.radio_button :inside_the_buffet, true, onchange: 'displayAddress(this)' %>
+      <h3><strong>Onde será realizado o serviço? </strong></h3>
+      <%= form.radio_button :inside_the_buffet, true, onchange: 'displayAddress(this)', required: true %>
       <strong><%= form.label :inside_the_buffet_true %></strong>
-      <%= form.radio_button :inside_the_buffet, false, onchange: 'displayAddress(this)' %>
+      <%= form.radio_button :inside_the_buffet, false, onchange: 'displayAddress(this)', required: true %>
       <strong><%= form.label :inside_the_buffet_false %></strong>
     </div>
     <%=render 'address', locals: {insider: true, outsider:true, form: form}  %>
@@ -84,22 +85,61 @@
   <% end %>
   
 
+  <h3>Participantes, Duração e Data</h3>
+
   <div>
     <strong><%= form.label :amount_of_people %></strong>
-    <%= form.number_field :amount_of_people, min: @event_type.minimum_quantity , max: @event_type.maximum_quantity, step: 1 %>
+    <%= form.number_field :amount_of_people, min: @event_type.minimum_quantity , max: @event_type.maximum_quantity, step: 1, required: true %>
     <strong>Quantidade mínima:</strong> <%= @event_type.minimum_quantity %> <strong>Quantidade máxima:</strong> <%= @event_type.maximum_quantity %>
   </div>
 
   <div>
     <strong><%= form.label :duration %></strong>
-    <%= form.number_field :duration, min:1, step: 1 %>
+    <%= form.number_field :duration, min:1, step: 1, required: true %>
     <strong>Duração Padrão:</strong> <%= @event_type.duration %> minutos
   </div>
 
   <div>
     <strong><%= form.label :date %></strong>
-    <%= form.date_field :date %>
+    <%= form.date_field :date, min: 1.day.from_now, required: true%>
   </div>
+
+  
+  <% if @event_type.alcoholic_beverages || @event_type.decoration || @event_type.valet  %>
+      
+    <div>
+      <h3>Serviços Adicionais:</h3>
+
+      <%= form.fields_for :extra_service, @order.extra_service || ExtraService.new do |f_extra| %>
+      
+        <% if @event_type.alcoholic_beverages %>
+          <div>
+            <strong><%= f_extra.label :alcoholic_beverages %></strong>
+            <%= f_extra.check_box :alcoholic_beverages %>
+          </div>
+        <% end %>
+
+        <% if @event_type.decoration %>
+          <div>
+            <strong><%= f_extra.label :decoration %></strong>
+            <%= f_extra.check_box :decoration %>
+          </div>
+        <% end %>
+
+        <% if @event_type.valet %>
+          <div>
+            <strong><%= f_extra.label :valet %></strong>
+            <%= f_extra.check_box :valet %>
+          </div>
+        <% end %>
+
+      <% end %>
+      
+      
+    </div>
+
+  <% end %>
+
 
   <div>
     <strong><%= form.label :observation %></strong>:

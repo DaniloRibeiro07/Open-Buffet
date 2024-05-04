@@ -3,7 +3,8 @@ class BuffetRegistration < ApplicationRecord
   accepts_nested_attributes_for :payment_method
 
   belongs_to :user
-  has_many :event_type
+  has_many :event_types
+  has_many :orders
   validates :trading_name, :company_name, :phone, :cnpj, :public_place, :email,
             :address_number, :neighborhood, :state, :city, :zip, :description, presence: true
   validates :cnpj,  uniqueness: true

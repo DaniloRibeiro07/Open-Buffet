@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :orders, only: [:new, :create]
   end
 
+  resources :orders, only: [:show]
+
   get "event_types/:id/image/:image_id", to: "event_types#delete_image"
 
 end

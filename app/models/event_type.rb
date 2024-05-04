@@ -1,4 +1,5 @@
 class EventType < ApplicationRecord
+  has_many :orders, dependent: :delete_all
   belongs_to :user
   belongs_to :buffet_registration
   validates :name, :user_id, :description, :minimum_quantity, :maximum_quantity,
