@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event_type_and_buffet, only: [:new, :create, :edit, :update]
   before_action :set_order, only: [:edit, :update, :show, :cancel]
+  before_action :special_access, except: [:new, :index, :create]
 
   def new
     return redirect_to root_path if current_user.company
@@ -59,6 +60,15 @@ class OrdersController < ApplicationController
   end
 
   private 
+
+  def special_access
+    if current_user.company? && current_user == @order.event_type.user
+      return
+    elsif current_user == @order.user
+      return
+    end
+    redirect_to root_path
+  end
 
   def set_order 
     @order = Order.find params[:id]

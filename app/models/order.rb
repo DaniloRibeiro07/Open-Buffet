@@ -17,6 +17,7 @@ class Order < ApplicationRecord
   validate :number_of_people_ltd
   validate :customer_address_required?
   validate :user_is_client?
+  validate :event_type_accepts_inside_the_buffet?
 
   before_create :initial_status, :code_generator
   before_save :calculate_calculated_value
@@ -37,6 +38,11 @@ class Order < ApplicationRecord
 
   private 
   
+  def event_type_accepts_inside_the_buffet?
+    if self.event_type && !self.event_type.insider && self.inside_the_buffet
+      self.errors.add :inside_the_buffet, "não pode ser dentro do buffet"
+    end
+  end
 
   def calculate_calculated_value
 
