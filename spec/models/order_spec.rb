@@ -76,19 +76,36 @@ RSpec.describe Order, type: :model do
       expect(result).to eq true 
     end
 
-    it 'Dentro do buffet ? obrigatóio' do 
+    it 'Dentro do buffet ? obrigatório' do 
       order = Order.new(inside_the_buffet: nil)
       order.valid?
 
-      result = order.errors.full_messages.include? "Dentro do Buffet? não pode ficar em branco"
+      result = order.errors.full_messages.include? "Dentro do Buffet? não está incluído na lista"
       expect(result).to eq true 
     end
+
+    it 'Dentro do buffet ? pode ser falso' do 
+      order = Order.new(inside_the_buffet: false)
+      order.valid?
+
+      result = order.errors.full_messages.include? "Dentro do Buffet? não está incluído na lista"
+      expect(result).to eq false 
+    end
+
+    it 'Dentro do buffet ? pode ser true' do 
+      order = Order.new(inside_the_buffet: true)
+      order.valid?
+
+      result = order.errors.full_messages.include? "Dentro do Buffet? não está incluído na lista"
+      expect(result).to eq false 
+    end
+
 
     it 'Quantidade de pessoas deve ser menor ou igual do que a quantidade máxima do evento' do
       event = EventType.new(maximum_quantity: 100)
       order = Order.new(event_type: event, amount_of_people: 101)
       order.valid? 
-      result = order.errors.full_messages.include? "Quantidade de Pessoas Deve ser menor ou igual a 100"
+      result = order.errors.full_messages.include? "Participantes do Evento Deve ser menor ou igual a 100"
       expect(result).to eq true
     end
 
@@ -96,7 +113,7 @@ RSpec.describe Order, type: :model do
       event = EventType.new(minimum_quantity: 10)
       order = Order.new(event_type: event, amount_of_people: 9)
       order.valid? 
-      result = order.errors.full_messages.include? "Quantidade de Pessoas Deve ser maior ou igual a 10"
+      result = order.errors.full_messages.include? "Participantes do Evento Deve ser maior ou igual a 10"
       expect(result).to eq true
     end
 

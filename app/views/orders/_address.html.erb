@@ -1,11 +1,8 @@
 
 <% if locals[:insider] %>
   
-  <% if locals [:outsider]%>
-    <div id = "insiderBuffet" style="display:none">
-  <% else %>
-      <div id = "insiderBuffet">
-  <% end %>
+    <div id = "insiderBuffet">
+
     <h3>Endereço do Buffet:</h3>
     <p>
       <strong>Logradouro:</strong> <%= @buffet_registration.public_place %> 
@@ -26,11 +23,7 @@
 
 <% if locals[:outsider]  %>
 
-  <% if locals [:insider]%>
-    <div id = "outsiderBuffet" style="display:none">
-  <% else %>
-      <div id = "outsiderBuffet">
-  <% end %>
+    <div id = "outsiderBuffet">
 
     <h3>Qual o Endereço onde será realizado o serviço?</h3>
     <%= locals[:form].fields_for :customer_address, @order.customer_address || CustomerAddress.new do |f_address|%>

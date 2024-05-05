@@ -8,8 +8,13 @@ class OrdersController < ApplicationController
   end
 
   def create 
-
     @order = @event_type.orders.build(order_params)
+
+    if params[:commit] == "Dentro do Buffet" || params[:commit] == "Em outro endereço"
+      @order.inside_the_buffet = !@order.inside_the_buffet 
+      return render 'new'
+    end
+
 
     if @order.save
       redirect_to @order, alert: "Pedido criado com sucesso"
@@ -37,17 +42,17 @@ class OrdersController < ApplicationController
     extra_service_attributes: [:decoration, :valet, :alcoholic_beverages])
 
     if @event_type.insider && @event_type.outsider
-    order_params.merge!(params.require(:order).permit(:inside_the_buffet))
-    unless order_params[:inside_the_buffet] == 'true'
-    order_params.merge!(params.require(:order).permit(customer_address_attributes:[:public_place, 
-            :neighborhood, :state, :city, :zip, :address_number, :complement]))
-    end
+      order_params.merge!(params.require(:order).permit(:inside_the_buffet))
+      unless order_params[:inside_the_buffet] == 'true'
+        order_params.merge!(params.require(:order).permit(customer_address_attributes:[:public_place, 
+              :neighborhood, :state, :city, :zip, :address_number, :complement]))
+      end
     elsif @event_type.insider && !@event_type.outsider
-    order_params.merge! ( {:inside_the_buffet => 'true'} )
+      order_params.merge! ( {:inside_the_buffet => true} )
     else
-    order_params.merge! ( {:inside_the_buffet => 'false'} )
-    order_params.merge! (params.require(:order).permit(customer_address_attributes:[:public_place, 
-        :neighborhood, :state, :city, :zip, :address_number, :complement]))
+      order_params.merge! ( {:inside_the_buffet => false} )
+      order_params.merge! (params.require(:order).permit(customer_address_attributes:[:public_place, 
+          :neighborhood, :state, :city, :zip, :address_number, :complement]))
     end
 
     order_params.merge!  ( {:buffet_registration => @event_type.buffet_registration, :user => current_user})

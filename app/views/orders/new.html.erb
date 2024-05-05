@@ -45,33 +45,28 @@
 
   
   <% if @event_type.insider && @event_type.outsider %>
-    <div>
-      <h3><strong>Onde será realizado o serviço? </strong></h3>
-      <%= form.radio_button :inside_the_buffet, true, onchange: 'displayAddress(this)', required: true %>
-      <strong><%= form.label :inside_the_buffet_true %></strong>
-      <%= form.radio_button :inside_the_buffet, false, onchange: 'displayAddress(this)', required: true %>
-      <strong><%= form.label :inside_the_buffet_false %></strong>
-    </div>
-    <%=render 'address', locals: {insider: true, outsider:true, form: form}  %>
-    <script>
 
-      function displayAddress(element){
-        if (element.value == 'true') {
-          document.getElementById("outsiderBuffet").style.display = 'none' 
-          document.getElementById("insiderBuffet").style.display = ''
-        }else{
-          document.getElementById("insiderBuffet").style.display = 'none'
-          document.getElementById("outsiderBuffet").style.display = ''
-        }
-      }
 
-      if (document.getElementById('order_inside_the_buffet_true').checked){
-        displayAddress(document.getElementById('order_inside_the_buffet_true'))
-      }else if(document.getElementById('order_inside_the_buffet_false').checked){
-        displayAddress(document.getElementById('order_inside_the_buffet_false'))
-      }
+    <% if @order.inside_the_buffet %>
+      <div>
+        <h3><strong>Onde será realizado o serviço? </strong></h3>
+        <%= form.submit "Dentro do Buffet", disabled: true %>
+        <%= form.submit "Em outro endereço" %>
+        <%= form.check_box :inside_the_buffet , checked: true, style:"display:none"%>
+      </div>
+      <%=render 'address', locals: {insider: true}  %>
+    <% else %>
+      <div>
+        <h3><strong>Onde será realizado o serviço? </strong></h3>
+        <%= form.submit "Dentro do Buffet" %>
+        <%= form.submit "Em outro endereço", disabled: true %>
+        <%= form.check_box :inside_the_buffet, checked: false, style:"display:none"%>
+      </div>
+      <%=render 'address', locals: {outsider: true, form: form}  %>
+    <% end %>
+    
+    
 
-    </script>
   <% elsif @event_type.insider %>
     <div>
       <h3>Serviço só pode ser realizado <strong>dentro</strong> do Buffet</h3>
@@ -89,19 +84,19 @@
 
   <div>
     <strong><%= form.label :amount_of_people %></strong>
-    <%= form.number_field :amount_of_people, min: @event_type.minimum_quantity , max: @event_type.maximum_quantity, step: 1, required: true %>
+    <%= form.number_field :amount_of_people, min: @event_type.minimum_quantity , max: @event_type.maximum_quantity, step: 1 %>
     <strong>Quantidade mínima:</strong> <%= @event_type.minimum_quantity %> <strong>Quantidade máxima:</strong> <%= @event_type.maximum_quantity %>
   </div>
 
   <div>
     <strong><%= form.label :duration %></strong>
-    <%= form.number_field :duration, min:1, step: 1, required: true %>
+    <%= form.number_field :duration, min:1, step: 1%>
     <strong>Duração Padrão:</strong> <%= @event_type.duration %> minutos
   </div>
 
   <div>
     <strong><%= form.label :date %></strong>
-    <%= form.date_field :date, min: 1.day.from_now, required: true%>
+    <%= form.date_field :date, min: 1.day.from_now , required:false%>
   </div>
 
   

@@ -6,7 +6,7 @@ pt-BR:
       order: 
         inside_the_buffet_true: "Dentro do Buffet"
         inside_the_buffet_false: "Em outro endereço"
-        amount_of_people: "Quantidade de Pessoas"
+        amount_of_people: "Participantes do Evento"
         duration: "Duração do Evento (minutos)"
         observation: "Observação"
         date: "Data"

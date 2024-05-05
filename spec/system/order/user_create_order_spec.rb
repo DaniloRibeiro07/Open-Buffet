@@ -69,10 +69,9 @@ describe 'Usuário clica em fazer um pedido' do
       expect(page).not_to have_content "Serviço só pode ser realizado dentro do Buffet" 
       expect(page).not_to have_content "Serviço só pode ser realizado no local indicado pelo cliente abaixo"
       expect(page).not_to have_content "Endereço do Buffet"  
-      expect(page).not_to have_content "Qual o Endereço onde será realizado o serviço?"  
-      expect(page).to  have_field "Dentro do Buffet"
-      expect(page).to  have_field "Em outro endereço"
-      expect(page).to  have_field "Quantidade de Pessoas"
+      expect(page).to  have_button "Dentro do Buffet"
+      expect(page).to  have_button "Em outro endereço", disabled: true
+      expect(page).to  have_field "Participantes do Evento"
       expect(page).to  have_content "Quantidade mínima: 10"
       expect(page).to  have_content "Quantidade máxima: 55"
       expect(page).to  have_field "Duração do Evento (minutos)"
@@ -194,7 +193,306 @@ describe 'Usuário clica em fazer um pedido' do
     end
   end
 
-  context "preenchendo a página e submetendo" do 
+  context "preenchendo a página e submetendo com sucesso" do 
+    it 'Evento apenas dentro do buffet e apenas com adicional de bebida' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: true, decoration: false, valet: false, insider: true, outsider: false, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+      check 'Bebidas Alcoólicas'
+
+      fill_in "Participantes do Evento",	with: "35" 
+      fill_in "Duração do Evento (minutos)",	with: "68"
+      fill_in "Data",	with: 1.day.from_now 
+      click_on "Revisar Solicitação"
+
+      expect(current_path).to eq order_path(Order.last())
+      expect(page).to have_content "Pedido criado com sucesso" 
+    end
+
+    it 'Evento apenas fora do buffet sem adicionais' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: false, decoration: false, valet: false, insider: false, outsider: true, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+
+      fill_in "Logradouro",	with: "Rua Jacuípe" 
+      fill_in "N°",	with: "339" 
+      fill_in "Bairro",	with: "São Pedro" 
+      fill_in "Estado",	with: "Bahia" 
+      fill_in "Cidade",	with: "Salvador"
+      fill_in "CEP",	with: "59485-100" 
+      fill_in "Complemento",	with: "Próximo da praça Faustinho" 
+
+      fill_in "Participantes do Evento",	with: "35" 
+      fill_in "Duração do Evento (minutos)",	with: "68"
+      fill_in "Data",	with: 1.day.from_now 
+      click_on "Revisar Solicitação"
+
+      expect(page).to have_content "Pedido criado com sucesso" 
+      expect(current_path).to eq order_path(Order.last())
+    end
+
+    it 'Evento pode ser dentro ou fora do buffet, usuario escolhe fora do buffet e com decoracao, bebida e valet' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+
+      fill_in "Logradouro",	with: "Rua Jacuípe" 
+      fill_in "N°",	with: "339" 
+      fill_in "Bairro",	with: "São Pedro" 
+      fill_in "Estado",	with: "Bahia" 
+      fill_in "Cidade",	with: "Salvador"
+      fill_in "CEP",	with: "59485-100" 
+      fill_in "Complemento",	with: "Próximo da praça Faustinho" 
+
+      fill_in "Participantes do Evento",	with: "35" 
+      fill_in "Duração do Evento (minutos)",	with: "68"
+      fill_in "Data", with: 1.day.from_now
+      
+      check 'Bebidas Alcoólicas'
+      check 'Decorações'
+      check 'Serviço de Valete/Estacionamento'
+      click_on "Revisar Solicitação"
+
+      expect(page).to have_content "Pedido criado com sucesso" 
+      expect(current_path).to eq order_path(Order.last())
+    end
+
+    it 'Evento pode ser dentro ou fora do buffet, usuario escolhe dentro do buffet e sem adicional' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+
+      click_on 'Dentro do Buffet'
+
+      fill_in "Participantes do Evento",	with: "35" 
+      fill_in "Duração do Evento (minutos)",	with: "68"
+      fill_in "Data", with: 1.day.from_now
+      
+      click_on "Revisar Solicitação"
+
+      expect(page).to have_content "Pedido criado com sucesso" 
+      expect(current_path).to eq order_path(Order.last())
+    end
+  end
+
+  context "preenchendo a página e submetendo com falha" do 
+    it 'Evento apenas dentro do buffet e apenas com adicional de bebida' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: true, decoration: false, valet: false, insider: true, outsider: false, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+
+      click_on "Revisar Solicitação"
+
+      expect(current_path).to eq event_type_orders_path(event)
+      expect(page).to have_content "Há 4 erros encontrados" 
+      expect(page).to have_content "Data não pode ficar em branco"
+      expect(page).to have_content "Duração do Evento (minutos) não pode ficar em branco" 
+      expect(page).to have_content "Participantes do Evento não pode ficar em branco"
+      expect(page).to have_content "Data deve ser maior do que hoje (#{I18n.l(Date.current)})" 
+    end
+
+    it 'Evento apenas fora do buffet sem adicionais' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: false, decoration: false, valet: false, insider: false, outsider: true, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+
+      click_on "Revisar Solicitação"
+
+      expect(current_path).to eq event_type_orders_path(event)
+      expect(page).to have_content "Há 10 erros encontrados" 
+      expect(page).to have_content "Logradouro não pode ficar em branco" 
+      expect(page).to have_content "Bairro não pode ficar em branco" 
+      expect(page).to have_content "Estado não pode ficar em branco" 
+      expect(page).to have_content "CEP não pode ficar em branco" 
+      expect(page).to have_content "Cidade não pode ficar em branco" 
+      expect(page).to have_content "N° não pode ficar em branco" 
+      expect(page).to have_content "Data não pode ficar em branco"
+      expect(page).to have_content "Duração do Evento (minutos) não pode ficar em branco" 
+      expect(page).to have_content "Participantes do Evento não pode ficar em branco"
+      expect(page).to have_content "Data deve ser maior do que hoje (#{I18n.l(Date.current)})" 
+    end
+
+    it 'Evento pode ser dentro ou fora do buffet, usuario escolhe fora do buffet e com decoracao, bebida e valet' do 
+      user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+
+      payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais ",
+        minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
+
+      visitante = User.new(name: "Joana", last_name: "Silva", email: 'Joana@teste.com', password: 'teste123', company: false)
+      visitante.build_client_datum(cpf: "02241335002")
+      visitante.save!
+
+      login_as visitante 
+
+      visit root_path
+
+      click_on 'Buffet da Avon'
+      click_on 'Casamento'
+      click_on 'Fazer um pedido'
+
+      click_on "Revisar Solicitação"
+      
+      expect(current_path).to eq event_type_orders_path(event)
+      expect(page).to have_content "Há 10 erros encontrados" 
+      expect(page).to have_content "Logradouro não pode ficar em branco" 
+      expect(page).to have_content "Bairro não pode ficar em branco" 
+      expect(page).to have_content "Estado não pode ficar em branco" 
+      expect(page).to have_content "CEP não pode ficar em branco" 
+      expect(page).to have_content "Cidade não pode ficar em branco" 
+      expect(page).to have_content "N° não pode ficar em branco" 
+      expect(page).to have_content "Data não pode ficar em branco"
+      expect(page).to have_content "Duração do Evento (minutos) não pode ficar em branco" 
+      expect(page).to have_content "Participantes do Evento não pode ficar em branco"
+      expect(page).to have_content "Data deve ser maior do que hoje (#{I18n.l(Date.current)})" 
+    end
+
     
   end
+  
 end

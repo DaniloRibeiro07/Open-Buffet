@@ -8,7 +8,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :customer_address
   accepts_nested_attributes_for :extra_service
 
-  validates :date, :duration, :amount_of_people, :code, :inside_the_buffet, presence: true
+  validates :date, :amount_of_people, :code, presence: true
 
   validates :inside_the_buffet, inclusion: [true, false]
 
@@ -38,10 +38,10 @@ class Order < ApplicationRecord
 
   def number_of_people_ltd 
     if self.event_type
-      if self.event_type.minimum_quantity && self.event_type.minimum_quantity >= self.amount_of_people 
+      if self.amount_of_people && self.event_type.minimum_quantity && self.event_type.minimum_quantity >= self.amount_of_people 
         self.errors.add  :amount_of_people, "Deve ser maior ou igual a #{self.event_type.minimum_quantity}" 
       end
-      if  self.event_type.maximum_quantity && self.event_type.maximum_quantity <= self.amount_of_people
+      if  self.amount_of_people && self.event_type.maximum_quantity && self.event_type.maximum_quantity <= self.amount_of_people
         self.errors.add  :amount_of_people, "Deve ser menor ou igual a #{self.event_type.maximum_quantity}" 
       end
     end
