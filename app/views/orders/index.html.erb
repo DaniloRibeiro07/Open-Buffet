@@ -1,9 +1,66 @@
+<% if current_user.company? %>
+  <h1>Pedidos</h1>
+<% else %>
+  <h1>Meus Pedidos</h1>
+<% end %>
 
 <% if current_user.company? %>
-  <%= render 'orders_buffet' %>
+  <h3>Pedidos Aguardando a sua avaliação:</h3>
 <% else %>
-  <%= render 'orders_client' %>
+  <h3>Pedidos Aguardando a Aprovação do Buffet:</h3>
 <% end %>
+
+<% if @orders.waiting_for_buffet_review.any? %>
+  <ul>
+  <%  @orders.waiting_for_buffet_review.each do |order| %>
+      <li>Evento: <%= order.event_type.name %> - <%= l(order.date) %> - <%= link_to order.code, order %></li>
+  <% end %>
+  </ul>
+<% else %>
+  <p>Não há pedidos sendo aguardado</p>
+<% end %>
+
+<% if current_user.company? %>
+  <h3>Pedidos Aguardando a Avaliação do Cliente:</h3>
+<% else %>
+  <h3>Pedidos Aguardando a sua avaliação:</h3>
+<% end %>
+
+
+<% if @orders.waiting_for_client_review.any? %>
+  <ul>
+  <%  @orders.waiting_for_client_review.each do |order| %>
+      <li>Evento: <%= order.event_type.name %> - <%= l(order.date) %> - <%= link_to order.code, order %></li>
+  <% end %>
+  </ul>
+<% else %>
+  <p>Não há pedidos aguardando a sua avaliação</p>
+<% end %>
+
+<h3>Pedidos Aprovados:</h3>
+
+<% if @orders.approved.any? %>
+  <ul>
+  <%  @orders.approved.each do |order| %>
+      <li>Evento: <%= order.event_type.name %> - <%= l(order.date) %> - <%= link_to order.code, order %></li>
+  <% end %>
+  </ul>
+<% else %>
+  <p>Não há pedidos aprovados</p>
+<% end %>
+
+<h3>Pedidos Cancelados:</h3>
+
+<% if @orders.canceled.any? %>
+  <ul>
+  <%  @orders.canceled.each do |order| %>
+    <li>Evento: <%= order.event_type.name %> - <%= l(order.date) %> - <%= link_to order.code, order %></li>
+  <% end %>
+  </ul>
+<% else %>
+  <p>Não há pedidos cancelados</p>
+<% end %>
+
 
 
 <%= button_to  "Página Inicial" , root_path, method: :get %>

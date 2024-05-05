@@ -13,7 +13,7 @@
   <h3>Localização:</h3>
   <% if @order.inside_the_buffet %>
     <% address = @buffet_registration %>
-    <h5>Serviço dentro do buffet</h5>
+    <h5>Serviço dentro do Buffet</h5>
   <% else %>
     <% address = @order.customer_address %>
     <h5>Serviço no endereço informado pelo cliente</h5>
@@ -36,7 +36,7 @@
 <div>
   <h3>Participantes, Duração e Data</h3>
   <p><strong>Número de participantes no evento:</strong> <%= @order.amount_of_people  %></p>
-  <p><strong>Duracão do Evento:</strong> <%= @order.duration  %> minutos</p>
+  <p><strong>Duração do Evento:</strong> <%= @order.duration  %> minutos</p>
   <p><strong>Data do evento:</strong> <%= l(@order.date)  %> - <%= @order.type_of_day %></p> 
 </div>
 
