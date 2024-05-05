@@ -1,1 +1,124 @@
 <h1>Detalhes do Pedido</h1>
+<h2>Status do Pedido: <%= t(@order.status) %></h2>
+
+<div>
+  <p><strong>Nome do Buffet:</strong> <%= @event_type.buffet_registration.trading_name %> </p>
+  <p><strong>Telefone:</strong> <%= @buffet_registration.phone %> </p>
+  <p><strong>E-mail:</strong> <%= @buffet_registration.email %> </p>
+  <h5>Serviço contratado: <%= @event_type.name %></h5>
+</div>
+
+
+<div>
+  <h3>Localização:</h3>
+  <% if @order.inside_the_buffet %>
+    <% address = @buffet_registration %>
+    <h5>Serviço dentro do buffet</h5>
+  <% else %>
+    <% address = @order.customer_address %>
+    <h5>Serviço no endereço informado pelo cliente</h5>
+  <% end %>
+
+  <p>
+    <strong>Logradouro:</strong> <%= address.public_place %> 
+    <strong>N°:</strong> <%= address.address_number %> 
+    <strong>Bairro:</strong> <%= address.neighborhood %>
+  </p>
+  <p>
+    <strong>Estado:</strong> <%= address.state %>
+    <strong>Cidade:</strong> <%= address.city %>
+    <strong>CEP:</strong> <%= address.zip %>
+    <strong>Complemento:</strong> <%= address.complement %>
+  </p> 
+</div>
+
+
+<div>
+  <h3>Participantes, Duração e Data</h3>
+  <p><strong>Número de participantes no evento:</strong> <%= @order.amount_of_people  %></p>
+  <p><strong>Duracão do Evento:</strong> <%= @order.duration  %> minutos</p>
+  <p><strong>Data do evento:</strong> <%= l(@order.date)  %> - <%= @order.type_of_day %></p> 
+</div>
+
+
+<% if @event_type.alcoholic_beverages || @event_type.decoration || @event_type.valet  %>
+  <div>
+    <h3>Serviços Adicionais Contratados:</h3>
+
+      <% if @event_type.alcoholic_beverages && @order.extra_service.alcoholic_beverages %>
+        <p>Serviço de bebida.</p>
+      <% end %>
+
+      <% if @event_type.decoration && @order.extra_service.decoration %>
+        <p>Serviço de decorações.</p>
+      <% end %>
+
+      <% if @event_type.valet && @order.extra_service.decoration %>
+        <p>Serviço de estacionamento/valet.</p>
+      <% end %>
+  </div>
+
+<% end %>
+
+<div>
+  <h3>Valores</h3>
+  <p>
+    <strong>Preço base</strong> considerando a <strong>quantidade mínima</strong> de pessoas (<%= @event_type.minimum_quantity %>) e 
+    <strong>duração padrão</strong> do evento  de <%= @event_type.duration %> minutos: 
+    <%= number_to_currency(@event_type.working_day_price.base_price) %>
+    <% if @event_type.different_weekend %>
+      <strong>em dia útil</strong> e final de semana <%= number_to_currency(@event_type.weekend_price.base_price) %>.
+      <% else %>
+      .
+    <% end %> 
+
+  </p>
+
+  <p>
+    <strong>Incremento do preço base por pessoa acima</strong> da quantidade mínima: 
+    <%= number_to_currency(@event_type.working_day_price.price_per_person) %>
+    <% if @event_type.different_weekend %>
+      em <strong>dia útil</strong> e <%= number_to_currency(@event_type.weekend_price.price_per_person) %> em <strong>final de semana.</strong>
+    <% else %>
+      .
+    <% end %> 
+  </p>
+
+  <p>
+    <strong>Incremento do preço base por exceder o tempo base</strong>: 
+    <%= number_to_currency(@event_type.working_day_price.overtime_rate) %> / hora
+    <% if @event_type.different_weekend %>
+      em <strong>dia útil</strong> e <%= number_to_currency(@event_type.weekend_price.overtime_rate) %> / hora em <strong>final de semana</strong>
+    <% else %>
+    .
+    <% end %> 
+  </p>
+
+  <p>
+    <strong>Valor calculado:</strong> <%= number_to_currency(@order.calculated_value) %>
+    <h2>Valor Final:
+      <% if @order.waiting_for_buffet_review? %>
+        Aguardando analise do Buffet
+      <% else %>
+        <%= @order.final_value %>
+      <% end %>
+    </h2>
+  </p>
+
+  <p>
+    O <strong>valor final</strong> é definido pelo <strong> dono do buffet </strong>  após a análise do pedido. 
+  </p>
+
+</div>
+
+
+
+<% if !@order.canceled? && current_user == @order.user  %>
+  <%= button_to "Editar Pedido", edit_event_type_order_path(@order.event_type, @order), method: :get  %>
+  Editar o pedido, ocasiona em uma nova análise pelo dono do buffet.
+  
+  <%= button_to "Cancelar Pedido", cancel_order_path(@order) %>
+  Se cancelado, não há volta. 
+<% end %>
+
+

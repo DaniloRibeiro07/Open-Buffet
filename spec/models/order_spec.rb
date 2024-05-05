@@ -156,7 +156,7 @@ RSpec.describe Order, type: :model do
                             date: 1.day.from_now, inside_the_buffet: true, user: client)
       expect(order.nil?).to eq false 
       expect(order.code.length).to eq 8 
-      expect(order.status).to eq "waiting_for_review"
+      expect(order.status).to eq "waiting_for_buffet_review"
     end
   end
 end

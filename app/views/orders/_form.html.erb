@@ -1,0 +1,146 @@
+<p><strong>Nome do Buffet:</strong> <%= @buffet_registration.trading_name %> </p>
+<p><strong>Telefone:</strong> <%= @buffet_registration.phone %> </p>
+<p><strong>E-mail:</strong> <%= @buffet_registration.email %> </p>
+<h5>Serviço a ser contratado: <%= @event_type.name %></h5>
+<h4>Valores:</h4>
+
+<p>
+  <strong>Preço base</strong> considerando a <strong>quantidade mínima</strong> de pessoas (<%= @event_type.minimum_quantity %>) e 
+  <strong>duração padrão</strong> do evento  de <%= @event_type.duration %> minutos: 
+  <%= number_to_currency(@event_type.working_day_price.base_price) %>
+  <% if @event_type.different_weekend %>
+    <strong>em dia útil</strong> e final de semana <%= number_to_currency(@event_type.weekend_price.base_price) %>.
+    <% else %>
+    .
+  <% end %> 
+
+</p>
+
+<p>
+  <strong>Incremento do preço base por pessoa acima</strong> da quantidade mínima: 
+  <%= number_to_currency(@event_type.working_day_price.price_per_person) %>
+  <% if @event_type.different_weekend %>
+     em <strong>dia útil</strong> e <%= number_to_currency(@event_type.weekend_price.price_per_person) %> em <strong>final de semana.</strong>
+  <% else %>
+    .
+  <% end %> 
+</p>
+
+<p>
+  <strong>Incremento do preço base por exceder o tempo base</strong>: 
+  <%= number_to_currency(@event_type.working_day_price.overtime_rate) %> / hora
+  <% if @event_type.different_weekend %>
+    em <strong>dia útil</strong> e <%= number_to_currency(@event_type.weekend_price.overtime_rate) %> / hora em <strong>final de semana</strong>
+  <% else %>
+  .
+  <% end %> 
+</p>
+
+<p>
+  O <strong>valor final</strong> está sujeito a <strong>alteração</strong> por parte do dono do buffet após a solicitação do pedido. 
+</p>
+
+
+<%= form_with model: [@event_type, @order] do |form| %>
+
+  
+  <% if @event_type.insider && @event_type.outsider %>
+
+
+    <% if @order.inside_the_buffet %>
+      <div>
+        <h3><strong>Onde será realizado o serviço? </strong></h3>
+        <%= form.submit "Dentro do Buffet", disabled: true %>
+        <%= form.submit "Em outro endereço" %>
+        <%= form.check_box :inside_the_buffet , checked: true, style:"display:none"%>
+      </div>
+      <%=render 'address', locals: {insider: true}  %>
+    <% else %>
+      <div>
+        <h3><strong>Onde será realizado o serviço? </strong></h3>
+        <%= form.submit "Dentro do Buffet" %>
+        <%= form.submit "Em outro endereço", disabled: true %>
+        <%= form.check_box :inside_the_buffet, checked: false, style:"display:none"%>
+      </div>
+      <%=render 'address', locals: {outsider: true, form: form}  %>
+    <% end %>
+    
+    
+
+  <% elsif @event_type.insider %>
+    <div>
+      <h3>Serviço só pode ser realizado <strong>dentro</strong> do Buffet</h3>
+    </div>
+    <%=render 'address', locals: {insider: true}  %>
+  <% else %>
+    <div>
+      <h3>Serviço só pode ser realizado no local indicado pelo cliente abaixo:</h3>
+    </div>
+    <%=render 'address', locals: {outsider: true, form: form}  %>
+  <% end %>
+  
+
+  <h3>Participantes, Duração e Data</h3>
+
+  <div>
+    <strong><%= form.label :amount_of_people %></strong>
+    <%= form.number_field :amount_of_people, min: @event_type.minimum_quantity , max: @event_type.maximum_quantity, step: 1 %>
+    <strong>Quantidade mínima:</strong> <%= @event_type.minimum_quantity %> <strong>Quantidade máxima:</strong> <%= @event_type.maximum_quantity %>
+  </div>
+
+  <div>
+    <strong><%= form.label :duration %></strong>
+    <%= form.number_field :duration, min:1, step: 1%>
+    <strong>Duração Padrão:</strong> <%= @event_type.duration %> minutos
+  </div>
+
+  <div>
+    <strong><%= form.label :date %></strong>
+    <%= form.date_field :date, min: 1.day.from_now , required:false%>
+  </div>
+
+  
+  <% if @event_type.alcoholic_beverages || @event_type.decoration || @event_type.valet  %>
+      
+    <div>
+      <h3>Serviços Adicionais:</h3>
+
+      <%= form.fields_for :extra_service, @order.extra_service || ExtraService.new do |f_extra| %>
+      
+        <% if @event_type.alcoholic_beverages %>
+          <div>
+            <strong><%= f_extra.label :alcoholic_beverages %></strong>
+            <%= f_extra.check_box :alcoholic_beverages %>
+          </div>
+        <% end %>
+
+        <% if @event_type.decoration %>
+          <div>
+            <strong><%= f_extra.label :decoration %></strong>
+            <%= f_extra.check_box :decoration %>
+          </div>
+        <% end %>
+
+        <% if @event_type.valet %>
+          <div>
+            <strong><%= f_extra.label :valet %></strong>
+            <%= f_extra.check_box :valet %>
+          </div>
+        <% end %>
+
+      <% end %>
+      
+      
+    </div>
+
+  <% end %>
+
+
+  <div>
+    <strong><%= form.label :observation %></strong>:
+    <%= form.text_area :observation %>
+  </div>
+
+  <%= form.submit "Submeter" %>
+
+<% end %>

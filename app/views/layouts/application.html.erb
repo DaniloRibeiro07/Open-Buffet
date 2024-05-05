@@ -27,7 +27,14 @@
           <% if  current_user.company && current_user.buffet_registration && current_user.buffet_registration.id %>
             <%= link_to 'Meu Buffet', buffet_registration_path(current_user.buffet_registration) %>
           <% end %>
-    
+
+          
+          <% if current_user.company %>
+            <%= link_to 'Pedidos', orders_path %>
+          <% else %>
+            <%= link_to 'Meus pedidos', orders_path %>
+          <% end %>
+          
         <% else %>
           <%= link_to 'Entrar/Registrar', new_user_session_path %>
         <% end %>

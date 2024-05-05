@@ -7,10 +7,12 @@ Rails.application.routes.draw do
   end
 
   resources :event_types, only: [:new, :create, :edit, :update, :show, :destroy] do
-    resources :orders, only: [:new, :create]
+    resources :orders, only: [:new, :create, :edit, :update]
   end
 
-  resources :orders, only: [:show]
+  resources :orders, only: [:show, :index] do 
+    post 'cancel', on: :member
+  end
 
   get "event_types/:id/image/:image_id", to: "event_types#delete_image"
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_05_010940) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_05_042555) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -137,6 +137,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_05_010940) do
     t.integer "extra_service_id"
     t.integer "user_id", null: false
     t.integer "status"
+    t.float "calculated_value"
+    t.float "final_value"
     t.index ["buffet_registration_id"], name: "index_orders_on_buffet_registration_id"
     t.index ["customer_address_id"], name: "index_orders_on_customer_address_id"
     t.index ["event_type_id"], name: "index_orders_on_event_type_id"

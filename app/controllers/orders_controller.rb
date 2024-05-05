@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:new]
-  before_action :set_event_type_and_buffet, only: [:new, :create]
+  before_action :authenticate_user!
+  before_action :set_event_type_and_buffet, only: [:new, :create, :edit, :update]
+  before_action :set_order, only: [:edit, :update, :show, :cancel]
 
   def new
     return redirect_to root_path if current_user.company
@@ -15,7 +16,6 @@ class OrdersController < ApplicationController
       return render 'new'
     end
 
-
     if @order.save
       redirect_to @order, alert: "Pedido criado com sucesso"
     else 
@@ -25,16 +25,48 @@ class OrdersController < ApplicationController
 
   end
 
+  def edit
+  end
+
+  def update 
+    @order.update(order_params)
+
+    if params[:commit] == "Dentro do Buffet" || params[:commit] == "Em outro endereço"
+      @order.inside_the_buffet = !@order.inside_the_buffet 
+      return render 'edit'
+    end
+
+    if @order.update(order_params)
+      redirect_to @order, alert: "Pedido Atualizado com sucesso"
+    else 
+      flash.now.notice = @order.errors.full_messages
+      render 'edit'
+    end
+  end
+
+  def index 
+    @orders = current_user.orders
+  end
+
   def show 
-    
+    @event_type = @order.event_type
+    @buffet_registration = @event_type.buffet_registration
+  end
+
+  def cancel 
+    @order.canceled!
+    redirect_to @order
   end
 
   private 
 
+  def set_order 
+    @order = Order.find params[:id]
+  end
+
   def set_event_type_and_buffet
     @event_type = EventType.find(params[:event_type_id])
     @buffet_registration = @event_type.buffet_registration
-
   end
 
   def order_params

@@ -1,4 +1,8 @@
 pt-BR:
+  waiting_for_buffet_review: "Aguardando Análise do Buffet"
+  waiting_for_client_review: "Aguardando a Análise do Cliente"
+  approved: "Aprovado"
+  canceled: "Cancelado"
   activerecord:
     models:
       order: "Pedido"
@@ -16,3 +20,4 @@ pt-BR:
         inside_the_buffet: "Dentro do Buffet?"
         customer_address: "Endereço do cliente"
         user: "Usuário" 
+          

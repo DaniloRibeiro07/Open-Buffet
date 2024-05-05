@@ -81,7 +81,7 @@ describe 'Usuário clica em fazer um pedido' do
       expect(page).to  have_field "Decorações"
       expect(page).not_to  have_field "Serviço de Valete/Estacionamento"
       expect(page).to  have_field "Observação"
-      expect(page).to  have_button "Revisar Solicitação"
+      expect(page).to  have_button "Submeter"
       expect(page).to  have_button "Voltar"
     end
   
@@ -225,7 +225,7 @@ describe 'Usuário clica em fazer um pedido' do
       fill_in "Participantes do Evento",	with: "35" 
       fill_in "Duração do Evento (minutos)",	with: "68"
       fill_in "Data",	with: 1.day.from_now 
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
 
       expect(current_path).to eq order_path(Order.last())
       expect(page).to have_content "Pedido criado com sucesso" 
@@ -270,7 +270,7 @@ describe 'Usuário clica em fazer um pedido' do
       fill_in "Participantes do Evento",	with: "35" 
       fill_in "Duração do Evento (minutos)",	with: "68"
       fill_in "Data",	with: 1.day.from_now 
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
 
       expect(page).to have_content "Pedido criado com sucesso" 
       expect(current_path).to eq order_path(Order.last())
@@ -319,7 +319,7 @@ describe 'Usuário clica em fazer um pedido' do
       check 'Bebidas Alcoólicas'
       check 'Decorações'
       check 'Serviço de Valete/Estacionamento'
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
 
       expect(page).to have_content "Pedido criado com sucesso" 
       expect(current_path).to eq order_path(Order.last())
@@ -359,7 +359,7 @@ describe 'Usuário clica em fazer um pedido' do
       fill_in "Duração do Evento (minutos)",	with: "68"
       fill_in "Data", with: 1.day.from_now
       
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
 
       expect(page).to have_content "Pedido criado com sucesso" 
       expect(current_path).to eq order_path(Order.last())
@@ -394,7 +394,7 @@ describe 'Usuário clica em fazer um pedido' do
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
 
       expect(current_path).to eq event_type_orders_path(event)
       expect(page).to have_content "Há 4 erros encontrados" 
@@ -432,7 +432,7 @@ describe 'Usuário clica em fazer um pedido' do
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
 
       expect(current_path).to eq event_type_orders_path(event)
       expect(page).to have_content "Há 10 erros encontrados" 
@@ -476,7 +476,7 @@ describe 'Usuário clica em fazer um pedido' do
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
-      click_on "Revisar Solicitação"
+      click_on "Submeter"
       
       expect(current_path).to eq event_type_orders_path(event)
       expect(page).to have_content "Há 10 erros encontrados" 

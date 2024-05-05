@@ -1,0 +1,9 @@
+
+<% if current_user.company? %>
+  <%= render 'orders_buffet' %>
+<% else %>
+  <%= render 'orders_client' %>
+<% end %>
+
+
+<%= button_to  "Página Inicial" , root_path, method: :get %>

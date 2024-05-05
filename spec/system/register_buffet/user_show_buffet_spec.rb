@@ -75,6 +75,8 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_button "Editar"
     expect(page).to have_button "Voltar"
     expect(page).to have_link "Adicionar"
+    expect(page).not_to have_content("Meus pedidos")   
+    expect(page).to have_content("Pedidos")   
   end
 
   it "E vê os dados do buffet sendo o dono do buffet sem eventos" do 
@@ -134,7 +136,7 @@ describe 'Usuário clica em vê buffet' do
 
     click_on "Editar"
 
-    expect(current_path).to eq edit_buffet_registration_path(buffet_registration.id)
+    expect(current_path).to eq edit_buffet_registration_path(buffet_registration.id) 
   end
 
   it "E clica em voltar" do 
@@ -226,6 +228,8 @@ describe 'Usuário clica em vê buffet' do
     expect(page).not_to have_button "Editar"
     expect(page).to have_button "Voltar"
     expect(page).not_to have_link "Adicionar"
+    expect(page).not_to have_content("Meus pedidos")   
+    expect(page).not_to have_content("Pedidos")   
   end
 
   it "E vê os dados do buffet sendo visitante sem eventos cadastrados" do 
@@ -337,6 +341,8 @@ describe 'Usuário clica em vê buffet' do
     expect(page).not_to have_button "Editar"
     expect(page).to have_button "Voltar"
     expect(page).not_to have_link "Adicionar"
+    expect(page).to have_content("Meus pedidos")   
+    expect(page).not_to have_content("Pedidos")   
   end
 
   it "E vê os dados do buffet sendo cliente" do 

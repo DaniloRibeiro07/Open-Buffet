@@ -18,14 +18,49 @@ class Order < ApplicationRecord
   validate :customer_address_required?
   validate :user_is_client?
 
-  after_create :initial_status, :code_generator
+  before_create :initial_status, :code_generator
+  before_save :calculate_calculated_value
 
-  enum :status, "waiting_for_review": 1, "approved": 2, "rejected": 3
+
+  enum :status, "waiting_for_buffet_review": 1, "waiting_for_client_review": 2,  "approved": 3, "canceled": 4
+
+
+
+  def type_of_day
+    if self.date.sunday? || self.date.saturday? 
+      return "Final de Semana"
+    else
+      return "Dia útil"
+    end
+  end
+
 
   private 
+  
+
+  def calculate_calculated_value
+
+    if type_of_day == "Final de Semana" && self.event_type.different_weekend
+      base_price = self.event_type.weekend_price.base_price
+      extra_people_value = self.event_type.weekend_price.price_per_person
+      extra_minute_value = self.event_type.weekend_price.overtime_rate / 60
+    else
+      base_price = self.event_type.working_day_price.base_price
+      extra_people_value = self.event_type.working_day_price.price_per_person
+      extra_minute_value = self.event_type.working_day_price.overtime_rate / 60
+    end
+
+    extra_people = self.amount_of_people - self.event_type.minimum_quantity
+    extra_minute_time = self.duration - self.event_type.duration
+    extra_minute_time = 0 if extra_minute_time < 0
+
+    self.calculated_value = base_price + extra_minute_value * extra_minute_time + extra_people * extra_people_value
+  end
+
+
 
   def initial_status
-    self.waiting_for_review!
+    self.status = 1 
   end
 
   def user_is_client?
@@ -42,10 +77,10 @@ class Order < ApplicationRecord
 
   def number_of_people_ltd 
     if self.event_type
-      if self.amount_of_people && self.event_type.minimum_quantity && self.event_type.minimum_quantity >= self.amount_of_people 
+      if self.amount_of_people && self.event_type.minimum_quantity && self.event_type.minimum_quantity > self.amount_of_people 
         self.errors.add  :amount_of_people, "Deve ser maior ou igual a #{self.event_type.minimum_quantity}" 
       end
-      if  self.amount_of_people && self.event_type.maximum_quantity && self.event_type.maximum_quantity <= self.amount_of_people
+      if  self.amount_of_people && self.event_type.maximum_quantity && self.event_type.maximum_quantity < self.amount_of_people
         self.errors.add  :amount_of_people, "Deve ser menor ou igual a #{self.event_type.maximum_quantity}" 
       end
     end
