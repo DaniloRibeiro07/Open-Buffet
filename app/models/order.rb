@@ -8,21 +8,25 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :customer_address
   accepts_nested_attributes_for :extra_service
 
-  validates :date, :amount_of_people, :code, presence: true
+  validates :date, :amount_of_people, presence: true
 
   validates :inside_the_buffet, inclusion: [true, false]
 
   validates :date, comparison: { greater_than: Date.current, message: "deve ser maior do que hoje (#{I18n.l(Date.current)})" }
   validates :duration, comparison: { greater_than: 1 } 
-  validates :code, uniqueness: true
-  validates :code, length: { is: 8 }
   validate :number_of_people_ltd
   validate :customer_address_required?
   validate :user_is_client?
 
-  before_validation :code_generator, on: [:create]
+  after_create :initial_status, :code_generator
+
+  enum :status, "waiting_for_review": 1, "approved": 2, "rejected": 3
 
   private 
+
+  def initial_status
+    self.waiting_for_review!
+  end
 
   def user_is_client?
     if self.user && self.user.company != false
