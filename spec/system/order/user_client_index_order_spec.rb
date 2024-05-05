@@ -126,11 +126,11 @@ describe 'Usuário acessa Meus Pedidos / Pedidos' do
       order_other_client = Order.create!(user: other_client, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
                             amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
 
-      login_as cliente
+      login_as user
       visit root_path
-      click_on "Meus pedidos"
+      click_on "Pedidos"
 
-      expect(page).to have_content "Pedidos Aguardando a Aprovação do Buffet:"
+      expect(page).to have_content "Pedidos Aguardando a Avaliação do Cliente:"
       expect(page).to have_link order.code 
       expect(page).to have_link order2.code 
       expect(page).to have_content "Pedidos Aguardando a sua avaliação:"
@@ -142,21 +142,25 @@ describe 'Usuário acessa Meus Pedidos / Pedidos' do
       expect(page).to have_content "Pedidos Cancelados:" 
       expect(page).not_to have_content "Não há pedidos cancelados"
       expect(page).to have_link order5.code 
-      expect(page).not_to have_link order_other_client.code
+      expect(page).to have_link order_other_client.code
     end
 
     it 'Não há pedidos' do
-      cliente = User.new(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: false)
-      cliente.build_client_datum(cpf: "97498970058")
-      cliente.save!
+      user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
+      
+      payment_method = PaymentMethod.create!(pix: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
+        cnpj: "17924491000160", phone: "7995876812", email: 'Maria@teste.com', public_place: "Quadra 1112 Sul Alameda 5", address_number: "25A", 
+        neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77024-171", complement: "", description: "O melhor buffet das perfumaras")
 
 
-      login_as cliente
+      login_as user
       visit root_path
-      click_on "Meus pedidos"
+      click_on "Pedidos"
 
-      expect(page).to have_content "Não há pedidos sendo aguardado" 
       expect(page).to have_content "Não há pedidos aguardando a sua avaliação"
+      expect(page).to have_content "Não há pedidos sendo aguardado" 
       expect(page).to have_content "Não há pedidos aprovados"
       expect(page).to have_content "Não há pedidos cancelados"
     end
