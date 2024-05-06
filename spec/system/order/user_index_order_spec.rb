@@ -30,11 +30,14 @@ describe 'Usuário acessa Meus Pedidos / Pedidos' do
       order2 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
                             amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
       order3 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
-                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
+                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+                            final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix" )
       order4 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
-                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
+                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+                            final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix" )
       order5 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
-                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
+                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+                            final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix" )
       
       order3.waiting_for_client_review!
       order4.approved!
@@ -110,11 +113,14 @@ describe 'Usuário acessa Meus Pedidos / Pedidos' do
       order2 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
                             amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
       order3 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
-                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
+                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+                            final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix" )
       order4 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
-                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
+                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+                            final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix" )
       order5 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
-                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
+                            amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+                            final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix" )
       
       order3.waiting_for_client_review!
       order4.approved!

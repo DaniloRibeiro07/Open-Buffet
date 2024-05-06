@@ -2,6 +2,40 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   describe '#valid' do 
+    it 'Forma de pagamento obrigatório casa haja um valor no pedido' do
+      order = Order.new(final_value: 25)
+      order.valid?
+      result = order.errors.full_messages.include? "Forma de pagamento deve ser especificado"
+      expect(result).to eq true 
+    end
+
+    it 'Validade do pedido obrigatório, caso haja um valor no pedido' do
+      order = Order.new(final_value: 25)
+      order.valid?
+      result = order.errors.full_messages.include? "Validade do Pedido deve ser menor ou igual a data do evento e maior ou igual a data de hoje"
+      expect(result).to eq true 
+    end
+
+    it 'Validade do pedido não pode ser maior do que o data do evento' do
+      order = Order.new(final_value: 25, date: 2.day.from_now , expiration_date: 3.day.from_now)
+      order.valid?
+      result = order.errors.full_messages.include? "Validade do Pedido deve ser menor ou igual a data do evento e maior ou igual a data de hoje"
+      expect(result).to eq true 
+    end
+
+    it 'Validade do pedido não pode ser menor do que hoje' do
+      order = Order.new(final_value: 25, date: 2.day.from_now , expiration_date: 1.day.ago)
+      order.valid?
+      result = order.errors.full_messages.include? "Validade do Pedido deve ser menor ou igual a data do evento e maior ou igual a data de hoje"
+      expect(result).to eq true 
+    end
+
+    it 'Validade do pedido precisar ser maior ou igual a hoje e menor ou igual a data do evento' do
+      order = Order.new(final_value: 25, date: 2.day.from_now , expiration_date: 1.day.from_now)
+      order.valid?
+      result = order.errors.full_messages.include? "Validade do Pedido deve ser menor ou igual a data do evento e maior ou igual a data de hoje"
+      expect(result).to eq false 
+    end
 
     it 'Valor final deve ser válido' do 
       order = Order.new(final_value: -5 )

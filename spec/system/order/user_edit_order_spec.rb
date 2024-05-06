@@ -592,7 +592,4 @@ describe "Cliente Autenticado clica em Editar Pedido" do
       expect(page).not_to have_content "Pedido Atualizado com sucesso"
     end
   end
-  
- 
-
 end

@@ -21,10 +21,13 @@ class Order < ApplicationRecord
   validate :final_valid_value
   validate :justification_final_value_required?
   validate :final_value_required
+  validate :expiration_date_required
+  validate :mandatory_payment_method
+
 
   before_create :initial_status, :code_generator
   before_save :calculate_calculated_value
-  before_save :reset_final_value_in_waiting_for_buffet_review
+  before_validation :reset_final_value_in_waiting_for_buffet_review
 
 
 
@@ -43,8 +46,20 @@ class Order < ApplicationRecord
 
   private 
 
+  def mandatory_payment_method
+    if self.final_value && !self.payment_method 
+      self.errors.add :payment_method, "deve ser especificado"
+    end
+  end
+
+  def expiration_date_required
+    if self.final_value && (!self.expiration_date || self.expiration_date > self.date || self.expiration_date < Date.current)
+      self.errors.add :expiration_date, "deve ser menor ou igual a data do evento e maior ou igual a data de hoje"
+    end
+  end
+
   def final_value_required
-    if !self.waiting_for_buffet_review? && self.final_value.nil?
+    if self.id && !self.canceled? && !self.waiting_for_buffet_review? && self.final_value.nil?
       self.errors.add :final_value, "obrigatório"
     end
   end

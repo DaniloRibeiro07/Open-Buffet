@@ -30,9 +30,10 @@ class OrdersController < ApplicationController
   end
 
   def update 
-    @order.update(order_params)
-
+    @order.status = 'waiting_for_buffet_review'
+    
     if params[:commit] == "Dentro do Buffet" || params[:commit] == "Em outro endereço"
+      @order.update(order_params)
       @order.inside_the_buffet = !@order.inside_the_buffet 
       return render 'edit'
     end
@@ -57,9 +58,10 @@ class OrdersController < ApplicationController
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
     if current_user.company? 
-    @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
-    @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
-    @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+      @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
+      @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+      @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+      @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
     end
   end
 
@@ -69,18 +71,24 @@ class OrdersController < ApplicationController
   end
 
   def set_final_value
+  
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
     @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
     @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
     @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
-    
+    @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
+
+    if params[:commit] == "Editar Valor Final"
+      @order.status = 'waiting_for_buffet_review'
+      return render 'show'
+    end
+
     @order.status = 'waiting_for_client_review'
-    if @order.update(params.require(:order).permit(:final_value, :justification_final_value))
+    if @order.update(params.require(:order).permit(:final_value, :justification_final_value, :expiration_date, :payment_method))
       redirect_to @order, alert: "Adicionado valor final com sucesso"
     else 
       @order.status = 'waiting_for_buffet_review'
-      puts params.require(:order).permit(:final_value, :justification_final_value)
       flash.now.notice = @order.errors.full_messages
       render 'show'
     end
