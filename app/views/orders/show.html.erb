@@ -1,4 +1,4 @@
-<h1>Detalhes do Pedido</h1>
+<h1>Detalhes do Pedido <%= @order.code %></h1>
 <h2>Status do Pedido: <%= t(@order.status) %></h2>
 
 <div>
@@ -60,6 +60,8 @@
 
 <% end %>
 
+
+
 <div>
   <h3>Valores</h3>
   <p>
@@ -96,15 +98,41 @@
 
   <p>
     <strong>Valor calculado:</strong> <%= number_to_currency(@order.calculated_value) %>
-    <h2>Valor Final:
-      <% if @order.waiting_for_buffet_review? %>
-        Aguardando analise do Buffet
-      <% else %>
-        <%= @order.final_value %>
-      <% end %>
-    </h2>
   </p>
 
+
+  
+  <% if @order.waiting_for_buffet_review? %>
+
+    <% if current_user.company? %>
+      <h2>Qual será o valor final?</h2>
+      <%= form_with model:@order, url: set_final_value_order_path do |form| %>
+        <div>
+          <strong><%= form.label :final_value, Order.human_attribute_name(:final_value)%></strong>
+          <%= form.number_field :final_value, step: 0.01, min: 0 %>
+        </div>
+        <div>
+          <strong><%= form.label :justification_final_value, Order.human_attribute_name(:justification_final_value) %></strong>
+          <%= form.text_area :justification_final_value%>
+          *Obrigatório caso o valor final seja diferente do valor calculado
+        </div>
+        <%= form.submit "Cadastrar Valor Final" %>
+      <% end %>
+
+    <% else %>
+      <h2>Valor Final: Aguardando analise do Buffet</h2>
+    <% end %>     
+
+  <% elsif @order.waiting_for_client_review? %>
+    <h2>Valor Final: <%= number_to_currency(@order.final_value) %> </h2> 
+    <h5>Justificativa do valor: <%= @order.justification_final_value %> </h5>   
+    <% if current_user.company? %>
+    
+    <% end %> 
+  <% end %>
+
+    
+  
   <p>
     O <strong>valor final</strong> é definido pelo <strong> dono do buffet </strong>  após a análise do pedido. 
   </p>
@@ -117,17 +145,17 @@
 
   
   <% if @orders_approved_this_date.any? %>
-    <h2>Atenção: há <%= @orders_approved_this_date.size %> <%= t('pedido', count: @orders_waiting_for_buffet_review.size ) %> 
+    <h2>Atenção: há <%= @orders_approved_this_date.size %> <%= t('pedido', count: @orders_approved_this_date.size ) %> 
     aprovado(s) para este dia</h2>
   <% end %>
   
   <% if @orders_waiting_for_client_review.any? %>
-    <h2>Atenção: há <%= @orders_waiting_for_client_review.size %> <%= t('pedido', count: @orders_waiting_for_buffet_review.size ) %> 
+    <h2>Atenção: há <%= @orders_waiting_for_client_review.size %> <%= t('pedido', count: @orders_waiting_for_client_review.size ) %> 
     aguardando a aprovação do cliente para este dia</h2>
   <% end %>
 
-   <% if @orders_waiting_for_buffet_review.any? && @orders_waiting_for_buffet_review.size > 1 %>
-    <h2>Atenção: há <%= @orders_waiting_for_buffet_review.size - 1 %> <%= t('pedido', count: (@orders_waiting_for_buffet_review.size - 1) ) %> 
+   <% if @orders_waiting_for_buffet_review.any? %>
+    <h2>Atenção: há <%= @orders_waiting_for_buffet_review.size %> <%= t('pedido', count: (@orders_waiting_for_buffet_review.size) ) %> 
     aguardando a sua avaliação para este dia</h2>
   <% end %>
   

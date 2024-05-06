@@ -3,6 +3,38 @@ require 'rails_helper'
 RSpec.describe Order, type: :model do
   describe '#valid' do 
 
+    it 'Valor final deve ser válido' do 
+      order = Order.new(final_value: -5 )
+      order.valid?
+
+      result = order.errors.full_messages.include? "Valor Final precisa ser maior ou igual a 0"
+      expect(result).to eq true 
+    end
+
+    it 'Valor final deve ser válido, como 0' do 
+      order = Order.new(final_value: 0)
+      order.valid?
+
+      result = order.errors.full_messages.include? "Valor Final precisa ser maior ou igual a 0"
+      expect(result).to eq false 
+    end
+
+    it 'Caso o valor final seja diferente do valor calculado, a justificativa é obrigatória' do 
+      order = Order.new(final_value: 596, calculated_value: 300)
+      order.valid?
+
+      result = order.errors.full_messages.include? "Motivo do Valor Final precisa ser informada caso o valor seja diferente do calculado"
+      expect(result).to eq true 
+    end
+
+    it 'Caso o valor final seja igual ao valor calculado, a justificativa é opcional' do 
+      order = Order.new(final_value: 300, calculated_value: 300)
+      order.valid?
+
+      result = order.errors.full_messages.include? "Motivo do Valor Final precisa ser informada caso o valor seja diferente do calculado"
+      expect(result).to eq false 
+    end
+
     it 'Duração do evento obrigatória' do
       order = Order.new
       order.valid?
@@ -215,7 +247,7 @@ RSpec.describe Order, type: :model do
                             date: 1.day.from_now, inside_the_buffet: true, user: client)
 
       expect(order.nil?).to eq false 
-      expect(order.calculated_value).to eq 1280.39
+      expect(order.calculated_value).to eq 1280.4
     end
 
   end

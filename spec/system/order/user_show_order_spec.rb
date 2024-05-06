@@ -120,13 +120,13 @@ describe 'Usuário acessa página de visualização do pedido' do
       extra_service = ExtraService.new(decoration: true)
       order = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
                             amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
-      order2 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 2.day.from_now, 
+      order2 = Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 5.day.from_now, 
                             amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service)
       login_as user
       visit root_path
       click_on "Pedidos"
       click_on order.code
-
+      
       expect(page).to have_content "Detalhes do Pedido" 
       expect(page).to have_content "Status do Pedido: Aguardando Análise do Buffet" 
       expect(page).to have_content "Nome do Buffet: Buffet da familia" 
@@ -236,7 +236,7 @@ describe 'Usuário acessa página de visualização do pedido' do
       click_on order.code
       
       expect(page).to have_content "Atenção: há 2 pedidos aprovado(s) para este dia"
-      expect(page).to have_content "Atenção: há 1 pedidos aguardando a aprovação do cliente para este dia"
+      expect(page).to have_content "Atenção: há 1 pedido aguardando a aprovação do cliente para este dia"
       expect(page).to have_content "Atenção: há 1 pedido aguardando a sua avaliação para este dia" 
     end
 

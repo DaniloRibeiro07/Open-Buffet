@@ -18,9 +18,14 @@ class Order < ApplicationRecord
   validate :customer_address_required?
   validate :user_is_client?
   validate :event_type_accepts_inside_the_buffet?
+  validate :final_valid_value
+  validate :justification_final_value_required?
+  validate :final_value_required
 
   before_create :initial_status, :code_generator
   before_save :calculate_calculated_value
+  before_save :reset_final_value_in_waiting_for_buffet_review
+
 
 
   enum :status, "waiting_for_buffet_review": 1, "waiting_for_client_review": 2,  "approved": 3, "canceled": 4
@@ -37,6 +42,31 @@ class Order < ApplicationRecord
 
 
   private 
+
+  def final_value_required
+    if !self.waiting_for_buffet_review? && self.final_value.nil?
+      self.errors.add :final_value, "obrigatório"
+    end
+  end
+
+  def reset_final_value_in_waiting_for_buffet_review
+    if self.waiting_for_buffet_review?
+      self.final_value = nil
+      self.justification_final_value = nil      
+    end
+  end
+
+  def final_valid_value
+    if self.final_value && self.final_value < 0 
+      self.errors.add(:final_value, "precisa ser maior ou igual a 0")
+    end
+  end
+
+  def justification_final_value_required?
+    if self.final_value && self.final_value >= 0 && self.final_value != self.calculated_value && (self.justification_final_value.nil? || self.justification_final_value == '')
+      self.errors.add(:justification_final_value, "precisa ser informada caso o valor seja diferente do calculado")
+    end
+  end
   
   def event_type_accepts_inside_the_buffet?
     if self.event_type && !self.event_type.insider && self.inside_the_buffet
@@ -60,7 +90,7 @@ class Order < ApplicationRecord
     extra_minute_time = self.duration - self.event_type.duration
     extra_minute_time = 0 if extra_minute_time < 0
 
-    self.calculated_value = base_price + extra_minute_value * extra_minute_time + extra_people * extra_people_value
+    self.calculated_value = ( base_price + extra_minute_value * extra_minute_time + extra_people * extra_people_value ).ceil(2)
   end
 
 

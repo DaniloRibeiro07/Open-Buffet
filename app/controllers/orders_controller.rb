@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event_type_and_buffet, only: [:new, :create, :edit, :update]
-  before_action :set_order, only: [:edit, :update, :show, :cancel]
+  before_action :set_order, only: [:edit, :update, :show, :cancel, :set_final_value]
   before_action :special_access, except: [:new, :index, :create]
 
   def new
@@ -57,15 +57,33 @@ class OrdersController < ApplicationController
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
     if current_user.company? 
-      @orders_approved_this_date = @buffet_registration.orders.approved.where(date: @order.date)
-      @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where(date: @order.date)
-      @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where(date: @order.date)
+    @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+    @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+    @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
     end
   end
 
   def cancel 
     @order.canceled!
     redirect_to @order
+  end
+
+  def set_final_value
+    @event_type = @order.event_type
+    @buffet_registration = @event_type.buffet_registration
+    @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+    @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+    @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
+    
+    @order.status = 'waiting_for_client_review'
+    if @order.update(params.require(:order).permit(:final_value, :justification_final_value))
+      redirect_to @order, alert: "Adicionado valor final com sucesso"
+    else 
+      @order.status = 'waiting_for_buffet_review'
+      puts params.require(:order).permit(:final_value, :justification_final_value)
+      flash.now.notice = @order.errors.full_messages
+      render 'show'
+    end
   end
 
   private 

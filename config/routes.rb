@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:show, :index] do 
     post 'cancel', on: :member
+    patch 'set_final_value', on: :member
   end
 
   get "event_types/:id/image/:image_id", to: "event_types#delete_image"
