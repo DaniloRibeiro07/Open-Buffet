@@ -148,8 +148,13 @@
       <%= form_with model:@order, url: set_final_value_order_path do |form| %>
         <%= form.submit "Editar Valor Final" %>
       <% end %>
+    <% else %>
+      <%= button_to "Confirmar Pedido", confirm_order_path(@order) %>
     <% end %> 
-
+  <% elsif @order.approved? %>
+    <h2>Valor Final: <%= number_to_currency(@order.final_value) %> </h2>
+    <h3>Forma de pagamento: <%= BuffetRegistration.human_attribute_name(@order.payment_method) %></h3> 
+    <h5>Justificativa do valor: <%= @order.justification_final_value %> </h5>
   <% end %>
 
     
@@ -184,7 +189,7 @@
 
 
 
-<% if !@order.canceled? && current_user == @order.user  %>
+<% if !@order.canceled? && !@order.approved? && current_user == @order.user  %>
   <%= button_to "Editar Pedido", edit_event_type_order_path(@order.event_type, @order), method: :get  %>
   Editar o pedido, ocasiona em uma nova análise pelo dono do buffet.
 <% end %>

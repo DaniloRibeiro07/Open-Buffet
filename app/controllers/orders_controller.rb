@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event_type_and_buffet, only: [:new, :create, :edit, :update]
-  before_action :set_order, only: [:edit, :update, :show, :cancel, :set_final_value]
+  before_action :set_order, only: [:edit, :update, :show, :cancel, :set_final_value, :confirm]
   before_action :special_access, except: [:new, :index, :create]
 
   def new
@@ -71,7 +71,6 @@ class OrdersController < ApplicationController
   end
 
   def set_final_value
-  
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
     @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})
@@ -91,6 +90,18 @@ class OrdersController < ApplicationController
       @order.status = 'waiting_for_buffet_review'
       flash.now.notice = @order.errors.full_messages
       render 'show'
+    end
+  end
+  
+  def confirm
+    @order.status= 'approved'
+    if @order.valid?
+      @order.save
+      redirect_to @order, alert: "Pedido Confirmado"
+    else
+      flash.notice = @order.errors.full_messages
+      @order.canceled!
+      redirect_to @order
     end
   end
 

@@ -2,6 +2,23 @@ require 'rails_helper'
 
 RSpec.describe Order, type: :model do
   describe '#valid' do 
+
+    it 'O pedido deve ser aprovado antes da data de validade do pedido' do
+      order = Order.new(final_value: 25, date: 2.day.from_now , expiration_date: Date.current)      
+      order.status = "approved"
+      order.valid?
+      result = order.errors.full_messages.include? "Pedido vencido, pedido cancelado."
+      expect(result).to eq true 
+    end
+
+    it 'O pedido deve ser aprovado antes da data de validade do pedido' do
+      order = Order.new(final_value: 25, date: 2.day.from_now , expiration_date: 2.day.from_now)      
+      order.status = "approved"
+      order.valid?
+      result = order.errors.full_messages.include? "Pedido vencido, pedido cancelado."
+      expect(result).to eq false 
+    end
+
     it 'Forma de pagamento obrigatório casa haja um valor no pedido' do
       order = Order.new(final_value: 25)
       order.valid?

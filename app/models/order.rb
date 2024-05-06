@@ -23,6 +23,8 @@ class Order < ApplicationRecord
   validate :final_value_required
   validate :expiration_date_required
   validate :mandatory_payment_method
+  validate :order_confirmed_before_expiration_date?
+
 
 
   before_create :initial_status, :code_generator
@@ -46,6 +48,12 @@ class Order < ApplicationRecord
 
   private 
 
+  def order_confirmed_before_expiration_date?
+    if self.approved? && Date.current >= self.expiration_date
+      self.errors.add :order, "vencido, pedido cancelado."
+    end
+  end
+
   def mandatory_payment_method
     if self.final_value && !self.payment_method 
       self.errors.add :payment_method, "deve ser especificado"
@@ -67,7 +75,8 @@ class Order < ApplicationRecord
   def reset_final_value_in_waiting_for_buffet_review
     if self.waiting_for_buffet_review?
       self.final_value = nil
-      self.justification_final_value = nil      
+      self.justification_final_value = nil   
+      self.payment_method = nil
     end
   end
 
