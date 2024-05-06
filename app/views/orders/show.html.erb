@@ -113,6 +113,28 @@
 
 
 
+<% if current_user.company? %>
+
+  
+  <% if @orders_approved_this_date.any? %>
+    <h2>Atenção: há <%= @orders_approved_this_date.size %> <%= t('pedido', count: @orders_waiting_for_buffet_review.size ) %> 
+    aprovado(s) para este dia</h2>
+  <% end %>
+  
+  <% if @orders_waiting_for_client_review.any? %>
+    <h2>Atenção: há <%= @orders_waiting_for_client_review.size %> <%= t('pedido', count: @orders_waiting_for_buffet_review.size ) %> 
+    aguardando a aprovação do cliente para este dia</h2>
+  <% end %>
+
+   <% if @orders_waiting_for_buffet_review.any? && @orders_waiting_for_buffet_review.size > 1 %>
+    <h2>Atenção: há <%= @orders_waiting_for_buffet_review.size - 1 %> <%= t('pedido', count: (@orders_waiting_for_buffet_review.size - 1) ) %> 
+    aguardando a sua avaliação para este dia</h2>
+  <% end %>
+  
+<% end %>
+
+
+
 <% if !@order.canceled? && current_user == @order.user  %>
   <%= button_to "Editar Pedido", edit_event_type_order_path(@order.event_type, @order), method: :get  %>
   Editar o pedido, ocasiona em uma nova análise pelo dono do buffet.

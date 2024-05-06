@@ -56,6 +56,11 @@ class OrdersController < ApplicationController
   def show 
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
+    if current_user.company? 
+      @orders_approved_this_date = @buffet_registration.orders.approved.where(date: @order.date)
+      @orders_waiting_for_client_review = @buffet_registration.orders.waiting_for_client_review.where(date: @order.date)
+      @orders_waiting_for_buffet_review = @buffet_registration.orders.waiting_for_buffet_review.where(date: @order.date)
+    end
   end
 
   def cancel 

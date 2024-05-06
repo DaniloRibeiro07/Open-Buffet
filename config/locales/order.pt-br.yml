@@ -1,6 +1,9 @@
 pt-BR:
   waiting_for_buffet_review: "Aguardando Análise do Buffet"
   waiting_for_client_review: "Aguardando a Análise do Cliente"
+  pedido:
+    one: pedido
+    other: pedidos
   approved: "Aprovado"
   canceled: "Cancelado"
   activerecord:
