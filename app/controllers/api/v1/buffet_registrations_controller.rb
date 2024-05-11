@@ -12,4 +12,15 @@ class Api::V1::BuffetRegistrationsController < ActionController::API
       render status:200, json: BuffetRegistration.all.as_json(only: [:id, :trading_name, :city, :state])
     end
   end
+
+  def show 
+    buffet = BuffetRegistration.find_by(id: params[:id])
+
+    if buffet 
+      render status: 200, json: buffet.as_json(except: ['created_at', 'updated_at' , 'cnpj', 'company_name', 'user_id'],
+        include: {event_types: {only: ['name', 'id']}})
+    else
+      render status: 406, json: {"errors": "Não há buffet com o id: #{params[:id]}"}
+    end
+  end
 end
