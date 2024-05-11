@@ -4,9 +4,6 @@ Rails.application.routes.draw do
 
   namespace :api do 
     namespace :v1 do 
-      #get '/buffet_registrations/:filter', to: "buffet_registration#index"
-      #get '/buffet_registration/:id', to: "buffet_registration#show"
-
       resources :buffet_registrations, only: [:index]
     end
   end
