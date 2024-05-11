@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post 'cancel', on: :member
     patch 'set_final_value', on: :member
     post 'confirm', on: :member
+    post 'send_message', on: :member
   end
 
   get "event_types/:id/image/:image_id", to: "event_types#delete_image"

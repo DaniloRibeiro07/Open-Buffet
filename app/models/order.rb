@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  has_many :chats
   belongs_to :user
   belongs_to :buffet_registration
   belongs_to :event_type

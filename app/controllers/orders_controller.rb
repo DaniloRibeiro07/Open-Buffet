@@ -1,8 +1,9 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event_type_and_buffet, only: [:new, :create, :edit, :update]
-  before_action :set_order, only: [:edit, :update, :show, :cancel, :set_final_value, :confirm]
+  before_action :set_order, only: [:edit, :update, :show, :cancel, :set_final_value, :confirm, :send_message]
   before_action :special_access, except: [:new, :index, :create]
+  before_action :show_message, only: [:show, :set_final_value]
 
   def new
     return redirect_to root_path if current_user.company
@@ -105,7 +106,24 @@ class OrdersController < ApplicationController
     end
   end
 
-  private 
+  def send_message 
+    @order.chats.create(to_company:!current_user.company?, message:params[:message])
+    redirect_to @order
+  end
+
+  private
+
+  def show_message
+    @messages = @order.chats.map do |message|
+      if message.to_company
+        "Cliente disse às #{l(message.created_at)}: #{message.message}"
+      else
+        "Dono do buffet disse às #{l(message.created_at)}: #{message.message}"
+      end
+    end
+    @messages = @messages.join("\n\n")
+  end
+
 
   def special_access
     if current_user.company? && current_user == @order.event_type.user

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_06_061313) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_06_084400) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -59,6 +59,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_061313) do
     t.text "complement"
     t.index ["payment_method_id"], name: "index_buffet_registrations_on_payment_method_id"
     t.index ["user_id"], name: "index_buffet_registrations_on_user_id"
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.boolean "to_company"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "order_id"
+    t.text "message"
+    t.index ["order_id"], name: "index_chats_on_order_id"
   end
 
   create_table "client_data", force: :cascade do |t|
@@ -180,6 +189,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_061313) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buffet_registrations", "payment_methods"
   add_foreign_key "buffet_registrations", "users"
+  add_foreign_key "chats", "orders"
   add_foreign_key "client_data", "users"
   add_foreign_key "event_types", "buffet_registrations"
   add_foreign_key "event_types", "event_values", column: "weekend_price_id"

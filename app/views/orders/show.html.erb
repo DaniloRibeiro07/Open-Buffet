@@ -200,5 +200,24 @@
   Se cancelado, não há volta. 
 <% end %>
 
+<div>
+  Chat com o Dono do buffet:
+
+  <div>
+    <textarea style="width: 100%; height: 300px;">
+      <%= @messages %>
+    </textarea>
+  </div>
+
+  <div>
+    <%= form_with url:send_message_order_path(@order) do |form| %>
+      <%= form.text_area :message , style: "width: 50%;"%>
+      <%= form.submit "Enviar" %>
+    <% end %>
+  </div>
+
+ 
+</div>
+
   
 

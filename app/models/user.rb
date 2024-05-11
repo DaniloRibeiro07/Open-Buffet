@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :company, inclusion: [true, false]
   has_one :buffet_registration
   has_many :event_types
-
+  has_many :chats
   has_many :orders
   has_one :client_datum  
   accepts_nested_attributes_for :client_datum
