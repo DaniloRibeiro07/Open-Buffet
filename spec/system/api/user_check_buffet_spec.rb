@@ -78,5 +78,22 @@ describe 'O usuário faz uma requisição para obter detalhes de um buffet' do
 
       expect(json_response['event_types'].length).to eq 0
     end
+
+    it 'E ocorre uma falha interna do servidor' do 
+      allow(BuffetRegistration).to receive(:find_by).and_raise(ActiveRecord::ActiveRecordError)
+      
+      user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
+      payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
+      buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
+        cnpj: "95687495213", phone: "7995876812", email: 'Eduarda@teste.com', public_place: "Rua das flores", address_number: "25A", neighborhood: "São Lucas", 
+        state: "SP", city: "São Paulo", zip: "48750-621", complement: "", description: "O melhor buffet da familia brasileira", 
+        payment_method: payment_method, user: user)
+
+      get api_v1_buffet_registration_path(buffet_registration.id)
+
+
+      expect(response.status).to eq 500
+      
+    end
   end
 end

@@ -4,9 +4,15 @@ Rails.application.routes.draw do
 
   namespace :api do 
     namespace :v1 do 
+
       resources :buffet_registrations, only: [:index, :show] do 
         resources :event_types, only: [:index]
       end
+
+      resources :event_types, only: [] do 
+        resources :orders, only: [:create]
+      end
+      
     end
   end
 

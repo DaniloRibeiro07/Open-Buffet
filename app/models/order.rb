@@ -47,6 +47,25 @@ class Order < ApplicationRecord
   end
 
 
+  def calculate_calculated_value
+
+    if type_of_day == "Final de Semana" && self.event_type.different_weekend
+      base_price = self.event_type.weekend_price.base_price
+      extra_people_value = self.event_type.weekend_price.price_per_person
+      extra_minute_value = self.event_type.weekend_price.overtime_rate / 60
+    else
+      base_price = self.event_type.working_day_price.base_price
+      extra_people_value = self.event_type.working_day_price.price_per_person
+      extra_minute_value = self.event_type.working_day_price.overtime_rate / 60
+    end
+
+    extra_people = self.amount_of_people - self.event_type.minimum_quantity
+    extra_minute_time = self.duration - self.event_type.duration
+    extra_minute_time = 0 if extra_minute_time < 0
+
+    self.calculated_value = ( base_price + extra_minute_value * extra_minute_time + extra_people * extra_people_value ).ceil(2)
+  end
+  
   private 
 
   def order_confirmed_before_expiration_date?
@@ -99,24 +118,7 @@ class Order < ApplicationRecord
     end
   end
 
-  def calculate_calculated_value
-
-    if type_of_day == "Final de Semana" && self.event_type.different_weekend
-      base_price = self.event_type.weekend_price.base_price
-      extra_people_value = self.event_type.weekend_price.price_per_person
-      extra_minute_value = self.event_type.weekend_price.overtime_rate / 60
-    else
-      base_price = self.event_type.working_day_price.base_price
-      extra_people_value = self.event_type.working_day_price.price_per_person
-      extra_minute_value = self.event_type.working_day_price.overtime_rate / 60
-    end
-
-    extra_people = self.amount_of_people - self.event_type.minimum_quantity
-    extra_minute_time = self.duration - self.event_type.duration
-    extra_minute_time = 0 if extra_minute_time < 0
-
-    self.calculated_value = ( base_price + extra_minute_value * extra_minute_time + extra_people * extra_people_value ).ceil(2)
-  end
+  
 
 
 

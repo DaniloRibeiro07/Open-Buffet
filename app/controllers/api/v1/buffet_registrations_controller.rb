@@ -1,4 +1,4 @@
-class Api::V1::BuffetRegistrationsController < ActionController::API
+class Api::V1::BuffetRegistrationsController < Api::V1::ApiController
   def index 
     filter = params[:filter]
     if filter

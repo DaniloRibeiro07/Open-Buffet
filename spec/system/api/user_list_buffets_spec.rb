@@ -96,7 +96,7 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
         state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet dos ares", 
         payment_method: payment_method, user: user2)
       
-      get api_v1_buffet_registrations_path+"/?filter=alegria"
+      get api_v1_buffet_registrations_path, params:{'filter': 'alegria'}
 
       expect(response.status).to eq 406
       expect(response.content_type).to include("json")
@@ -104,6 +104,23 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
       json_response = JSON.parse(response.body)
 
       expect(json_response['errors']).to eq 'Não foi encontrados registros de alegria'
+    end
+
+    it 'E ocorre uma falha interna do servidor' do 
+      
+      user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
+      payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
+      buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
+      cnpj: "95687495213", phone: "7995876812", email: 'Eduarda@teste.com', public_place: "Rua das flores", address_number: "25A", neighborhood: "São Lucas", 
+      state: "SP", city: "São Paulo", zip: "48750-621", complement: "", description: "O melhor buffet da familia brasileira", 
+      payment_method: payment_method, user: user)
+      
+      allow(BuffetRegistration).to receive(:find_by).and_raise(ActiveRecord::ActiveRecordError)
+
+      get api_v1_buffet_registration_path(buffet_registration.id)
+
+
+      expect(response.status).to eq 500
     end
   end
 end

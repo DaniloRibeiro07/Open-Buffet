@@ -1,4 +1,4 @@
-class Api::V1::EventTypesController < ActionController::API
+class Api::V1::EventTypesController < Api::V1::ApiController
   def index 
     buffet = BuffetRegistration.find_by(id: params[:buffet_registration_id]) 
     if buffet 
