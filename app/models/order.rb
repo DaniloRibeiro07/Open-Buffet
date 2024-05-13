@@ -9,7 +9,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :customer_address
   accepts_nested_attributes_for :extra_service
 
-  validates :user_id, :buffet_registration_id, :event_type_id, presence: true , if: -> { validation_context != :api }
+  validates :user, :buffet_registration, :event_type, presence: true , if: -> { validation_context != :api }
 
   validates :date, :amount_of_people, presence: true
 

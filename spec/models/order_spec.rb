@@ -138,7 +138,7 @@ RSpec.describe Order, type: :model do
       order = Order.new(buffet_registration: nil)
       order.valid?
 
-      result = order.errors.full_messages.include? "Registro de um buffet é obrigatório(a)"
+      result = order.errors.full_messages.include? "Registro de um buffet não pode ficar em branco"
       expect(result).to eq true 
     end
 
@@ -146,7 +146,7 @@ RSpec.describe Order, type: :model do
       order = Order.new(event_type: nil)
       order.valid?
 
-      result = order.errors.full_messages.include? "Tipo de Evento é obrigatório(a)"
+      result = order.errors.full_messages.include? "Tipo de Evento não pode ficar em branco"
       expect(result).to eq true 
     end
 
