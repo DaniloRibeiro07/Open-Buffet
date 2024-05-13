@@ -1,30 +1,32 @@
 class Order < ApplicationRecord
   has_many :chats
-  belongs_to :user
-  belongs_to :buffet_registration
-  belongs_to :event_type
+  belongs_to :user, optional: true
+  belongs_to :buffet_registration, optional: true
+  belongs_to :event_type, optional: true
   belongs_to :customer_address, dependent: :destroy, optional: true
   belongs_to :extra_service, dependent: :destroy , optional: true
 
   accepts_nested_attributes_for :customer_address
   accepts_nested_attributes_for :extra_service
 
+  validates :user_id, :buffet_registration_id, :event_type_id, presence: true , if: -> { validation_context != :api }
+
   validates :date, :amount_of_people, presence: true
 
-  validates :inside_the_buffet, inclusion: [true, false]
+  validates :inside_the_buffet, inclusion: [true, false], if: -> { validation_context != :api }
 
   validates :date, comparison: { greater_than: Date.current, message: "deve ser maior do que hoje (#{I18n.l(Date.current)})" }
-  validates :duration, comparison: { greater_than: 1 } 
+  validates :duration, comparison: { greater_than: 1 }, if: -> { validation_context != :api }
   validate :number_of_people_ltd
-  validate :customer_address_required?
-  validate :user_is_client?
-  validate :event_type_accepts_inside_the_buffet?
-  validate :final_valid_value
-  validate :justification_final_value_required?
-  validate :final_value_required
-  validate :expiration_date_required
-  validate :mandatory_payment_method
-  validate :order_confirmed_before_expiration_date?
+  validate :customer_address_required?, if: -> { validation_context != :api }
+  validate :user_is_client?, if: -> { validation_context != :api }
+  validate :event_type_accepts_inside_the_buffet?, if: -> { validation_context != :api }
+  validate :final_valid_value, if: -> { validation_context != :api }
+  validate :justification_final_value_required?, if: -> { validation_context != :api }
+  validate :final_value_required, if: -> { validation_context != :api }
+  validate :expiration_date_required, if: -> { validation_context != :api }
+  validate :mandatory_payment_method, if: -> { validation_context != :api }
+  validate :order_confirmed_before_expiration_date?, if: -> { validation_context != :api }
 
 
 

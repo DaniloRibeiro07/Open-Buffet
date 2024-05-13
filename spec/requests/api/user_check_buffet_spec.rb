@@ -42,6 +42,7 @@ describe 'O usuário faz uma requisição para obter detalhes de um buffet' do
       expect(json_response.keys.include?'cnpj').to eq false 
       expect(json_response.keys.include?'company_name').to eq false 
       expect(json_response.keys.include?'user_id').to eq false 
+      expect(json_response.keys.include?'payment_method_id').to eq false 
       expect(json_response['trading_name']).to eq 'Buffet da familia'
       expect(json_response['phone']).to eq '7995876812'
       expect(json_response['email']).to eq 'Eduarda@teste.com'
@@ -53,6 +54,12 @@ describe 'O usuário faz uma requisição para obter detalhes de um buffet' do
       expect(json_response['zip']).to eq '48750-621'
       expect(json_response['complement']).to eq ''
       expect(json_response['description']).to eq 'O melhor buffet da familia brasileira'
+      expect(json_response['payment_method']['pix']).to eq true
+      expect(json_response['payment_method']['bank_transfer']).to eq true
+      expect(json_response['payment_method']['money']).to eq true
+      expect(json_response['payment_method']['bitcoin']).to eq true
+      expect(json_response['payment_method']['debit_card']).not_to eq true
+      expect(json_response['payment_method']['debit_card']).not_to eq true
       expect(json_response['event_types'].length).to eq 2
       expect(json_response['event_types'].first.keys.length).to eq 2
       expect(json_response['event_types'].first['name']).to eq 'Aniversário'

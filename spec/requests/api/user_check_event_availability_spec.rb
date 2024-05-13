@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe 'Usuário faz um post requisitando um evento' do 
+describe 'Usuário faz um post requisitando a disponibilidade do evento' do 
   context '/api/v1/event_types/:event_type_id/orders' do 
-    it 'Não existe um evento com o ID informado' do 
+    it 'e Não existe um evento com o ID informado' do 
       post api_v1_event_type_orders_path(9999)
 
       expect(response.status).to eq 406
@@ -11,7 +11,7 @@ describe 'Usuário faz um post requisitando um evento' do
       expect(json_response['errors']).to eq "Não há um tipo de evento com o id: 9999"
     end
 
-    it 'Há um Evento e não há pedidos confirmados no dia, consulta com sucesso' do
+    it 'e Há um Evento e não há pedidos confirmados no dia, consulta com sucesso' do
       user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
       payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
       buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
@@ -47,7 +47,7 @@ describe 'Usuário faz um post requisitando um evento' do
       expect(json_response['prior_value']).to eq calculated_value
     end
 
-    it 'Há um Evento e há um pedido no mesmo dia, consulta com falha' do
+    it 'e Há um Evento e há um pedido no mesmo dia, consulta com falha' do
       user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
     
       payment_method = PaymentMethod.create!(pix: true, boleto:true, bitcoin: true)
@@ -81,7 +81,7 @@ describe 'Usuário faz um post requisitando um evento' do
       expect(json_response['errors']).to eq "Já há um pedido aprovado neste dia"
     end
 
-    it 'E o usuário esquece os parâmetros' do 
+    it 'e esquece os parâmetros' do 
       user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
     
       payment_method = PaymentMethod.create!(pix: true, boleto:true, bitcoin: true)
@@ -99,12 +99,63 @@ describe 'Usuário faz um post requisitando um evento' do
   
       post api_v1_event_type_orders_path(buffet_registration.id)
 
-      expect(response.status).to eq 406
+      expect(response.status).to eq 412
       expect(response.content_type).to include("json")
       json_response = JSON.parse(response.body)
-      expect(json_response['errors']).to eq "Data e quantidade de pessoas não pode ficar em branco"
-
+      expect(json_response['errors']).to include "Data não pode ficar em branco"
+      expect(json_response['errors']).to include "Participantes do Evento não pode ficar em branco"
     end
+
+    it 'com a quantidade de pessoas fora do limite superior' do 
+      user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
+    
+      payment_method = PaymentMethod.create!(pix: true, boleto:true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
+        cnpj: "17924491000160", phone: "7995876812", email: 'Maria@teste.com', public_place: "Quadra 1112 Sul Alameda 5", address_number: "25A", 
+        neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77024-171", complement: "", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Chá de revelação", description: "Chá de revelação para novos pais ",
+        minimum_quantity: 10, maximum_quantity: 55, duration: 63, menu: "Bolo, salgados e docinhos", 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+  
+      post api_v1_event_type_orders_path(buffet_registration.id), params: {'date': 5.day.from_now, 'amount_of_people': 300}
+
+      expect(response.status).to eq 412
+      expect(response.content_type).to include("json")
+      json_response = JSON.parse(response.body)
+      expect(json_response['errors']).not_to include "Data deve ser maior do que hoje (#{I18n.l Date.current})"
+      expect(json_response['errors']).to include "Participantes do Evento Deve ser menor ou igual a 55"
+    end
+
+    it 'com a quantidade de pessoas fora do limite inferior e a data antes de hoje' do 
+      user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
+    
+      payment_method = PaymentMethod.create!(pix: true, boleto:true, bitcoin: true)
+
+      buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
+        cnpj: "17924491000160", phone: "7995876812", email: 'Maria@teste.com', public_place: "Quadra 1112 Sul Alameda 5", address_number: "25A", 
+        neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77024-171", complement: "", description: "O melhor buffet das perfumaras")
+
+      event_value = EventValue.create!(base_price: 50, price_per_person: 30, overtime_rate: 30)
+
+      event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Chá de revelação", description: "Chá de revelação para novos pais ",
+        minimum_quantity: 10, maximum_quantity: 55, duration: 63, menu: "Bolo, salgados e docinhos", 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+  
+      post api_v1_event_type_orders_path(buffet_registration.id), params: {'date': 1.day.ago, 'amount_of_people': 1}
+
+      expect(response.status).to eq 412
+      expect(response.content_type).to include("json")
+      json_response = JSON.parse(response.body)
+      expect(json_response['errors']).to include "Participantes do Evento Deve ser maior ou igual a 10"
+      expect(json_response['errors']).to include "Data deve ser maior do que hoje (#{I18n.l Date.current})"
+    end
+
 
     it 'E ocorre uma falha interna do servidor' do 
       allow(EventType).to receive(:find_by).and_raise(ActiveRecord::ActiveRecordError)

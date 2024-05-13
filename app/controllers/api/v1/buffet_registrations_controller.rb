@@ -17,8 +17,8 @@ class Api::V1::BuffetRegistrationsController < Api::V1::ApiController
     buffet = BuffetRegistration.find_by(id: params[:id])
 
     if buffet 
-      render status: 200, json: buffet.as_json(except: ['created_at', 'updated_at' , 'cnpj', 'company_name', 'user_id'],
-        include: {event_types: {only: ['name', 'id']}})
+      render status: 200, json: buffet.as_json(except: ['created_at', 'updated_at' , 'cnpj', 'company_name', 'user_id', 'payment_method_id'],
+        include: {payment_method: {except:['id' , 'created_at', 'updated_at'] } , event_types: {only: ['name', 'id']}})
     else
       render status: 406, json: {"errors": "Não há buffet com o id: #{params[:id]}"}
     end
