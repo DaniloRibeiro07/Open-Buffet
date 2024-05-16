@@ -58,7 +58,11 @@ class BuffetRegistrationsController < ApplicationController
   def set_buffet_registration_and_payment_method 
     @buffet_registration = BuffetRegistration.find(params[:id])
     @payment_method = @buffet_registration.payment_method
-    @event_types =  @buffet_registration.event_types
+    if current_user == @buffet_registration.user 
+      @event_types =  @buffet_registration.event_types
+    else
+      @event_types =  @buffet_registration.event_types.active
+    end
     @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
   end
 

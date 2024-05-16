@@ -31,6 +31,11 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+    disabled = EventType.create!(different_weekend: true ,weekend_price: event_value, working_day_price: event_value,
+      buffet_registration: buffet_registration, name: "Tipo de Evento Desativado", description: "Tipo de Evento Desativado",
+      minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Surpresa", status: :desactive, 
+      alcoholic_beverages: true, decoration: true, valet: true, insider: false, outsider: true, user: user)
+
     event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
       buffet_registration: buffet_registration, name: "Formatura", description: "Formatura insana para universitários",
       minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
@@ -68,6 +73,7 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_link "Casamento"
     expect(page).to have_content "Não há nenhuma imagem cadastrada" 
     expect(page).to have_link "Formatura"
+    expect(page).to have_link "Tipo de Evento Desativado"
     expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
     expect(page).not_to have_content "Aniversário"
@@ -191,6 +197,11 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+    disabled = EventType.create!(different_weekend: true ,weekend_price: event_value, working_day_price: event_value,
+      buffet_registration: buffet_registration, name: "Tipo de Evento Desativado", description: "Tipo de Evento Desativado",
+      minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Surpresa", status: :desactive, 
+      alcoholic_beverages: true, decoration: true, valet: true, insider: false, outsider: true, user: user)
+
     event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
       buffet_registration: buffet_registration, name: "Formatura", description: "Formatura insana para universitários",
       minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
@@ -219,7 +230,8 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Dinheiro"     
     expect(page).to have_content "Bitcoin" 
     expect(page).to have_link "Casamento" 
-    expect(page).to have_link "Formatura" 
+    expect(page).to have_link "Formatura"
+    expect(page).not_to have_link "Tipo de Evento Desativado" 
     expect(page).to have_content "Não há nenhuma imagem cadastrada"
     expect(page).not_to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).not_to have_css('img[src*="festa_de_aniversario2.jpg"]')
@@ -293,6 +305,11 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+    disabled = EventType.create!(different_weekend: true ,weekend_price: event_value, working_day_price: event_value,
+      buffet_registration: buffet_registration, name: "Tipo de Evento Desativado", description: "Tipo de Evento Desativado",
+      minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Surpresa", status: :desactive, 
+      alcoholic_beverages: true, decoration: true, valet: true, insider: false, outsider: true, user: user)
+
     event.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
 
     event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
@@ -333,6 +350,7 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Bitcoin" 
     expect(page).to have_link "Casamento" 
     expect(page).to have_link "Formatura" 
+    expect(page).not_to have_link "Tipo de Evento Desativado" 
     expect(page).not_to have_content "Não há nenhuma imagem cadastrada"
     expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
@@ -406,6 +424,11 @@ describe 'Usuário clica em vê buffet' do
       minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
 
+    disabled = EventType.create!(different_weekend: true ,weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration, name: "Tipo de Evento Desativado", description: "Tipo de Evento Desativado",
+        minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Surpresa", status: :desactive, 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: false, outsider: true, user: user)
+
     event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value,
       buffet_registration: buffet_registration, name: "Formatura", description: "Formatura insana para universitários",
       minimum_quantity: 50, maximum_quantity: 200, duration: 180, menu: "Salgados, Crustáceos, Tortas, e o que os universitários quiser", 
@@ -435,7 +458,8 @@ describe 'Usuário clica em vê buffet' do
     expect(page).to have_content "Dinheiro"     
     expect(page).to have_content "Bitcoin" 
     expect(page).to have_link "Casamento" 
-    expect(page).to have_link "Formatura" 
+    expect(page).to have_link "Formatura"
+    expect(page).not_to have_link "Tipo de Evento Desativado"
     expect(page).not_to have_content "Aniversário"
     expect(page).not_to have_content "Nenhum evento cadastrado"    
     expect(page).not_to have_button "Editar"
