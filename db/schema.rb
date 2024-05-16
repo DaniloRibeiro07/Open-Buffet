@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_06_084400) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_16_193946) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -109,6 +109,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_084400) do
     t.integer "working_day_price_id"
     t.integer "weekend_price_id"
     t.boolean "different_weekend"
+    t.integer "status", default: 1
     t.index ["buffet_registration_id"], name: "index_event_types_on_buffet_registration_id"
     t.index ["user_id"], name: "index_event_types_on_user_id"
     t.index ["weekend_price_id"], name: "index_event_types_on_weekend_price_id"

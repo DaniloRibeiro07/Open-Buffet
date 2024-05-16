@@ -13,6 +13,8 @@ class EventType < ApplicationRecord
   accepts_nested_attributes_for :working_day_price, :weekend_price
 
   before_validation :weekend_price_necessary?
+
+  enum :status, {desactive: 0, active: 1}
   
   has_many_attached :images do |attachable|
     attachable.variant :thumb, resize_to_limit: [200, nil]

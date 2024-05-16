@@ -2,6 +2,17 @@ require 'rails_helper'
 
 RSpec.describe EventType, type: :model do
   describe '#valid' do 
+
+    it 'O status inicial deve ser ativado' do 
+      user, payment_method, buffet_registration, event_value = create_user_payment_buffet_event_value
+
+      event = EventType.create!( weekend_price: event_value, working_day_price: event_value , name: "Aniversário", description: "Super aniversário para a sua familia e amigos",
+              minimum_quantity: 10, maximum_quantity: 15, duration: 60, menu: "Bolo de aniversário, coxinha e salgados", 
+              alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user, buffet_registration: buffet_registration)
+      
+      expect(event.active?).to eq true
+    end
+
     it "Cadastro correto" do 
       user, payment_method, buffet_registration, event_value = create_user_payment_buffet_event_value
 

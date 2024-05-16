@@ -1,4 +1,6 @@
 pt-BR:
+  active: "Ativado"
+  desactive: "Desativado"
   activerecord:
     models:
       event_type: "Tipos de Eventos"

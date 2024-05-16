@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   end
 
   resources :event_types, only: [:new, :create, :edit, :update, :show, :destroy] do
+    post "desactive", on: :member
+    post "active", on: :member
     resources :orders, only: [:new, :create, :edit, :update]
   end
 

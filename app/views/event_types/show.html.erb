@@ -4,6 +4,10 @@
 <dl>
   <dt>Nome do Evento:</dt>
     <dd><%= @event_type.name %></dd>
+  <% if @buffet_registration.user == current_user %>
+    <dt>Status do Evento:</dt>
+      <dd><%= t(@event_type.status) %></dd>
+  <% end %>
   <dt>Descrição do Evento:</dt>
     <dd><%= @event_type.description%></dd>
   <dt>Quantidade Mínima de participantes:</dt>
@@ -61,6 +65,13 @@
 
 <% if  @buffet_registration.user == current_user %>
   <%= button_to "Editar Informações do Evento", edit_event_type_path(@event_type), method: :get %>
+  
+  <% if @event_type.active? %>
+    <%= button_to "Desativar Evento", desactive_event_type_path(@event_type) %>
+  <% else %>
+    <%= button_to "Ativar Evento", active_event_type_path(@event_type) %>
+  <% end %>
+  
 <% elsif !current_user || !current_user.company %>
   <%= button_to "Fazer um pedido", new_event_type_order_path(@event_type), method: :get %>
 <% end %>

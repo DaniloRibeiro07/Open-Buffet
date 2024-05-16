@@ -70,6 +70,18 @@ class EventTypesController < ApplicationController
     end
   end
 
+  def desactive
+    @event_type = EventType.find(params[:id])
+    @event_type.desactive!
+    redirect_to @event_type, alert: "Evento Desativado com Sucesso"
+  end
+
+  def active
+    @event_type = EventType.find(params[:id])
+    @event_type.active!
+    redirect_to @event_type, alert: "Evento Ativado com Sucesso"
+  end
+
   private 
 
   def set_event_type_and_buffet_registration
