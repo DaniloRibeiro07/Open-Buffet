@@ -1,6 +1,12 @@
 <h4>Editando Evento em <%= @buffet_registration.trading_name %> </h4>
 <%= render 'form' %>
 
+<% if @event_type.active? %>
+  <%= button_to "Desativar Evento", desactive_event_type_path(@event_type) %>
+<% else %>
+  <%= button_to "Ativar Evento", active_event_type_path(@event_type) %>
+<% end %>
+
 <%= button_to "Deletar Evento", @event_type, method: :delete %>
 
 <%= button_to "Voltar", @event_type, method: :get %>
