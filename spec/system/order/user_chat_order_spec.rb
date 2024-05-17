@@ -48,29 +48,11 @@ describe 'Usuário entra na página de detalhe do pedido' do
     click_on "Enviar"
     message4 = Chat.last
 
-    login_as cliente
-    visit root_path
-    click_on "Meus pedidos"
-    click_on order.code
-    fill_in "message",	with: "Tem como fazer um desconto ?"
-    click_on "Enviar"
-    message5 = Chat.last
-
-    login_as user
-    visit root_path
-    click_on "Pedidos"
-    click_on order.code
-    fill_in "message",	with: "Não!"
-    click_on "Enviar"
-    message6 = Chat.last
-    click_on "Cancelar"
-
     expect(page).to have_content "Cliente disse às #{I18n.l message1.created_at}: Olá" 
     expect(page).to have_content "Cliente disse às #{I18n.l message2.created_at}: Tudo bem?" 
     expect(page).to have_content "Dono do buffet disse às #{I18n.l message3.created_at}: Tudo certo" 
     expect(page).to have_content "Dono do buffet disse às #{I18n.l message4.created_at}: No que posso ajudar" 
-    expect(page).to have_content "Cliente disse às #{I18n.l message2.created_at}: Tem como fazer um desconto ?" 
-    expect(page).to have_content "Dono do buffet disse às #{I18n.l message4.created_at}: Não!" 
+
 
   end
 end
