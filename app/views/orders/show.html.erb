@@ -193,8 +193,13 @@
   <% if @order.evaluation %>
     <h3>Sua avaliação:</h3>
     Nota: <%= @order.evaluation.score %>/5 <br>
-    Comentário: <%= @order.evaluation.comment %>
-
+    Comentário: <%= @order.evaluation.comment %> <br>
+    <% if @order.evaluation.images.attached? %>
+    Imagens: <br>
+      <% @order.evaluation.images.each do |image| %>  
+       <%= image_tag image.variant(:thumb) %>
+      <% end %>
+    <% end %>
   <% elsif @available_for_evaluation %>
     <h3>Avalie o buffet</h3>
     <%= form_with model:[@order, @evaluation] do |form| %>
@@ -207,6 +212,11 @@
       <div>
         <%= form.label :comment %>
         <%= form.text_area :comment, size: "30x5" %>
+      </div>
+
+      <div>
+        <%= form.label :images, "Inserir Imagem:" %>
+        <%= form.file_field :images, multiple: true, accept: "image/png, image/jpeg" %>
       </div>
 
       <%= form.submit "Avaliar" %>

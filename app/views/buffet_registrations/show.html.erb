@@ -61,7 +61,15 @@
       <h4>Avaliado na <%= l(evaluation.created_at) %></h4>
       Nota: <%= evaluation.score %> de 5 <br>
       Comentário: <%= evaluation.comment %> <br>
+      <% if evaluation.images.attached? %>
+        Imagens: <br>
+        <% evaluation.images.each do |image| %>  
+          <%= image_tag image.variant(:thumb) %>
+        <% end %>
+      <% end %>
     <% end %>
+    
+    <br>
     
     <% if @buffet_registration.evaluations.count > 3 %>
       <%= link_to "Vê mais avaliações", buffet_registration_evaluations_path(@buffet_registration) %>

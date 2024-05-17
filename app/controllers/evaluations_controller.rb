@@ -4,6 +4,7 @@ class EvaluationsController < ApplicationController
     evaluation_params = params.require(:evaluation).permit(:score, :comment)
     @order.build_evaluation(evaluation_params)
     if @order.evaluation.save 
+      @order.evaluation.images.attach(params[:evaluation][:images])
       redirect_to @order, alert: "Comentário adicionado com sucesso"
     else
       redirect_to @order, notice: @order.evaluation.errors.full_messages 

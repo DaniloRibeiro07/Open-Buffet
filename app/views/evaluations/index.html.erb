@@ -3,9 +3,16 @@
 <h3>Média: <%= @buffet_registration.evaluations.average("score").ceil(1) %> de 5</h3>
 
 <% @evaluations.each do |evaluation| %>
-    <h4>Avaliado na <%= l(evaluation.created_at) %></h4>
-    Nota: <%= evaluation.score %> de 5 <br>
-    Comentário: <%= evaluation.comment %> <br>
+  <h4>Avaliado na <%= l(evaluation.created_at) %></h4>
+  Nota: <%= evaluation.score %> de 5 <br>
+  Comentário: <%= evaluation.comment %> <br>
+  <% if evaluation.images.attached? %>
+    Imagens: <br>
+    <% evaluation.images.each do |image| %>  
+      <%= image_tag image.variant(:thumb) %>
+    <% end %>
+  <% end %>
+  <br>
 <% end %>
 
 <%= button_to "Voltar", @buffet_registration, method: :get %>

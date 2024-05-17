@@ -77,12 +77,16 @@ describe "Cliente após ter ocorrido o evento do buffet, acessa a página do ped
     click_on order.code
     fill_in "Nota",	with: "4"
     fill_in "Comentário", with: "Muito bom!"
+    attach_file 'Inserir Imagem', Rails.root.join('spec', 'support', 'imgs', 'festaBuffet.jpg')
+
     click_on "Avaliar"
 
     expect(page).to have_content "Comentário adicionado com sucesso" 
     expect(page).to have_content "Sua avaliação:"
     expect(page).to have_content "Nota: 4/5"
     expect(page).to have_content "Comentário: Muito bom!"
+    expect(page).to have_css('img[src*="festaBuffet.jpg"]')
+
   end
 
   it 'Avalia o buffet com nota 5 e sem comentário, com sucesso' do 

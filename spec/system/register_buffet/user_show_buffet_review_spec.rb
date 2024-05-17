@@ -34,9 +34,14 @@ describe "Usuário acessa a página de exibição do buffet" do
 
     order2.create_evaluation!(score: 5, comment: "Comida muito gostosa")
 
+    order2.evaluation.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    order2.evaluation.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+
     order3= Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
       amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
       final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
+
+
 
     order3.create_evaluation!(score: 4, comment: "Poderia aumentar a variedade")
 
@@ -54,6 +59,8 @@ describe "Usuário acessa a página de exibição do buffet" do
     expect(page).to have_content "Comentário: Muito caro para o que é servido"
     expect(page).to have_content "Comentário: Poderia aumentar a variedade"
     expect(page).to have_content "Comentário: Comida muito gostosa"
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
+    expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).to have_link "Vê mais avaliações"
   end
 
@@ -120,6 +127,10 @@ describe "Usuário acessa a página de exibição do buffet" do
 
     order2.create_evaluation!(score: 5, comment: "Comida muito gostosa")
 
+    order2.evaluation.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario.jpeg')), filename: 'festa_de_aniversario.jpeg')
+    order2.evaluation.images.attach(io: File.open(Rails.root.join('spec', 'support', 'imgs', 'festa_de_aniversario2.jpg')), filename: 'festa_de_aniversario2.jpg')
+
+
     order3= Order.create!(user: cliente, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
       amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
       final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
@@ -131,6 +142,7 @@ describe "Usuário acessa a página de exibição do buffet" do
       final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
 
     order4.create_evaluation!(score: 1, comment: "Muito caro para o que é servido")
+    
 
     visit root_path
 
@@ -139,6 +151,8 @@ describe "Usuário acessa a página de exibição do buffet" do
 
     expect(page).to have_content "Média: 3.3 de 5"
     expect(page).to have_content "Comentário: Muito caro para o que é servido"
+    expect(page).to have_css('img[src*="festa_de_aniversario2.jpg"]')
+    expect(page).to have_css('img[src*="festa_de_aniversario.jpeg"]')
     expect(page).to have_content "Comentário: Poderia aumentar a variedade"
     expect(page).to have_content "Comentário: Comida muito gostosa"
     expect(page).to have_content "Comentário: Ambiente insalubre"
