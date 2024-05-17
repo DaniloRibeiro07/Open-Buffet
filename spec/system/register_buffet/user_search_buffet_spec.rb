@@ -77,6 +77,35 @@ describe "Usuário faz uma busca de um buffet" do
     expect(page).to have_content "Estado: TO"
   end
 
+  it 'Busca por um evento desabilitado ' do
+
+    user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+  
+    payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+
+    event_value = EventValue.create!(base_price: 50.39, price_per_person: 30, overtime_rate: 30)
+
+      
+    buffet_registration2 = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+      
+    event = EventType.create!(different_weekend: false , weekend_price: event_value, working_day_price: event_value,
+        buffet_registration: buffet_registration2, name: "Formatura", description: "Formatura muito massa",
+        minimum_quantity: 10, maximum_quantity: 445, duration: 180, menu: "Bolo, salgado e muito doce", 
+        alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user, status: :desactive)
+    
+    
+    visit root_path 
+
+    fill_in "search",	with: "Formatura"
+    click_on "Pesquisar"
+
+    expect(page).to have_button "Pesquisar"
+    expect(page).to have_content "Não há Buffets Cadastrados"
+    expect(page).not_to have_link "Buffet da Avon", href: buffet_registration_path(buffet_registration2)
+  end
+
   it 'Busca por uma cidade' do
     user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
 
