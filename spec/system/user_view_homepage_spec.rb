@@ -67,6 +67,13 @@ describe 'Usuário acessa a página inicial' do
       state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet dos ares", 
       payment_method: payment_method, user: user2)
 
+    user3 = User.create!(name: "Jooj", last_name: "Fernando", email: 'Jooj@teste.com', password: 'teste123', company: true)
+    disable_buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet Desativado', company_name: 'Fernanda Buffet', 
+      cnpj: "568298723", phone: "715863246", email: 'fernada@teste.com', public_place: "Rua das Igrejas", address_number: "66A", neighborhood: "São Miguel", 
+      state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet desativado", 
+      payment_method: payment_method, user: user3, available: :desactive)
+  
+
     visit root_path
     expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration.id)
     expect(page).to have_content "Cidade: São Paulo"
@@ -74,6 +81,7 @@ describe 'Usuário acessa a página inicial' do
     expect(page).to have_link "Buffet Astrônomo", href: buffet_registration_path(buffet_registration2.id)
     expect(page).to have_content "Cidade: Salvador"
     expect(page).to have_content "Estado: BA"
+    expect(page).not_to have_link "Buffet Desativado"
 
   end
 
@@ -110,6 +118,12 @@ describe 'Usuário acessa a página inicial' do
       state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet dos ares", 
       payment_method: payment_method, user: user2)
 
+    user3 = User.create!(name: "Jooj", last_name: "Fernando", email: 'Jooj@teste.com', password: 'teste123', company: true)
+    disable_buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet Desativado', company_name: 'Fernanda Buffet', 
+      cnpj: "568298723", phone: "715863246", email: 'fernada@teste.com', public_place: "Rua das Igrejas", address_number: "66A", neighborhood: "São Miguel", 
+      state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet desativado", 
+      payment_method: payment_method, user: user3, available: :desactive)
+
     visitante = User.new(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: false)
     visitante.build_client_datum(cpf: "97498970058")
     visitante.save!
@@ -123,6 +137,7 @@ describe 'Usuário acessa a página inicial' do
     expect(page).to have_link "Buffet Astrônomo", href: buffet_registration_path(buffet_registration2.id)
     expect(page).to have_content "Cidade: Salvador"
     expect(page).to have_content "Estado: BA"
+    expect(page).not_to have_link "Buffet Desativado"
     expect(page).to have_content("Meus pedidos")   
     expect(page).not_to have_content("Pedidos")   
   end
