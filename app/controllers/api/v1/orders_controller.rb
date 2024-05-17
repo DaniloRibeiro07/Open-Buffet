@@ -1,8 +1,8 @@
 class Api::V1::OrdersController < Api::V1::ApiController
   def create 
-    event_type = EventType.find_by(id: params[:event_type_id])
+    event_type = EventType.active.find_by(id: params[:event_type_id])
     
-    if event_type
+    if event_type && event_type.buffet_registration.active?
       if(Order.approved.find_by(date: params[:date]))
         render status: 409, json: {"errors": "Já há um pedido aprovado neste dia"}
       else

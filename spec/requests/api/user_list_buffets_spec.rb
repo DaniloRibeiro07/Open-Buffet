@@ -127,7 +127,7 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
       state: "SP", city: "São Paulo", zip: "48750-621", complement: "", description: "O melhor buffet da familia brasileira", 
       payment_method: payment_method, user: user)
       
-      allow(BuffetRegistration).to receive(:find_by).and_raise(ActiveRecord::ActiveRecordError)
+      allow(BuffetRegistration).to receive(:active).and_raise(ActiveRecord::ActiveRecordError)
 
       get api_v1_buffet_registration_path(buffet_registration.id)
 

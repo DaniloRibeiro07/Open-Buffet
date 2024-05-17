@@ -14,7 +14,7 @@ class Api::V1::BuffetRegistrationsController < Api::V1::ApiController
   end
 
   def show 
-    buffet = BuffetRegistration.find_by(id: params[:id])
+    buffet = BuffetRegistration.active.find_by(id: params[:id])
 
     if buffet 
       render status: 200, json: buffet.as_json(except: ['created_at', 'updated_at' , 'cnpj', 'company_name', 'user_id', 'payment_method_id'],
