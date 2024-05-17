@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   resources :buffet_registrations, only: [:new, :create, :edit, :update, :show] do 
+    resources :evaluations, only: [:index]
     post "desactive", on: :member
     post "active", on: :member
     get "search", on: :collection
@@ -35,6 +36,8 @@ Rails.application.routes.draw do
     post 'confirm', on: :member
     post 'send_message', on: :member
   end
+
+
 
   get "event_types/:id/image/:image_id", to: "event_types#delete_image"
 

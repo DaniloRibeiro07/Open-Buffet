@@ -53,4 +53,25 @@
 
 <%= render '/event_types/card' %>
 
+<div id = "reviews">
+  <h2>Avaliações</h2>
+  <% if @buffet_registration.evaluations.any? %>
+    Média: <%= @buffet_registration.evaluations.average("score").ceil(1) %> de 5
+    <%  @buffet_registration.evaluations.last(3).each do |evaluation|%>
+      <h4>Avaliado na <%= l(evaluation.created_at) %></h4>
+      Nota: <%= evaluation.score %> de 5 <br>
+      Comentário: <%= evaluation.comment %> <br>
+    <% end %>
+    
+    <% if @buffet_registration.evaluations.count > 3 %>
+      <%= link_to "Vê mais avaliações", buffet_registration_evaluations_path(@buffet_registration) %>
+    <% end %>
+    
+  <% else %>
+    <h4>Ainda não há avaliações</h4>
+  <% end %>
+</div>
+
+
+
 <%= button_to "Voltar", root_path, method: :get %>
