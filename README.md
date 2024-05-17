@@ -10,43 +10,54 @@ bundle install <br>
 rails db:reset <br>
 rails s
 
-Aplicação:
+# Guia de Uso da aplicação
 
-Na aplicação há 3 usuários clientes:
-Usuário Joana, email: Joana@teste.com e senha: teste123
-Usuário Sabrina, email: Sabrina@teste.com e senha : teste123
-Usuário Olivia, email: Olivia@teste.com e senha: teste123
+Ao acessar a aplicação, o usuário visualizará na tela inicial os buffets cadastrados, poderá clicar nos buffets para vê detalhes, pesquisar pelo nome do buffet, ou cidade ou nome do evento e fazer login.
+
+Enquanto o usuário não fizer login, ele só terá acesso a páginas de detalhes de eventos do buffet ou do próprio buffet.
+
+Se o usuário estiver logado como cliente, ele poderia fazer um pedido, vê o andamento de todos os seus pedidos, conversar com o buffet, avaliar o pedido após confirmado e realizado o evento. 
+
+Se o usuário estiver logado como dono do buffet, ele deverá ter informado os dados do seu buffet, poderá cadastrar evento, ativar ou desativar o seu evento e o seu buffet, vê todos os seus pedidos e vê outros buffets.
+
+# Informações da Aplicação:
+
+Na aplicação há 3 usuários clientes: <br>
+- Usuário Joana, email: Joana@teste.com e senha: teste123 <br>
+- Usuário Sabrina, email: Sabrina@teste.com e senha : teste123 <br>
+- Usuário Olivia, email: Olivia@teste.com e senha: teste123<br>
 
 
-Na aplicação há 7 usuários empresas:
-Usuário Alecrim, email: Alecrim@teste.com e senha: teste123
-Que possui um buffet e dois tipos de evento.
+Na aplicação há 7 usuários empresas: <br>
+- Usuário Alecrim, email: Alecrim@teste.com e senha: teste123<br>
+Que possui um buffet e dois tipos de evento.<br>
 
 
-Usuário Marcola, email: Marcola@teste.com e senha: teste123
-Que possui um buffet e três tipos de evento.
-Com 4 pedidos aprovados e avaliados.
-1 Pedido Aguardando Avaliação do Cliente
-1 Pedido aguardando a avaliação do buffet
+- Usuário Marcola, email: Marcola@teste.com e senha: teste123<br>
+Que possui um buffet e três tipos de evento.<br>
+Com 4 pedidos aprovados e avaliados.<br>
+1 Pedido Aguardando Avaliação do Cliente<br>
+1 Pedido aguardando a avaliação do buffet<br>
 
-Usuário Nanda, email: Nanda@teste.com e senha: teste123
-Que possui um buffet e três tipos de evento.
+- Usuário Nanda, email: Nanda@teste.com e senha: teste123<br>
+Que possui um buffet e três tipos de evento.<br>
 
-Usuário Otavio, email: Otavio@teste.com e senha: teste123
-Que possui um buffet, desabilitado, e um tipo de evento.
+- Usuário Otavio, email: Otavio@teste.com e senha: teste123<br>
+Que possui um buffet, desabilitado, e um tipo de evento.<br>
 
-Usuário Marcia, email: Almeida@teste.com e senha: teste123
-Que ainda não cadastrou o seu buffet.
+- Usuário Marcia, email: Almeida@teste.com e senha: teste123<br>
+Que ainda não cadastrou o seu buffet.<br>
 
-Usuário Sofia, email: Sofia@teste.com e senha: teste123
-Sofia possui o seu buffet e dois eventos cadastrados:
-Amazonico, que está desabilitado
-Pirata, que está habilitado, e com duas imagens
+- Usuário Sofia, email: Sofia@teste.com e senha: teste123<br>
+Sofia possui o seu buffet e dois eventos cadastrados:<br>
+Amazonico, que está desabilitado<br>
+Pirata, que está habilitado, e com duas imagens<br>
 
-Usuário Matheus, email: MatheusSilva@teste.com e senha: teste123
+- Usuário Matheus, email: MatheusSilva@teste.com e senha: teste123<br>
 Matheus possui apenas o buffet, sem eventos cadastrados
 
 
+# Observações
 Observação na tarefa API de Buffets: <br>
 Tópico: Consulta de disponibilidade? <br>
 
