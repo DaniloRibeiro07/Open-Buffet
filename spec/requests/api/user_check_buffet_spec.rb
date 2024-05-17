@@ -31,7 +31,26 @@ describe 'O usuário faz uma requisição para obter detalhes de um buffet' do
         buffet_registration: buffet_registration, name: "Casamento", description: "Super casamento para jovens casais",
         minimum_quantity: 30, maximum_quantity: 100, duration: 60, menu: "Bolo, bebidas, crustáceos, e o que o casal desejar", 
         alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: true, user: user)
+        
+      
+      cliente = User.new(name: "Sabrina", last_name: "Juan", email: 'Sabrina@teste.com', password: 'teste123', company: false)
+      cliente.build_client_datum(cpf: "97498970058")
+      cliente.save!
 
+      extra_service = ExtraService.new(decoration: true)
+      order1 = Order.create!(user: cliente, event_type: event2, buffet_registration: buffet_registration, date: 1.day.from_now, 
+              amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+              final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
+      
+      order1.create_evaluation!(score: 3, comment: "Ambiente insalubre")
+
+      order2 = Order.create!(user: cliente, event_type: event2, buffet_registration: buffet_registration, date: 1.day.from_now, 
+        amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+        final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
+
+      order2.create_evaluation!(score: 5, comment: "Comida muito gostosa")
+
+    
       get api_v1_buffet_registration_path(buffet_registration.id)
       
       expect(response.status).to eq 200
@@ -66,7 +85,7 @@ describe 'O usuário faz uma requisição para obter detalhes de um buffet' do
       expect(json_response['event_types'].first['id']).to eq event1.id
       expect(json_response['event_types'].last['name']).to eq 'Casamento'
       expect(json_response['event_types'].last['id']).to eq event2.id
-
+      expect(json_response['average']).to eq '4.0'
     end
 
     it 'buffet existente sem eventos' do 
