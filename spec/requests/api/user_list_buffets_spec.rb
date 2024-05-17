@@ -14,7 +14,7 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
       expect(json_response.count).to eq 0
     end
 
-    it 'com sucesso, sem filtro' do 
+    it 'com sucesso, sem filtro e não exibe desabilitados' do 
       user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
       payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
       buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
@@ -26,6 +26,12 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
         cnpj: "568498723", phone: "715863246", email: 'fernada@teste.com', public_place: "Rua das Igrejas", address_number: "66A", neighborhood: "São Miguel", 
         state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet dos ares", 
         payment_method: payment_method, user: user2)
+
+      user3 = User.create!(name: "Anônimo", last_name: "Desativado", email: 'desativador@teste.com', password: 'teste123', company: true)
+      buffet_registration3 = BuffetRegistration.create!(available: :desactive, trading_name: 'Buffet Desativado', company_name: 'Anonimo Desativado', 
+        cnpj: "568498703", phone: "715863246", email: 'Anonimo@teste.com', public_place: "Rua das Igrejas", address_number: "66A", neighborhood: "São Miguel", 
+        state: "BA", city: "Salvador", zip: "45860-621", complement: "", description: "O Buffet dos desativados", 
+        payment_method: payment_method, user: user3)
       
       get api_v1_buffet_registrations_path
 
@@ -45,7 +51,7 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
       expect(json_response.last['state']).to eq 'BA'
     end
 
-    it 'com sucesso, com filtro' do 
+    it 'com sucesso, com filtro e não exibe desabilitados' do 
       user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
       payment_method = PaymentMethod.create!(bank_transfer: true, pix: true, money: true, bitcoin: true)
       buffet_registration = BuffetRegistration.create!(trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
@@ -63,7 +69,12 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
       buffet_registration3 = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet familia feliz', company_name: 'Alegria Buffet', 
         cnpj: "96901808000119", phone: "7995876812", email: 'Nanda@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
         neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
-          
+      
+      user4 = User.create!(name: "Anonimo", last_name: "Desabilitado", email: 'Anonimo@teste.com', password: 'teste123', company: true)
+      buffet_registration4 = BuffetRegistration.create!(available: :desactive, user: user4, payment_method: payment_method, trading_name: 'Buffet familia Anonimo', company_name: 'Alegria Buffet', 
+        cnpj: "96901808000319", phone: "7995876812", email: 'Anonimo@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
+        neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+
       
       get api_v1_buffet_registrations_path+"/?filter=familia"
 
@@ -82,6 +93,7 @@ describe 'Usuário faz uma requisição para listar buffets através da API' do
       expect(json_response.last['city']).to eq 'Palmas'
       expect(json_response.last['state']).to eq 'TO'
     end
+    
 
     it 'há registros, porem não foi encontrado' do 
       user = User.create!(name: "Maria", last_name: "Farias", email: 'Maria@teste.com', password: 'teste123', company: true)
