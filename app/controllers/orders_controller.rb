@@ -59,9 +59,9 @@ class OrdersController < ApplicationController
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
     
-    @available_for_evaluation = true
-    @evaluation = Evaluation.new
     if current_user == @order.user && @order.approved? && @order.evaluation.nil? && @order.date < Date.current 
+      @available_for_evaluation = true
+      @evaluation = Evaluation.new
     end
 
     if current_user.company? 

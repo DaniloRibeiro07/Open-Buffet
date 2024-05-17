@@ -1,12 +1,46 @@
 # README
 
+Requisitos para rodar a aplicação:
+
+Ruby 3.2.3
+
 Para executar a aplicação em local host, execute os seguintes comandos:
 
 bundle install <br>
 rails db:reset <br>
 rails s
 
-<br><br>
+Aplicação:
+
+Na aplicação há 2 usuários clientes:
+Usuário Joana, email: Joana@teste.com e senha: teste123
+Usuário Sabrina, email: Sabrina@teste.com e senha : teste123
+
+Na aplicação há 7 usuários empresas:
+Usuário Alecrim, email: Alecrim@teste.com e senha: teste123
+Que possui um buffet e dois tipos de evento.
+
+
+Usuário Marcola, email: Marcola@teste.com e senha: teste123
+Que possui um buffet e três tipos de evento.
+
+Usuário Nanda, email: Nanda@teste.com e senha: teste123
+Que possui um buffet e três tipos de evento.
+
+Usuário Otavio, email: Otavio@teste.com e senha: teste123
+Que possui um buffet, desabilitado, e um tipo de evento.
+
+Usuário Marcia, email: Almeida@teste.com e senha: teste123
+Que ainda não cadastrou o seu buffet.
+
+Usuário Sofia, email: Sofia@teste.com e senha: teste123
+Sofia possui o seu buffet e dois eventos cadastrados:
+Amazonico, que está desabilitado
+Pirata, que está habilitado, e com duas imagens
+
+Usuário Matheus, email: MatheusSilva@teste.com e senha: teste123
+Matheus possui apenas o buffet, sem eventos cadastrados
+
 
 Observação na tarefa API de Buffets: <br>
 Tópico: Consulta de disponibilidade? <br>

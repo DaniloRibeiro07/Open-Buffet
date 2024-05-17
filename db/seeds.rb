@@ -77,6 +77,13 @@ sleep(0.1)
 event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura2.jpeg')), filename: 'buffet_formatura2.jpeg')
 sleep(0.1)
 
+extra_service = ExtraService.new(decoration: true)
+order = Order.create!(user: visitante, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
+                      amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
+        final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
+order.waiting_for_client_review!
+order.approved!
+
 
 
 
@@ -102,7 +109,6 @@ sleep(1)
 event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_casamento4.jpg')), filename: 'buffet_casamento4.jpg')
 sleep(1)
 
-
 event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
   buffet_registration: buffet_registration, name: "Aleatório", description: "Serviço para qualquer festejo aleatório",
   minimum_quantity: 30, maximum_quantity: 777, duration: 360, menu: "Tudo o que você imaginar", 
@@ -115,3 +121,65 @@ event = EventType.create!(different_weekend: false , weekend_price: event_value,
 
 event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffet_formatura3.jpeg')), filename: 'buffet_formatura3.jpeg')
 sleep(1)
+
+
+
+
+user = User.create!(name: "Otavio", last_name: "Rodrigues", email: 'Otavio@teste.com', password: 'teste123', company: true)
+
+payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true, credit_card: true, debit_card: true)
+
+buffet_registration = BuffetRegistration.create!(available: :desactive, user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Alegria Buffet', 
+  cnpj: "96901808309119", phone: "7995876812", email: 'Otavio@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
+  neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+
+event_value = EventValue.create!(base_price: 503, price_per_person: 3544, overtime_rate: 745)
+event_value2 = EventValue.create!(base_price: 100, price_per_person: 78, overtime_rate: 6668)
+
+event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
+  buffet_registration: buffet_registration, name: "Aleatório", description: "Serviço para qualquer festejo aleatório",
+  minimum_quantity: 30, maximum_quantity: 777, duration: 360, menu: "Tudo o que você imaginar", 
+  alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+
+
+
+
+user = User.create!(name: "Marcia", last_name: "Almeida", email: 'Almeida@teste.com', password: 'teste123', company: true)
+
+
+
+  
+user = User.create!(name: "Sofia", last_name: "Silva", email: 'Sofia@teste.com', password: 'teste123', company: true)
+
+payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true, credit_card: true, debit_card: true)
+
+buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Alegria Buffet', 
+  cnpj: "96901408300119", phone: "7995876812", email: 'Sofia@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
+  neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+
+event_value = EventValue.create!(base_price: 503, price_per_person: 3544, overtime_rate: 745)
+event_value2 = EventValue.create!(base_price: 100, price_per_person: 78, overtime_rate: 6668)
+
+event = EventType.create!(status: :desactive, different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
+  buffet_registration: buffet_registration, name: "Amazonico", description: "Buffet com Toque amazonico",
+  minimum_quantity: 30, maximum_quantity: 65, duration: 360, menu: "Tipicos do amazonas, pratos sigilosos", 
+  alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+
+event = EventType.create!(different_weekend: true , weekend_price: event_value, working_day_price: event_value2,
+  buffet_registration: buffet_registration, name: "Pirata", description: "Serviço com tema pirateado",
+  minimum_quantity: 30, maximum_quantity: 777, duration: 360, menu: "Salmão, lula, piranha, e muito mais", 
+  alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
+
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'buffetpirata.jpg')), filename: 'buffetpirata.jpg')
+sleep(1)
+event.images.attach(io: File.open(Rails.root.join('db', 'imgs', 'pirata2.jpeg')), filename: 'pirata2.jpeg')
+sleep(1)
+  
+user = User.create!(name: "Matheus", last_name: "Silva", email: 'MatheusSilva@teste.com', password: 'teste123', company: true)
+
+payment_method = PaymentMethod.create!(pix: true, debit_card: true)
+
+buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Alegria Buffet', 
+  cnpj: "96901828300119", phone: "7995876812", email: 'Otavio@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
+  neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+  
