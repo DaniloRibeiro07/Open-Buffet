@@ -1,5 +1,7 @@
 <h2>Avaliações de <%= @buffet_registration.trading_name %></h2>
 
+<h3>Média: <%= @buffet_registration.evaluations.average("score").ceil(1) %> de 5</h3>
+
 <% @evaluations.each do |evaluation| %>
     <h4>Avaliado na <%= l(evaluation.created_at) %></h4>
     Nota: <%= evaluation.score %> de 5 <br>
