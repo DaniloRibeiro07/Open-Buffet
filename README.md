@@ -12,9 +12,11 @@ rails s
 
 Aplicação:
 
-Na aplicação há 2 usuários clientes:
+Na aplicação há 3 usuários clientes:
 Usuário Joana, email: Joana@teste.com e senha: teste123
 Usuário Sabrina, email: Sabrina@teste.com e senha : teste123
+Usuário Olivia, email: Olivia@teste.com e senha: teste123
+
 
 Na aplicação há 7 usuários empresas:
 Usuário Alecrim, email: Alecrim@teste.com e senha: teste123
@@ -23,6 +25,9 @@ Que possui um buffet e dois tipos de evento.
 
 Usuário Marcola, email: Marcola@teste.com e senha: teste123
 Que possui um buffet e três tipos de evento.
+Com 4 pedidos aprovados e avaliados.
+1 Pedido Aguardando Avaliação do Cliente
+1 Pedido aguardando a avaliação do buffet
 
 Usuário Nanda, email: Nanda@teste.com e senha: teste123
 Que possui um buffet e três tipos de evento.
@@ -275,7 +280,8 @@ body:<br>
             "id": 1,
             "name": "Chá de revelação"
         }
-    ]
+    ],
+    "average": "2.0"
 }
 ```
 
