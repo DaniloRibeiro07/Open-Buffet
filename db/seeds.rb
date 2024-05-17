@@ -80,9 +80,9 @@ sleep(0.1)
 Time.zone.now.change(year: 2018, month: 4, day: 13)
 extra_service = ExtraService.new(decoration: true)
 
-order = Order.create!(user: visitante, event_type: event, buffet_registration: buffet_registration, date: 1.day.from_now, 
+order = Order.create!(seed:true , user: visitante, event_type: event, buffet_registration: buffet_registration, date: 1.day.ago, 
                       amount_of_people: 54, duration: 35, inside_the_buffet: true, extra_service: extra_service,
-        final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.from_now, payment_method: "pix")
+        final_value: 55, justification_final_value: "Imposto", expiration_date: 1.day.ago, payment_method: "pix")
 order.waiting_for_client_review!
 order.approved!
 order.create_evaluation!(score: 1, comment: "Muito caro para o que é servido")

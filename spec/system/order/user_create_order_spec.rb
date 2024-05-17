@@ -397,11 +397,10 @@ describe 'Usuário clica em fazer um pedido' do
       click_on "Submeter"
 
       expect(current_path).to eq event_type_orders_path(event)
-      expect(page).to have_content "Há 4 erros encontrados" 
+      expect(page).to have_content "Há 3 erros encontrados" 
       expect(page).to have_content "Data não pode ficar em branco"
       expect(page).to have_content "Duração do Evento (minutos) não pode ficar em branco" 
       expect(page).to have_content "Participantes do Evento não pode ficar em branco"
-      expect(page).to have_content "Data deve ser maior do que hoje (#{I18n.l(Date.current)})" 
     end
 
     it 'Evento apenas fora do buffet sem adicionais' do 
@@ -435,7 +434,7 @@ describe 'Usuário clica em fazer um pedido' do
       click_on "Submeter"
 
       expect(current_path).to eq event_type_orders_path(event)
-      expect(page).to have_content "Há 10 erros encontrados" 
+      expect(page).to have_content "Há 9 erros encontrados" 
       expect(page).to have_content "Logradouro não pode ficar em branco" 
       expect(page).to have_content "Bairro não pode ficar em branco" 
       expect(page).to have_content "Estado não pode ficar em branco" 
@@ -445,7 +444,6 @@ describe 'Usuário clica em fazer um pedido' do
       expect(page).to have_content "Data não pode ficar em branco"
       expect(page).to have_content "Duração do Evento (minutos) não pode ficar em branco" 
       expect(page).to have_content "Participantes do Evento não pode ficar em branco"
-      expect(page).to have_content "Data deve ser maior do que hoje (#{I18n.l(Date.current)})" 
     end
 
     it 'Evento pode ser dentro ou fora do buffet, usuario escolhe fora do buffet e com decoracao, bebida e valet' do 
@@ -479,7 +477,7 @@ describe 'Usuário clica em fazer um pedido' do
       click_on "Submeter"
       
       expect(current_path).to eq event_type_orders_path(event)
-      expect(page).to have_content "Há 10 erros encontrados" 
+      expect(page).to have_content "Há 9 erros encontrados" 
       expect(page).to have_content "Logradouro não pode ficar em branco" 
       expect(page).to have_content "Bairro não pode ficar em branco" 
       expect(page).to have_content "Estado não pode ficar em branco" 
@@ -489,7 +487,6 @@ describe 'Usuário clica em fazer um pedido' do
       expect(page).to have_content "Data não pode ficar em branco"
       expect(page).to have_content "Duração do Evento (minutos) não pode ficar em branco" 
       expect(page).to have_content "Participantes do Evento não pode ficar em branco"
-      expect(page).to have_content "Data deve ser maior do que hoje (#{I18n.l(Date.current)})" 
     end
 
     

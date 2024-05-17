@@ -16,7 +16,6 @@ class Order < ApplicationRecord
 
   validates :inside_the_buffet, inclusion: [true, false], if: -> { validation_context != :api }
 
-  validates :date, comparison: { greater_than: Date.current, message: "deve ser maior do que hoje (#{I18n.l(Date.current)})" }
   validates :duration, comparison: { greater_than: 1 }, if: -> { validation_context != :api }
   validate :number_of_people_ltd
   validate :customer_address_required?, if: -> { validation_context != :api }
@@ -28,9 +27,8 @@ class Order < ApplicationRecord
   validate :expiration_date_required, if: -> { validation_context != :api }
   validate :mandatory_payment_method, if: -> { validation_context != :api }
   validate :order_confirmed_before_expiration_date?, if: -> { validation_context != :api }
-
-
-
+  validate :date_greater_than_date_current
+  
   before_create :initial_status, :code_generator
   before_save :calculate_calculated_value
   before_validation :reset_final_value_in_waiting_for_buffet_review
@@ -71,8 +69,14 @@ class Order < ApplicationRecord
   
   private 
 
+  def date_greater_than_date_current
+    if !self.seed && self.date && self.date <= Date.current
+      self.errors.add :date, "deve ser maior do que hoje (#{I18n.l(Date.current)})"
+    end
+  end
+
   def order_confirmed_before_expiration_date?
-    if self.approved? && Date.current >= self.expiration_date
+    if !self.seed && self.approved? && Date.current >= self.expiration_date
       self.errors.add :order, "vencido, pedido cancelado."
     end
   end
@@ -84,7 +88,7 @@ class Order < ApplicationRecord
   end
 
   def expiration_date_required
-    if self.final_value && (!self.expiration_date || self.expiration_date > self.date || self.expiration_date < Date.current)
+    if !self.seed && self.final_value && (!self.expiration_date || self.expiration_date > self.date || self.expiration_date < Date.current)
       self.errors.add :expiration_date, "deve ser menor ou igual a data do evento e maior ou igual a data de hoje"
     end
   end
