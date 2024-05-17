@@ -41,6 +41,18 @@ class BuffetRegistrationsController < ApplicationController
       .where("(name LIKE ? AND status = 1) OR trading_name LIKE ? OR city LIKE ?", search, search, search).distinct.order(trading_name: :asc)
   end
 
+  def desactive
+    @buffet_registration = BuffetRegistration.find(params[:id])
+    @buffet_registration.desactive!
+    redirect_to @buffet_registration, alert: "Buffet Desativado com sucesso"
+  end
+
+  def active
+    @buffet_registration = BuffetRegistration.find(params[:id])
+    @buffet_registration.active!
+    redirect_to @buffet_registration, alert: "Buffet Ativado com sucesso"
+  end
+
   private
 
   def redirect_user_client_and_user_with_buffet

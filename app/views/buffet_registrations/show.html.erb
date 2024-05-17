@@ -5,6 +5,8 @@
   <% if @buffet_registration.user == current_user %>
     <dt>Razão Social:</dt>
     <dd><%= @buffet_registration.company_name %></dd>
+    <dt>Status:</dt>
+    <dd><%= t(@buffet_registration.available) %></dd>
   <% end %>
   <dt>CNPJ:</dt>
     <dd><%= @buffet_registration.cnpj %></dd>
@@ -39,6 +41,13 @@
 
 <% if  @buffet_registration.user == current_user%>
   <%= button_to "Editar Informações do Buffet", edit_buffet_registration_path(@buffet_registration), method: :get %>
+  
+  <% if @buffet_registration.active? %>
+    <%= button_to "Desativar Buffet" , desactive_buffet_registration_path(@buffet_registration) %>
+  <% else %>
+    <%= button_to "Ativar Buffet" , active_buffet_registration_path(@buffet_registration) %>
+  <% end %>
+  
 <% end %>
 
 

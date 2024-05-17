@@ -1,3 +1,9 @@
 <%= render 'form' %>
 
+<% if @buffet_registration.active? %>
+  <%= button_to "Desativar Buffet" , desactive_buffet_registration_path(@buffet_registration) %>
+<% else %>
+  <%= button_to "Ativar Buffet" , active_buffet_registration_path(@buffet_registration) %>
+<% end %>
+
 <%= button_to "Voltar", @buffet_registration, method: :get %>

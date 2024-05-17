@@ -9,7 +9,7 @@ class BuffetRegistration < ApplicationRecord
             :address_number, :neighborhood, :state, :city, :zip, :description, presence: true
   validates :cnpj,  uniqueness: true
 
-  
+  enum available: {desactive: 0 , active: 1}
   
   def full_address 
     "#{public_place}, #{address_number}, #{zip}, #{city}-#{state}"

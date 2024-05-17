@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   end
 
   resources :buffet_registrations, only: [:new, :create, :edit, :update, :show] do 
+    post "desactive", on: :member
+    post "active", on: :member
     get "search", on: :collection
   end
 
