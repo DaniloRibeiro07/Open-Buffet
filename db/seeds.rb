@@ -205,9 +205,9 @@ user = User.create!(name: "Otavio", last_name: "Rodrigues", email: 'Otavio@teste
 
 payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true, credit_card: true, debit_card: true)
 
-buffet_registration = BuffetRegistration.create!(available: :desactive, user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Alegria Buffet', 
-  cnpj: "96901808309119", phone: "7995876812", email: 'Otavio@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
-  neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+buffet_registration = BuffetRegistration.create!(available: :desactive, user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Otavio Buffet', 
+  cnpj: "96901808309119", phone: "7995876812", email: 'Otavio@teste.com', public_place: "Rua dos Açores", address_number: "45",
+  neighborhood: "Jardim Campo Alto", state: "MS", city: "Campo Grande", zip: "77025-195", complement: "", description: "O buffet mais sério da região")
 
 event_value = EventValue.create!(base_price: 503, price_per_person: 3544, overtime_rate: 745)
 event_value2 = EventValue.create!(base_price: 100, price_per_person: 78, overtime_rate: 6668)
@@ -219,7 +219,7 @@ event = EventType.create!(different_weekend: true , weekend_price: event_value, 
 
 
 
-  
+
 
 user = User.create!(name: "Marcia", last_name: "Almeida", email: 'Almeida@teste.com', password: 'teste123', company: true)
 
@@ -230,9 +230,9 @@ user = User.create!(name: "Sofia", last_name: "Silva", email: 'Sofia@teste.com',
 
 payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true, credit_card: true, debit_card: true)
 
-buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Alegria Buffet', 
-  cnpj: "96901408300119", phone: "7995876812", email: 'Sofia@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
-  neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet Animado', company_name: 'Animado Buffet', 
+  cnpj: "96901408300119", phone: "7995876812", email: 'Sofia@teste.com', public_place: "Rua São Cristovão", address_number: "22",
+  neighborhood: "Ipioca", state: "AL", city: "Maceió", zip: "57039838", complement: "Próximo ao supermercado", description: "O buffet mais animado da região")
 
 event_value = EventValue.create!(base_price: 503, price_per_person: 3544, overtime_rate: 745)
 event_value2 = EventValue.create!(base_price: 100, price_per_person: 78, overtime_rate: 6668)
@@ -256,7 +256,7 @@ user = User.create!(name: "Matheus", last_name: "Silva", email: 'MatheusSilva@te
 
 payment_method = PaymentMethod.create!(pix: true, debit_card: true)
 
-buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet do Otavio', company_name: 'Alegria Buffet', 
-  cnpj: "96901828300119", phone: "7995876812", email: 'Otavio@teste.com', public_place: "Quadra 1406 Sul Alameda 7", address_number: "36",
-  neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O buffet mais alegre da região")
+buffet_registration = BuffetRegistration.create!(user: user, payment_method: payment_method, trading_name: 'Buffet dos Residentes', company_name: 'Residentes Buffet', 
+  cnpj: "96901828300119", phone: "7995876812", email: 'Otavio@teste.com', public_place: "Travessa Vila Rica A", address_number: "36",
+  neighborhood: "Tabuleiro do Martins", state: "AL", city: "Maceió", zip: "77025-195", complement: "Próximo ao clube do sargento", description: "O melhor buffet dos moradores")
   
