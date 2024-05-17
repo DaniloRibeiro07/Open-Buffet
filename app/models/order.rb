@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
   has_many :chats
+  has_many :evaluations
   belongs_to :user, optional: true
   belongs_to :buffet_registration, optional: true
   belongs_to :event_type, optional: true

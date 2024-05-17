@@ -1,0 +1,7 @@
+pt-BR:
+  activerecord:
+    models:
+      evaluation: "Avaliação"
+    attributes:
+      evaluation:
+        score: "Nota"

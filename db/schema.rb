@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_17_001434) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_17_022523) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -89,6 +89,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_001434) do
     t.datetime "updated_at", null: false
     t.string "address_number"
     t.text "complement"
+  end
+
+  create_table "evaluations", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "score"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_evaluations_on_order_id"
   end
 
   create_table "event_types", force: :cascade do |t|
@@ -193,6 +202,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_17_001434) do
   add_foreign_key "buffet_registrations", "users"
   add_foreign_key "chats", "orders"
   add_foreign_key "client_data", "users"
+  add_foreign_key "evaluations", "orders"
   add_foreign_key "event_types", "buffet_registrations"
   add_foreign_key "event_types", "event_values", column: "weekend_price_id"
   add_foreign_key "event_types", "event_values", column: "working_day_price_id"
