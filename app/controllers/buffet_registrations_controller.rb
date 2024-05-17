@@ -38,7 +38,7 @@ class BuffetRegistrationsController < ApplicationController
   def search
     search  = "%#{params[:search]}%"
     @buffet_records = BuffetRegistration.left_outer_joins(:event_types)
-      .where("(name LIKE ? AND status = 1) OR trading_name LIKE ? OR city LIKE ?", search, search, search).distinct.order(trading_name: :asc)
+      .where("available = 1 AND ((name LIKE ? AND status = 1) OR trading_name LIKE ? OR city LIKE ?) ", search, search, search).distinct.order(trading_name: :asc)
   end
 
   def desactive

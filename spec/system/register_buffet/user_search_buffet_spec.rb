@@ -31,6 +31,25 @@ describe "Usuário faz uma busca de um buffet" do
     expect(page).to have_button "Voltar" 
   end
 
+  it 'Busca por nome de um buffet desativado' do
+    user = User.create!(name: "Marcola", last_name: "Francis", email: 'Marcola@teste.com', password: 'teste123', company: true)
+  
+    payment_method = PaymentMethod.create!(pix: true, boleto: true, bitcoin: true)
+      
+    buffet_registration2 = BuffetRegistration.create!(available: :desactive, user: user, payment_method: payment_method, trading_name: 'Buffet da Avon', company_name: 'Avon Buffet', 
+        cnpj: "87088795000110", phone: "7995876812", email: 'Marcola@teste.com', public_place: "Avenida Joaquim de Oliveira", address_number: "65",
+        neighborhood: "Boa Vista", state: "RJ", city: "São Gonçalo", zip: "24466-142", complement: "Próximo ao supermercado", description: "O melhor buffet das perfumaras")
+      
+    visit root_path 
+
+    fill_in "search",	with: "buffet"
+    click_on "Pesquisar"
+
+    expect(page).not_to have_link "Buffet da Avon"
+    expect(page).to have_content "Não há Buffets Cadastrados"
+    expect(page).to have_button "Voltar" 
+  end
+
   it 'Busca por nome de um evento ' do
     user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
 
@@ -141,6 +160,25 @@ describe "Usuário faz uma busca de um buffet" do
     expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
     expect(page).to have_content "Cidade: Palmas"
     expect(page).to have_content "Estado: TO"
+  end
+
+  it 'Busca por uma cidade de um buffet desabilitado' do
+    user = User.create!(name: "Alecrim", last_name: "Farias", email: 'Alecrim@teste.com', password: 'teste123', company: true)
+
+    payment_method = PaymentMethod.create!(pix: true)
+    
+    buffet_registration = BuffetRegistration.create!(available: :desactive, user: user, payment_method: payment_method, trading_name: 'Buffet da familia', company_name: 'Eduarda Buffet', 
+      cnpj: "17924491000160", phone: "7995876812", email: 'Maria@teste.com', public_place: "Quadra 1112 Sul Alameda 5", address_number: "25A", 
+      neighborhood: "Plano Diretor Sul", state: "TO", city: "Palmas", zip: "77024-171", complement: "", description: "O melhor buffet das perfumaras")
+
+    visit root_path 
+
+    fill_in "search",	with: "Palmas"
+    click_on "Pesquisar"
+
+    expect(page).to have_button "Pesquisar"
+    expect(page).to have_content "Não há Buffets Cadastrados"
+    expect(page).not_to have_link "Buffet da familia"
   end
 
   it 'Busca usando um termo incompleto' do
