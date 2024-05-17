@@ -187,6 +187,35 @@
   
 <% end %>
 
+<div id="review">
+  
+  
+  <% if @order.evaluation %>
+    <h3>Sua avaliação:</h3>
+    Nota: <%= @order.evaluation.score %>/5 <br>
+    Comentário: <%= @order.evaluation.comment %>
+
+  <% elsif @available_for_evaluation %>
+    <h3>Avalie o buffet</h3>
+    <%= form_with model:[@order, @evaluation] do |form| %>
+
+      <div>
+        <%= form.label :score %>
+        <%= form.number_field :score, in: 0..5, step: 1 %> entre 0 e 5
+      </div>
+
+      <div>
+        <%= form.label :comment %>
+        <%= form.text_area :comment, size: "30x5" %>
+      </div>
+
+      <%= form.submit "Avaliar" %>
+    <% end %>
+    
+  <% end %>
+  
+</div>
+
 
 
 <% if !@order.canceled? && !@order.approved? && current_user == @order.user  %>
@@ -201,7 +230,8 @@
 <% end %>
 
 <div>
-  Chat com o Dono do buffet:
+  <br>
+  <h2>Chat com o Dono do buffet:</h2>
 
   <div>
     <textarea style="width: 100%; height: 300px;">

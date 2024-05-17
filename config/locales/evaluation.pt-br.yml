@@ -5,3 +5,4 @@ pt-BR:
     attributes:
       evaluation:
         score: "Nota"
+        comment: "Comentário"

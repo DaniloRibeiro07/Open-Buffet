@@ -58,6 +58,12 @@ class OrdersController < ApplicationController
   def show 
     @event_type = @order.event_type
     @buffet_registration = @event_type.buffet_registration
+    
+    if current_user == @order.user && @order.approved? && @order.evaluation.nil? && @order.date < Date.current 
+          @available_for_evaluation = true
+          @evaluation = Evaluation.new
+    end
+
     if current_user.company? 
       @payment_method_availables = PaymentMethod.column_names.reject { |attribute| ['id', 'created_at', 'updated_at'].include? attribute}
       @orders_approved_this_date = @buffet_registration.orders.approved.where("date = :date AND id != :id", {date: @order.date, id: @order.id})

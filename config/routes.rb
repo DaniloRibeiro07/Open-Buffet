@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   end
 
   resources :orders, only: [:show, :index] do 
+    resources :evaluations, only: [:create]
     post 'cancel', on: :member
     patch 'set_final_value', on: :member
     post 'confirm', on: :member
