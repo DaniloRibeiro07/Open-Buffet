@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="dark">
   <head>
     <title>OpenBuffet</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,47 +8,65 @@
 
     <%= stylesheet_link_tag "application" %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <%= stylesheet_link_tag "custom_bootstrap" %>
   </head>
 
   <body>
-    <header>
-      <%= link_to root_path do %>
-        <h1>Buffet Livre</h1>
-      <% end %>
-    </header>
-    <main>
 
-      <nav>
-        
-        <% if user_signed_in? %>
-          <%= current_user.description %>
-          <%= button_to 'Sair', destroy_user_session_path, method: :delete %>
-          
-          <% if  current_user.company && current_user.buffet_registration && current_user.buffet_registration.id %>
-            <%= link_to 'Meu Buffet', buffet_registration_path(current_user.buffet_registration) %>
-          <% end %>
+  <header>
+    <nav class='navbar navbar-expand-lg container border-bottom mb-3'>
+      <div class="container-fluid  text-nowrap">
+        <%= link_to root_path, class:'navbar-brand' do %>
+          <%= image_tag 'Logo-OpenBuffet.png', alt: 'Logo', width:'100', class: "d-inline-block align-text-top"%>
+        <% end %>
+        <a class='navbar-brand' href='/'>OpenBuffet</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div  class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-5 mb-2 mb-lg-1">
+            <% if user_signed_in? %>
+              <% if  current_user.company && current_user.buffet_registration && current_user.buffet_registration.id %>
+                <li class="nav-item">
+                  <%= link_to 'Meu Buffet', buffet_registration_path(current_user.buffet_registration), class: "nav-link" %>
+                </li>
+              <% end %>
+              <li class="nav-item">
+                <% if current_user.company %>
+                  <%= link_to 'Pedidos', orders_path, class: "nav-link" %>
+                <% else %>
+                  <%= link_to 'Meus pedidos', orders_path, class: "nav-link" %>
+                <% end %>
+              </li>
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <%= current_user.description %>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class='d-flex justify-content-center'><%= button_to 'Sair', destroy_user_session_path, method: :delete, class: "btn btn-outline-danger" %></li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Entrar/Registrar', new_user_session_path, class: "nav-link active" %>
+              </li>
+            <% end %>
+          </ul>
+          <div class='w-100'>
+            <% unless request.path.include?("new") || request.path.include?("edit") || request.path.include?("sign") || request.method != "GET" %>
+              <%= form_with url: search_buffet_registrations_path, method: :get, class:"d-flex", role:"search" do |form| %>
+                <%= form.search_field :search, placeholder: "Nome, Cidade, Festas", class:"form-control me-2"%>
+                <%= form.submit 'Pesquisar', class: "btn btn-outline-success" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-          
-          <% if current_user.company %>
-            <%= link_to 'Pedidos', orders_path %>
-          <% else %>
-            <%= link_to 'Meus pedidos', orders_path %>
-          <% end %>
-          
-        <% else %>
-          <%= link_to 'Entrar/Registrar', new_user_session_path %>
-        <% end %>
-        
-        
-        <% unless request.path.include?("new") || request.path.include?("edit") || request.path.include?("sign") || request.method != "GET" %>
-          <%= form_with url: search_buffet_registrations_path, method: :get do |form| %>
-            <%= form.search_field :search, placeholder: "Nome, Cidade, Festas"%>
-            <%= form.submit 'Pesquisar' %>
-          <% end %>
-        <% end %>
-        
-      
-      </nav>
+    <main class='container'>
 
         <div>
           <%= alert %>   

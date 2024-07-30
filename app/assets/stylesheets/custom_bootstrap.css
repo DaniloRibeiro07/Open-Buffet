@@ -1,0 +1,19 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+[data-bs-theme=dark]{
+  --bs-body-bg: #010D25;
+}
+
+.nav-link {
+  color: white;
+}
+
+.btn-outline-success {
+  --bs-btn-border-color: #3CC300;
+  --bs-btn-color: #3CC300;
+  --bs-border-width: 2px;
+}
+
+.form-control{
+  border: var(--bs-border-width) solid #ffffff;
+}
