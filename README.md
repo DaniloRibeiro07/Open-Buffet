@@ -1,16 +1,76 @@
-# README
+<h1 align="center">Open-Buffet</h1>
 
-Requisitos para rodar a aplicação:
+<div align="center">
 
-Ruby 3.2.3
+  ![Static Badge](https://img.shields.io/badge/ruby-3.2.3-black?style=for-the-badge&logo=ruby&logoColor=red&labelColor=black&color=white)
+  ![Static Badge](https://img.shields.io/badge/ruby_on_rails-7.1.3-black?style=for-the-badge&logo=rubyonrails&logoColor=red&labelColor=black&color=white)
+  ![Static Badge](https://img.shields.io/badge/Sqlite3-3.37.2-black?style=for-the-badge&logo=sqlite&logoColor=blue&labelColor=black&color=white)
 
-Para executar a aplicação em local host, execute os seguintes comandos:
 
-bundle install <br>
-rails db:reset <br>
-rails s
+</div>
 
-# Guia de Uso da aplicação
+
+<p align="center">
+ <a href="#started">Executando o projeto</a> • 
+ <a href="#test">Testes</a> • 
+ <a href="#routes">Documentação API</a> •
+ <a href="#GuideApp">Guia de uso da aplicação</a> •
+ <a href="#information">Informações da aplicação</a> •
+ <a href="#observation">Observação</a> •
+</p>
+
+
+<h2 id="started">🚀 Executando o projeto: </h2>
+
+Para executar o projeto Open-Buffet, é necessário possuir na sua maquina as segintes ferramentas instaladas e executar os passos seguintes.
+
+<h3>Pré requisitos</h3>
+
+- [Ruby 3.2.3](https://www.ruby-lang.org/en/news/2024/01/18/ruby-3-2-3-released/)
+- [SQLite3 3.37.2](https://www.sqlite.org/)
+
+<h3>Passos para a execução</h3>
+
+- Clone o repositório
+
+```sh 
+  git clone https://github.com/DaniloRibeiro07/Open-Buffet.git
+```
+
+- Abra o diretório pelo terminal
+```sh 
+  cd Open-Buffet
+```
+
+- Instale as Gems via bundle
+
+```sh 
+  bundle install
+```
+
+- Cria e popula o banco de dados
+
+```sh 
+  rails db:setup
+```
+
+- Execute a aplicação
+
+```sh 
+  rails s
+```
+
+- Acesse a aplicação no link http://localhost:3000/
+
+<h2 id="test">Testes</h2>
+
+<p>Comando para executar testes integrados da aplicação:</p>
+
+```sh
+  rspec
+```
+
+<h2 id="GuideApp">Guia de Uso da aplicação</h2>
 
 Ao acessar a aplicação, o usuário visualizará na tela inicial os buffets cadastrados, poderá clicar nos buffets para vê detalhes, pesquisar pelo nome do buffet, ou cidade ou nome do evento e fazer login.
 
@@ -20,7 +80,7 @@ Se o usuário estiver logado como cliente, ele poderia fazer um pedido, vê o an
 
 Se o usuário estiver logado como dono do buffet, ele deverá ter informado os dados do seu buffet, poderá cadastrar evento, ativar ou desativar o seu evento e o seu buffet, vê todos os seus pedidos e vê outros buffets.
 
-# Informações da Aplicação:
+<h2 id="information">Informações da aplicação</h2>
 
 Na aplicação há 3 usuários clientes: <br>
 - Usuário Joana, email: Joana@teste.com e senha: teste123 <br>
@@ -57,13 +117,14 @@ Pirata, que está habilitado, e com duas imagens<br>
 Matheus possui apenas o buffet, sem eventos cadastrados
 
 
-# Observações
+<h2 id="observation">Observação</h2>
+
 Observação na tarefa API de Buffets: <br>
 Tópico: Consulta de disponibilidade? <br>
 
 Um buffet <strong>estará disponível</strong> quando não houver agendamentos confirmados naquele dia. <br><br>
 
-## Documentação da API: <br>
+<h2 id="routes">Documentação da API: </h2>
 
 - [Listagem de Bufets](#listagem-de-buffets)
 - [Listagem de tipos de eventos de um buffet](#listagem-de-tipos-de-eventos-de-um-buffet)
