@@ -13,10 +13,10 @@
 <p align="center">
  <a href="#started">Executando o projeto</a> • 
  <a href="#test">Testes</a> • 
- <a href="#routes">Documentação API</a> •
  <a href="#GuideApp">Guia de uso da aplicação</a> •
  <a href="#information">Informações da aplicação</a> •
  <a href="#observation">Observação</a> •
+ <a href="#routes">Documentação API</a>
 </p>
 
 
