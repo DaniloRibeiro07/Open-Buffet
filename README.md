@@ -28,6 +28,11 @@ Para executar o projeto Open-Buffet, é necessário possuir na sua maquina as se
 
 - [Ruby 3.2.3](https://www.ruby-lang.org/en/news/2024/01/18/ruby-3-2-3-released/)
 - [SQLite3 3.37.2](https://www.sqlite.org/)
+- [Libvips](https://www.libvips.org/)
+
+Comando para instalar o Libvips no ubuntu:
+
+```sh sudo apt install libvips-dev```
 
 <h3>Passos para a execução</h3>
 
