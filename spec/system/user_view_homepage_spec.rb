@@ -41,17 +41,20 @@ describe 'Usuário acessa a página inicial' do
 
     visit root_path
 
-    expect(current_path).to eq root_path 
     expect(page).to have_link "Meu Buffet", href: buffet_registration_path(buffet_registration) 
-    expect(page).to have_content "2 Buffet Cadastrados" 
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
-    expect(page).to have_content "Cidade: São Paulo"
-    expect(page).to have_content "Estado: SP"
-    expect(page).to have_link "Buffet Astrônomo", href: buffet_registration_path(buffet_registration2)
-    expect(page).to have_content "Cidade: Salvador"
-    expect(page).to have_content "Estado: BA"
-    expect(page).not_to have_content("Meus pedidos")   
-    expect(page).to have_content("Pedidos")   
+    expect(page).to have_content "2 Buffet Cadastrados"
+    expect(page).not_to have_content("Meus pedidos")
+    expect(page).to have_content("Pedidos")
+    expect(current_path).to eq root_path
+    within('div#95687495213') do
+      expect(page).to have_link "Detalhes", href: buffet_registration_path(buffet_registration)
+      expect(page).to have_content "Cidade/Estado: São Paulo/SP"
+    end
+
+    within('div#568498723') do
+      expect(page).to have_link "Detalhes", href: buffet_registration_path(buffet_registration2)
+      expect(page).to have_content "Cidade/Estado: Salvador/BA"
+    end
   end
 
   it 'Sendo um visitante não autenticado' do 
@@ -75,12 +78,14 @@ describe 'Usuário acessa a página inicial' do
   
 
     visit root_path
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration.id)
-    expect(page).to have_content "Cidade: São Paulo"
-    expect(page).to have_content "Estado: SP"
-    expect(page).to have_link "Buffet Astrônomo", href: buffet_registration_path(buffet_registration2.id)
-    expect(page).to have_content "Cidade: Salvador"
-    expect(page).to have_content "Estado: BA"
+    within('div#95687495213') do
+      expect(page).to have_link "Detalhes", href: buffet_registration_path(buffet_registration)
+      expect(page).to have_content "Cidade/Estado: São Paulo/SP"
+    end
+    within('div#568498723') do
+      expect(page).to have_link "Detalhes", href: buffet_registration_path(buffet_registration2)
+      expect(page).to have_content "Cidade/Estado: Salvador/BA"
+    end
     expect(page).not_to have_link "Buffet Desativado"
 
   end
@@ -100,7 +105,9 @@ describe 'Usuário acessa a página inicial' do
 
     visit root_path
     
-    click_on "Buffet Astrônomo"
+    within('div#568498723') do
+      click_on "Detalhes"
+    end
 
     expect(current_path).to eq buffet_registration_path(buffet_registration2.id)
   end
@@ -131,15 +138,14 @@ describe 'Usuário acessa a página inicial' do
     login_as visitante
 
     visit root_path
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration.id)
-    expect(page).to have_content "Cidade: São Paulo"
-    expect(page).to have_content "Estado: SP"
-    expect(page).to have_link "Buffet Astrônomo", href: buffet_registration_path(buffet_registration2.id)
-    expect(page).to have_content "Cidade: Salvador"
-    expect(page).to have_content "Estado: BA"
-    expect(page).not_to have_link "Buffet Desativado"
-    expect(page).to have_content("Meus pedidos")   
-    expect(page).not_to have_content("Pedidos")   
+    within('div#95687495213') do
+      expect(page).to have_link "Detalhes", href: buffet_registration_path(buffet_registration)
+    end
+    within('div#568498723') do
+      expect(page).to have_link "Detalhes", href: buffet_registration_path(buffet_registration2)
+    end
+    expect(page).to have_content("Meus pedidos")
+    expect(page).not_to have_content("Pedidos")
   end
 
 

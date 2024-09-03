@@ -208,7 +208,9 @@ describe 'Usuário clica em vê buffet' do
       alcoholic_beverages: true, decoration: true, valet: true, insider: true, outsider: false, user: user)
 
     visit root_path
-    click_on "Buffet da familia"
+    within('div#95687495213') do
+      click_on "Detalhes"
+    end
 
     expect(page).not_to have_content "Buffet da Avon"
     expect(page).to have_content "Nome Fantasia: Buffet da familia"
@@ -270,7 +272,9 @@ describe 'Usuário clica em vê buffet' do
       payment_method: payment_method, user: user)
 
     visit root_path
-    click_on "Buffet da familia"
+    within('div#95687495213') do
+      click_on "Detalhes"
+    end
   
     expect(page).to have_content "Nenhum evento cadastrado"
   end
@@ -327,7 +331,9 @@ describe 'Usuário clica em vê buffet' do
     login_as client
 
     visit root_path
-    click_on "Buffet da familia"
+    within('div#95687495213') do
+      click_on "Detalhes"
+    end
 
     expect(page).not_to have_content "Buffet da Avon"
     expect(page).to have_content "Nome Fantasia: Buffet da familia"
@@ -389,7 +395,9 @@ describe 'Usuário clica em vê buffet' do
       payment_method: payment_method, user: user)
 
     visit root_path
-    click_on "Buffet da familia"
+    within('div#95687495213') do
+      click_on "Detalhes"
+    end
   
     expect(page).to have_content "Nenhum evento cadastrado"
   end
@@ -436,7 +444,9 @@ describe 'Usuário clica em vê buffet' do
 
     login_as other_user
     visit root_path
-    click_on "Buffet da familia"
+    within('div#95687495213') do
+      click_on "Detalhes"
+    end
 
     expect(page).not_to have_content "Buffet da Avon"
     expect(page).to have_content "Nome Fantasia: Buffet da familia"
@@ -495,7 +505,9 @@ describe 'Usuário clica em vê buffet' do
     login_as other_user
 
     visit root_path
-    click_on "Buffet da familia"
+    within('div#95687495213') do
+      click_on "Detalhes"
+    end
   
     expect(page).to have_content "Nenhum evento cadastrado"
   end

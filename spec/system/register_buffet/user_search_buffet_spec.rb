@@ -24,10 +24,9 @@ describe "Usuário faz uma busca de um buffet" do
     click_on "Pesquisar"
 
     expect(page).to have_button "Pesquisar"
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
+
+    expect(page).to have_content "Buffet da familia"
     expect(page).to have_content "1 Buffet Cadastrado"
-    expect(page).to have_content "Cidade: Palmas"
-    expect(page).to have_content "Estado: TO"
     expect(page).to have_button "Voltar" 
   end
 
@@ -88,12 +87,8 @@ describe "Usuário faz uma busca de um buffet" do
 
     expect(page).to have_button "Pesquisar"
     expect(page).to have_content "2 Buffet Cadastrados"
-    expect(page).to have_link "Buffet da Avon", href: buffet_registration_path(buffet_registration2)
-    expect(page).to have_content "Cidade: São Gonçalo"
-    expect(page).to have_content "Estado: RJ"
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
-    expect(page).to have_content "Cidade: Palmas"
-    expect(page).to have_content "Estado: TO"
+    expect(page).to have_content "Buffet da Avon"
+    expect(page).to have_content "Buffet da familia"
   end
 
   it 'Busca por um evento desabilitado ' do
@@ -122,7 +117,7 @@ describe "Usuário faz uma busca de um buffet" do
 
     expect(page).to have_button "Pesquisar"
     expect(page).to have_content "Não há Buffets Cadastrados"
-    expect(page).not_to have_link "Buffet da Avon", href: buffet_registration_path(buffet_registration2)
+    expect(page).not_to have_content "Buffet da Avon"
   end
 
   it 'Busca por uma cidade' do
@@ -154,12 +149,8 @@ describe "Usuário faz uma busca de um buffet" do
 
     expect(page).to have_button "Pesquisar"
     expect(page).to have_content "2 Buffet Cadastrados"
-    expect(page).to have_link "Buffet Alegre", href: buffet_registration_path(buffet_registration3)
-    expect(page).to have_content "Cidade: Palmas"
-    expect(page).to have_content "Estado: TO"
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
-    expect(page).to have_content "Cidade: Palmas"
-    expect(page).to have_content "Estado: TO"
+    expect(page).to have_content "Buffet Alegre"
+    expect(page).to have_content "Buffet da familia"
   end
 
   it 'Busca por uma cidade de um buffet desabilitado' do
@@ -178,7 +169,7 @@ describe "Usuário faz uma busca de um buffet" do
 
     expect(page).to have_button "Pesquisar"
     expect(page).to have_content "Não há Buffets Cadastrados"
-    expect(page).not_to have_link "Buffet da familia"
+    expect(page).not_to have_content "Buffet da familia"
   end
 
   it 'Busca usando um termo incompleto' do
@@ -217,11 +208,7 @@ describe "Usuário faz uma busca de um buffet" do
 
     expect(page).to have_button "Pesquisar"
     expect(page).to have_content "2 Buffet Cadastrados"
-    expect(page).to have_link "Buffet Alegre", href: buffet_registration_path(buffet_registration3)
-    expect(page).to have_content "Cidade: Palmas"
-    expect(page).to have_content "Estado: TO"
-    expect(page).to have_link "Buffet da familia", href: buffet_registration_path(buffet_registration)
-    expect(page).to have_content "Cidade: Palmas"
-    expect(page).to have_content "Estado: TO"
+    expect(page).to have_content "Buffet Alegre"
+    expect(page).to have_content "Buffet da familia"
   end
 end

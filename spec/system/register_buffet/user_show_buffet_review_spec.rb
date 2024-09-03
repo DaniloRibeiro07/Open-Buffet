@@ -53,7 +53,10 @@ describe "Usuário acessa a página de exibição do buffet" do
 
     visit root_path
 
-    click_on "Buffet da familia"
+    within('div#17924491000160') do
+      click_on "Detalhes"
+    end
+    
 
     expect(page).to have_content "Média: 3.3 de 5"
     expect(page).to have_content "Comentário: Muito caro para o que é servido"
@@ -88,7 +91,9 @@ describe "Usuário acessa a página de exibição do buffet" do
 
     visit root_path
 
-    click_on "Buffet da familia"
+    within('div#17924491000160') do
+      click_on "Detalhes"
+    end
 
     expect(page).to have_content "Ainda não há avaliações"
     expect(page).not_to have_link "Vê mais avaliações"
@@ -146,7 +151,9 @@ describe "Usuário acessa a página de exibição do buffet" do
 
     visit root_path
 
-    click_on "Buffet da familia"
+    within('div#17924491000160') do
+      click_on "Detalhes"
+    end
     click_on "Vê mais avaliações"
 
     expect(page).to have_content "Média: 3.3 de 5"

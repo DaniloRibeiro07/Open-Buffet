@@ -20,8 +20,10 @@ describe 'Usuário clica em fazer um pedido' do
         alcoholic_beverages: false, decoration: true, valet: false, insider: true, outsider: false, user: user)
   
       visit root_path
-      click_on buffet_registration.trading_name
-      click_on event.name
+      within 'div#17924491000160' do
+        click_on "Detalhes"
+      end
+      click_on 'Chá de revelação'
       click_on "Fazer um pedido"
   
       expect(current_path).to eq new_user_session_path  
@@ -51,8 +53,10 @@ describe 'Usuário clica em fazer um pedido' do
       login_as cliente
   
       visit root_path
-      click_on buffet_registration.trading_name
-      click_on event.name
+      within 'div#17924491000160' do
+        click_on "Detalhes"
+      end
+      click_on 'Chá de revelação'
       click_on "Fazer um pedido"
   
       expect(current_path).to eq new_event_type_order_path(event)
@@ -108,8 +112,10 @@ describe 'Usuário clica em fazer um pedido' do
       login_as cliente
   
       visit root_path
-      click_on buffet_registration.trading_name
-      click_on event.name
+      within 'div#17924491000160' do
+        click_on "Detalhes"
+      end
+      click_on 'Chá de revelação'
       click_on "Fazer um pedido"
   
       expect(page).to have_content "Preço base considerando a quantidade mínima de pessoas (10) e duração padrão do evento de 63 minutos: R$ 50,39"
@@ -165,8 +171,10 @@ describe 'Usuário clica em fazer um pedido' do
       login_as cliente
   
       visit root_path
-      click_on buffet_registration.trading_name
-      click_on event.name
+      within 'div#17924491000160' do
+        click_on "Detalhes"
+      end
+      click_on 'Chá de revelação'
       click_on "Fazer um pedido"
   
       expect(page).not_to have_content "Onde será realizado o serviço? "
@@ -217,7 +225,9 @@ describe 'Usuário clica em fazer um pedido' do
       login_as visitante 
 
       visit root_path
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
       check 'Bebidas Alcoólicas'
@@ -255,7 +265,9 @@ describe 'Usuário clica em fazer um pedido' do
 
       visit root_path
 
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
@@ -300,7 +312,9 @@ describe 'Usuário clica em fazer um pedido' do
 
       visit root_path
 
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
@@ -349,7 +363,9 @@ describe 'Usuário clica em fazer um pedido' do
 
       visit root_path
 
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
@@ -390,7 +406,9 @@ describe 'Usuário clica em fazer um pedido' do
       login_as visitante 
 
       visit root_path
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
@@ -427,7 +445,9 @@ describe 'Usuário clica em fazer um pedido' do
 
       visit root_path
 
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 
@@ -470,7 +490,9 @@ describe 'Usuário clica em fazer um pedido' do
 
       visit root_path
 
-      click_on 'Buffet da Avon'
+      within 'div#87088795000110' do
+        click_on "Detalhes"
+      end
       click_on 'Casamento'
       click_on 'Fazer um pedido'
 

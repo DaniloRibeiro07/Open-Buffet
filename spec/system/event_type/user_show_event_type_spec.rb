@@ -71,7 +71,10 @@ describe "Usuárioa acessa a página de detalhes do evento" do
 
     login_as other_user
     visit root_path
-    click_on "Buffet da familia"
+
+    within 'div#95687495213' do
+      click_on "Detalhes"
+    end
     click_on "Aniversário"
 
     expect(page).to have_content "Evento associado ao Buffet: Buffet da familia" 
@@ -117,7 +120,9 @@ describe "Usuárioa acessa a página de detalhes do evento" do
       alcoholic_beverages: false, decoration: true, valet: true, insider: false, outsider: true, user: user)
   
     visit root_path
-    click_on "Buffet da familia"
+    within 'div#95687495213' do
+      click_on 'Detalhes'
+    end
     click_on "Formatura"
 
     expect(page).to have_content "Evento associado ao Buffet: Buffet da familia" 
@@ -168,7 +173,9 @@ describe "Usuárioa acessa a página de detalhes do evento" do
 
     login_as visitant
     visit root_path
-    click_on "Buffet da familia"
+    within 'div#95687495213' do
+      click_on "Detalhes"
+    end
     click_on "Aniversário"
 
     expect(page).to have_content "Evento associado ao Buffet: Buffet da familia" 

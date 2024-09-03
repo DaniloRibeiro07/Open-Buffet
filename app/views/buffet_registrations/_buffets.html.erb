@@ -2,13 +2,25 @@
   <h4>Não há Buffets Cadastrados</h4>
 <% else %>
   <h4> <%= @buffet_records.count %> Buffet <%= t("registered", count: @buffet_records.count) %></h4>
-  
-  <dl>
+
+  <div class="d-flex align-content-end flex-wrap">
     <% @buffet_records.each do |buffet| %>
-      <dt> <strong>Buffet:</strong> <%= link_to buffet.trading_name, buffet %> </dt>
-      <dd> <strong>Cidade:</strong> <%= buffet.city %> </dd>
-      <dd> <strong>Estado:</strong> <%= buffet.state %> </dd>
+      <div class="card m-2" style="width: 18rem;" id="<%= buffet.cnpj %>">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <h5 class="card-title"><%= buffet.trading_name %></h5>
+          </div>
+          <p class="card-text"> <%= buffet.description %> </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Cidade/Estado:</strong> <%= buffet.city %>/<%= buffet.state %></li>
+        </ul>
+        <div class="card-body d-flex justify-content-center">
+          <%= link_to "Detalhes", buffet, class: 'btn btn-primary stretched-link' %>
+        </div>
+      </div>
     <% end %>
-  </dl>
+  </div>
+
 <% end %>
 
