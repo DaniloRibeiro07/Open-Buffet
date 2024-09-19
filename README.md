@@ -32,7 +32,9 @@ Para executar o projeto Open-Buffet, é necessário possuir na sua maquina as se
 
 Comando para instalar o Libvips no ubuntu:
 
-```sh sudo apt install libvips-dev```
+```sh 
+sudo apt install libvips-dev
+```
 
 <h3>Passos para a execução</h3>
 
